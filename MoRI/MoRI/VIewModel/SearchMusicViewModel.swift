@@ -49,8 +49,8 @@ class SearchSongViewModel: ObservableObject {
                         self.songs = result.songs.compactMap({
                             return .init(name: $0.title,
                                          artist: $0.artistName,
-                                         imageUrl: $0.artwork?.url(width: 75,
-                                                                   height: 75))
+                                         imageUrl: $0.artwork?.url(width: 56,
+                                                                   height: 56))
                         })
                     }
                 } catch {
@@ -60,5 +60,11 @@ class SearchSongViewModel: ObservableObject {
                 break
             }
         }
+    }
+    
+    
+    func replaceSpacesWithDash(in text: String) -> String {
+        let result = text.replacingOccurrences(of: " ", with: "-")
+        return result
     }
 }

@@ -18,15 +18,18 @@ struct SelectLyricsView: View {
         VStack{
             HStack {
                 AsyncImage(url: imageUrl)
-                    .frame(width: 75, height: 75, alignment: .center)
+                    .frame(width: 56, height: 56, alignment: .center)
+                   
 
                 Spacer()
                 
                 VStack{
                     Text("\(title)")
-                        .font(.title)
+                        .foregroundColor(Color(hex: 0x111111))
+                        .font(.system(size: 14.48276))
                     Text("\(artistName)")
-                        .font(.title3)
+                        .foregroundColor(Color(hex: 0x767676))
+                        .font(.system(size: 14.48276))
                 }
                 
                 Spacer()
