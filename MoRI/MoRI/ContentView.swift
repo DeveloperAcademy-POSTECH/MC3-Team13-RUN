@@ -14,7 +14,7 @@ struct ContentView: View {
         ZStack{
             Rectangle()
                 .foregroundColor(.white)
-            Text("hello MoRI")
+            Text("hello MoRI dev")
         }
     }
 }
