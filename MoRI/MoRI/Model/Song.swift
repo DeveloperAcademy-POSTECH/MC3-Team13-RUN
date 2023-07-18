@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct SongList: Identifiable, Hashable {
+internal struct SongList: Identifiable, Hashable {
     var id = UUID()
     let name: String
     let artist: String
     let imageUrl: URL?
 }
 
-struct SelectedSongList: Identifiable, Hashable {
+internal struct SelectedSongList: Identifiable, Hashable {
     var id = UUID()
     let name: String
     let artist: String
