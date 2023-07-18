@@ -14,8 +14,7 @@ class SearchSongViewModel: ObservableObject {
     @Published var searchTerm: String = ""
     @Published var songs: [SongList] = [SongList]()
     
-    let limit: Int = 20
-    
+    private let limit: Int = 20
     private var cancellable: AnyCancellable?
     
     init() {
