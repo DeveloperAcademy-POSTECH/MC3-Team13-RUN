@@ -17,6 +17,7 @@
 		C18294632A6627640027577F /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18294622A6627640027577F /* Song.swift */; };
 		C18294652A6627840027577F /* SearchMusicViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18294642A6627840027577F /* SearchMusicViewModel.swift */; };
 		C18294672A6627C00027577F /* SelectLyricsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18294662A6627C00027577F /* SelectLyricsView.swift */; };
+		C18294692A6630090027577F /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18294682A6630090027577F /* MainView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		C18294622A6627640027577F /* Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 		C18294642A6627840027577F /* SearchMusicViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMusicViewModel.swift; sourceTree = "<group>"; };
 		C18294662A6627C00027577F /* SelectLyricsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLyricsView.swift; sourceTree = "<group>"; };
+		C18294682A6630090027577F /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +91,7 @@
 			children = (
 				C18294602A6627520027577F /* SearchMusicView.swift */,
 				C18294662A6627C00027577F /* SelectLyricsView.swift */,
+				C18294682A6630090027577F /* MainView.swift */,
 			);
 			path = VIew;
 			sourceTree = "<group>";
@@ -180,6 +183,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C18294632A6627640027577F /* Song.swift in Sources */,
+				C18294692A6630090027577F /* MainView.swift in Sources */,
 				6CC611CA2A6570B500B171FD /* MoRI.xcdatamodeld in Sources */,
 				C18294672A6627C00027577F /* SelectLyricsView.swift in Sources */,
 				6CC611C72A6570B500B171FD /* Persistence.swift in Sources */,
@@ -316,6 +320,7 @@
 				DEVELOPMENT_TEAM = XF4GNZL7MP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Please allow access to continue";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -345,6 +350,7 @@
 				DEVELOPMENT_TEAM = XF4GNZL7MP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Please allow access to continue";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

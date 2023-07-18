@@ -13,7 +13,8 @@ struct MoRIApp: App {
     var body: some Scene {
         WindowGroup {
 //            ContentView()
-            SearchMusicView(selectedSong: selectedSong)
+//            SearchMusicView(selectedSong: selectedSong)
+            MainView(selectedSong: selectedSong)
         }
     }
 }

@@ -10,28 +10,40 @@ import SwiftUI
 struct SearchMusicView: View {
     @ObservedObject var viewModel = SearchSongViewModel()
     @State var selectedSong: SelectedSongList
-
+    @FocusState private var isTextFieldFocused: Bool
+    @State var songTitle = ""
 
     var body: some View {
         NavigationStack {
-            List(viewModel.songs) { song in
-                NavigationLink(destination: SelectLyricsView(viewModel: viewModel, selectedSong: selectedSong, imageUrl: song.imageUrl, title: replaceSpacesWithDash(in: song.name), artistName: replaceSpacesWithDash(in: song.artist))) {
-                    HStack {
-                        AsyncImage(url: song.imageUrl)
-                            .frame(width: 75, height: 75, alignment: .center)
-                        VStack(alignment: .leading) {
-                            Text(song.name)
-                                .font(.title3)
-                            Text(song.artist)
-                                .font(.footnote)
+            VStack{
+                
+                TextField("Search", text: $viewModel.searchTerm)
+                    .padding()
+                    .textFieldStyle(.roundedBorder)
+                    .focused($isTextFieldFocused)
+                    
+                List(viewModel.songs) { song in
+                    NavigationLink(destination: SelectLyricsView(viewModel: viewModel, selectedSong: selectedSong, imageUrl: song.imageUrl, title: replaceSpacesWithDash(in: song.name), artistName: replaceSpacesWithDash(in: song.artist))) {
+                        HStack {
+                            AsyncImage(url: song.imageUrl)
+                                .frame(width: 75, height: 75, alignment: .center)
+                            VStack(alignment: .leading) {
+                                Text(song.name)
+                                    .font(.title3)
+                                Text(song.artist)
+                                    .font(.footnote)
+                            }
+                            .padding()
                         }
-                        .padding()
+                    }
+                }
+                .listStyle(.plain)
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        self.isTextFieldFocused = true
                     }
                 }
             }
-            .listStyle(.plain)
-            .searchable(text: $viewModel.searchTerm)
-            .navigationTitle("Search Songs")
         }
     }
     

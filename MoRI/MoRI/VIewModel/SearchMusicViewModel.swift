@@ -44,18 +44,18 @@ class SearchSongViewModel: ObservableObject {
                     // Assigns songs
                     let request = createRequest()
                     let result = try await request.response()
-                    self.songs = result.songs.compactMap({
-                        return .init(name: $0.title,
-                                     artist: $0.artistName,
-                                     imageUrl: $0.artwork?.url(width: 75,
-                                                               height: 75))
-                    })
                     
+                    DispatchQueue.main.async {
+                        self.songs = result.songs.compactMap({
+                            return .init(name: $0.title,
+                                         artist: $0.artistName,
+                                         imageUrl: $0.artwork?.url(width: 75,
+                                                                   height: 75))
+                        })
+                    }
                 } catch {
                     print(String(describing: error))
                 }
-               
-                
             default:
                 break
             }
