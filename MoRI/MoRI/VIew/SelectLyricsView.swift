@@ -20,7 +20,6 @@ struct SelectLyricsView: View {
                 AsyncImage(url: imageUrl)
                     .frame(width: 56, height: 56, alignment: .center)
                    
-
                 Spacer()
                 
                 VStack{
@@ -35,9 +34,31 @@ struct SelectLyricsView: View {
                 Spacer()
             }
             
-//            LyricsView(title: title, artistName: artistName)
+           LyricsView(title: title, artistName: artistName)
         
         }
     }
 }
 
+//MARK: 실제 가사가 보여지는 부분
+struct LyricsView: View {
+    @ObservedObject var viewModel = SearchLyricsViewModel()
+    @State var title: String
+    @State var artistName: String
+    
+    var body: some View {
+        ScrollView{
+            VStack {
+                ForEach(viewModel.lyrics, id: \.self) { lyricLine in
+                    Text( viewModel.removeCharactersInsideBrackets(from: lyricLine[0]))
+                        .padding()
+                }
+            }
+            .onAppear {
+                viewModel.fetchHTMLParsingResult(artist: artistName, title: title)
+            }
+        }
+    }
+    
+    
+}

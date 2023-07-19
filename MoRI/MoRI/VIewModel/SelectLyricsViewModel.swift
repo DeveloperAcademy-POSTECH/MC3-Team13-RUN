@@ -52,4 +52,21 @@ class SearchLyricsViewModel: ObservableObject {
             }
         }
     }
+    
+    //MARK: TEXT에서 중괄호 안의 내용들을 삭제합니다.
+    func removeCharactersInsideBrackets(from text: String) -> String {
+        var result = ""
+        var isInBrackets = false
+
+        for char in text {
+            if char == "[" {
+                isInBrackets = true
+            } else if char == "]" {
+                isInBrackets = false
+            } else if !isInBrackets {
+                result.append(char)
+            }
+        }
+        return result
+    }
 }
