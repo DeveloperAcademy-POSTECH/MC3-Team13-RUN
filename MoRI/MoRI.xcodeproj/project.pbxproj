@@ -86,13 +86,13 @@
 				C182945E2A6626890027577F /* VIewModel */,
 				C182945D2A6626830027577F /* VIew */,
 				6CC611BD2A6570B300B171FD /* MoRIApp.swift */,
+				D1297F7E2A67C86E0007CFA3 /* customColorPicker.swift */,
+				D1297F802A67C88B0007CFA3 /* Home.swift */,
 				6CC611BF2A6570B300B171FD /* ContentView.swift */,
 				6CC611C12A6570B500B171FD /* Assets.xcassets */,
 				6CC611C62A6570B500B171FD /* Persistence.swift */,
 				6CC611C82A6570B500B171FD /* MoRI.xcdatamodeld */,
 				6CC611C32A6570B500B171FD /* Preview Content */,
-				D1297F802A67C88B0007CFA3 /* Home.swift */,
-				D1297F7E2A67C86E0007CFA3 /* customColorPicker.swift */,
 			);
 			path = MoRI;
 			sourceTree = "<group>";
