@@ -9,10 +9,12 @@ import SwiftUI
 
 @main
 struct MoRIApp: App {
-
+    let selectedSong = SelectedSongList(name: "", artist: "", imageUrl: nil)
     var body: some Scene {
         WindowGroup {
-            ContentView()
+//            ContentView()
+//            SearchMusicView(selectedSong: selectedSong)
+            MainView(selectedSong: selectedSong)
         }
     }
 }

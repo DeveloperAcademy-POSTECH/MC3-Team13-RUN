@@ -13,6 +13,13 @@
 		6CC611C52A6570B500B171FD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6CC611C42A6570B500B171FD /* Preview Assets.xcassets */; };
 		6CC611C72A6570B500B171FD /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC611C62A6570B500B171FD /* Persistence.swift */; };
 		6CC611CA2A6570B500B171FD /* MoRI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6CC611C82A6570B500B171FD /* MoRI.xcdatamodeld */; };
+		C18294612A6627530027577F /* SearchMusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18294602A6627520027577F /* SearchMusicView.swift */; };
+		C18294632A6627640027577F /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18294622A6627640027577F /* Song.swift */; };
+		C18294652A6627840027577F /* SearchMusicViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18294642A6627840027577F /* SearchMusicViewModel.swift */; };
+		C18294672A6627C00027577F /* SelectLyricsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18294662A6627C00027577F /* SelectLyricsView.swift */; };
+		C18294692A6630090027577F /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18294682A6630090027577F /* MainView.swift */; };
+		C182946C2A66B8750027577F /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C182946B2A66B8750027577F /* View+Extension.swift */; };
+		C182946E2A66C8B90027577F /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C182946D2A66C8B90027577F /* Color+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +30,13 @@
 		6CC611C42A6570B500B171FD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		6CC611C62A6570B500B171FD /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		6CC611C92A6570B500B171FD /* MoRI.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MoRI.xcdatamodel; sourceTree = "<group>"; };
+		C18294602A6627520027577F /* SearchMusicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMusicView.swift; sourceTree = "<group>"; };
+		C18294622A6627640027577F /* Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
+		C18294642A6627840027577F /* SearchMusicViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMusicViewModel.swift; sourceTree = "<group>"; };
+		C18294662A6627C00027577F /* SelectLyricsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLyricsView.swift; sourceTree = "<group>"; };
+		C18294682A6630090027577F /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		C182946B2A66B8750027577F /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
+		C182946D2A66C8B90027577F /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +69,10 @@
 		6CC611BC2A6570B300B171FD /* MoRI */ = {
 			isa = PBXGroup;
 			children = (
+				C182946A2A66B8630027577F /* Extension */,
+				C182945F2A66268E0027577F /* Model */,
+				C182945E2A6626890027577F /* VIewModel */,
+				C182945D2A6626830027577F /* VIew */,
 				6CC611BD2A6570B300B171FD /* MoRIApp.swift */,
 				6CC611BF2A6570B300B171FD /* ContentView.swift */,
 				6CC611C12A6570B500B171FD /* Assets.xcassets */,
@@ -71,6 +89,41 @@
 				6CC611C42A6570B500B171FD /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		C182945D2A6626830027577F /* VIew */ = {
+			isa = PBXGroup;
+			children = (
+				C18294602A6627520027577F /* SearchMusicView.swift */,
+				C18294662A6627C00027577F /* SelectLyricsView.swift */,
+				C18294682A6630090027577F /* MainView.swift */,
+			);
+			path = VIew;
+			sourceTree = "<group>";
+		};
+		C182945E2A6626890027577F /* VIewModel */ = {
+			isa = PBXGroup;
+			children = (
+				C18294642A6627840027577F /* SearchMusicViewModel.swift */,
+			);
+			path = VIewModel;
+			sourceTree = "<group>";
+		};
+		C182945F2A66268E0027577F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C18294622A6627640027577F /* Song.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C182946A2A66B8630027577F /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				C182946B2A66B8750027577F /* View+Extension.swift */,
+				C182946D2A66C8B90027577F /* Color+Extension.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -143,10 +196,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C18294632A6627640027577F /* Song.swift in Sources */,
+				C18294692A6630090027577F /* MainView.swift in Sources */,
+				C182946C2A66B8750027577F /* View+Extension.swift in Sources */,
 				6CC611CA2A6570B500B171FD /* MoRI.xcdatamodeld in Sources */,
+				C18294672A6627C00027577F /* SelectLyricsView.swift in Sources */,
 				6CC611C72A6570B500B171FD /* Persistence.swift in Sources */,
 				6CC611C02A6570B300B171FD /* ContentView.swift in Sources */,
+				C18294652A6627840027577F /* SearchMusicViewModel.swift in Sources */,
 				6CC611BE2A6570B300B171FD /* MoRIApp.swift in Sources */,
+				C182946E2A66C8B90027577F /* Color+Extension.swift in Sources */,
+				C18294612A6627530027577F /* SearchMusicView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,7 +263,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -257,7 +316,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -275,9 +333,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MoRI/Preview Content\"";
-				DEVELOPMENT_TEAM = CT6NFX8K3K;
+				DEVELOPMENT_TEAM = XF4GNZL7MP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Please allow access to continue";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -288,7 +347,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "io.github.seokjun-ko.MoRI";
+				PRODUCT_BUNDLE_IDENTIFIER = com.doris.mc3practice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -304,9 +363,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MoRI/Preview Content\"";
-				DEVELOPMENT_TEAM = CT6NFX8K3K;
+				DEVELOPMENT_TEAM = XF4GNZL7MP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Please allow access to continue";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -317,7 +377,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "io.github.seokjun-ko.MoRI";
+				PRODUCT_BUNDLE_IDENTIFIER = com.doris.mc3practice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

@@ -9,11 +9,11 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-    
+
     var body: some View {
         ZStack{
             Rectangle()
-                .foregroundColor(.white)
+                .foregroundColor(.gray)
             Text("hello MoRI dev")
         }
     }
