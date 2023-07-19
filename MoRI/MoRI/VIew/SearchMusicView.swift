@@ -16,7 +16,7 @@ struct SearchMusicView: View {
             List(viewModel.songs) { song in
                 NavigationLink(destination: SelectLyricsView(viewModel: viewModel, selectedSong: selectedSong, imageUrl: song.imageUrl, title: viewModel.replaceSpacesWithDash(in: song.name), artistName: viewModel.replaceSpacesWithDash(in: song.artist))) {
                     HStack {
-                        
+
                         AsyncImage(url: song.imageUrl) { phase in
                             switch phase {
                             case.success(let image):
@@ -37,9 +37,9 @@ struct SearchMusicView: View {
                                 ProgressView()
                             }
                         }
-                            
-                        
-                        
+
+
+
                         VStack(alignment: .leading) {
                             Text(song.name)
                                 .foregroundColor(Color(hex: 0x111111))
