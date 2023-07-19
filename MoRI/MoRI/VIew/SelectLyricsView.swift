@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SelectLyricsView: View {
     @StateObject var viewModel: SearchSongViewModel
-    @State var selectedSong: SelectedSongList
+    @State var selectedSong: SelectedSong
     @State var imageUrl: URL?
     @State var title: String
     @State var artistName: String

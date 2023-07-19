@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SearchMusicView: View {
     @ObservedObject var viewModel = SearchSongViewModel()
-    @State var selectedSong: SelectedSongList
+    @State var selectedSong: SelectedSong
 
     var body: some View {
         NavigationStack {

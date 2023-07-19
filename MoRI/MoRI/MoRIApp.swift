@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct MoRIApp: App {
-    let selectedSong = SelectedSongList(name: "", artist: "", imageUrl: nil)
+    private let selectedSong = SelectedSong(name: "", artist: "", imageUrl: nil)
     var body: some Scene {
         WindowGroup {
 //            ContentView()
