@@ -11,6 +11,8 @@ struct SearchMusicView: View {
     @ObservedObject var viewModel = SearchSongViewModel()
     @State var selectedSong: SelectedSong
 
+//    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         NavigationStack {
             List(viewModel.songs) { song in
@@ -38,8 +40,6 @@ struct SearchMusicView: View {
                             }
                         }
 
-
-
                         VStack(alignment: .leading) {
                             Text(song.name)
                                 .foregroundColor(Color(hex: 0x111111))
@@ -58,5 +58,15 @@ struct SearchMusicView: View {
         .navigationTitle("노래 검색")
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: backButton)
+    }
+    
+    var backButton: some View {
+        Button(action: {
+//            dismiss()
+        }) {
+            Image(systemName: "chevron.left")
+                .imageScale(.large)
+                .foregroundColor(Color(hex: 0x767676))
+        }
     }
 }

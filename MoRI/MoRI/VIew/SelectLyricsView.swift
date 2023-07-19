@@ -14,6 +14,8 @@ struct SelectLyricsView: View {
     @State var title: String
     @State var artistName: String
     
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         VStack{
             HStack {
@@ -37,6 +39,18 @@ struct SelectLyricsView: View {
            LyricsView(title: title, artistName: artistName)
         
         }
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: backButton)
+    }
+    
+    var backButton: some View {
+        Button(action: {
+            dismiss()
+        }) {
+            Image(systemName: "chevron.left")
+                .imageScale(.large)
+                .foregroundColor(Color(hex: 0x767676))
+        }
     }
 }
 
@@ -55,10 +69,14 @@ struct LyricsView: View {
                 }
             }
             .onAppear {
-                viewModel.fetchHTMLParsingResult(artist: artistName, title: title)
+                Task {
+                    do {
+                        try await viewModel.fetchHTMLParsingResult(artist: artistName, title: title)
+                    } catch {
+                        print("Error: \(error)")
+                    }
+                }
             }
         }
     }
-    
-    
 }
