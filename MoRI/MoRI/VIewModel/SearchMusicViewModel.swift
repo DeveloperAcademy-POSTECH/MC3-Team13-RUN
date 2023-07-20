@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import MusicKit
 
-class SearchSongViewModel: ObservableObject {
+class SearchMusicViewModel: ObservableObject {
     
     @Published var searchTerm: String = ""
     @Published var songs: [SongList] = [SongList]()

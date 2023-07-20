@@ -14,7 +14,14 @@ internal struct SongList: Identifiable, Hashable {
     var imageUrl: URL?
 }
 
-internal struct SelectedSong: Identifiable, Hashable {
+//internal struct SelectedSong: Identifiable, Hashable {
+//    var id = UUID()
+//    var name: String
+//    var artist: String
+//    var imageUrl: URL?
+//}
+
+struct SelectedSong {
     var id = UUID()
     var name: String
     var artist: String

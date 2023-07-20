@@ -8,18 +8,18 @@
 import SwiftUI
 
 struct SearchMusicView: View {
-    @ObservedObject var viewModel = SearchSongViewModel()
+    @ObservedObject var viewModel = SearchMusicViewModel()
+    @ObservedObject var lyricsViewModel = SelectLyricsViewModel()
+    @Binding var songData: SelectedSong
     
-//    @Environment(\.dismiss) private var dismiss
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         NavigationStack {
             List(viewModel.songs) { song in
-                NavigationLink(destination: SelectLyricsView(viewModel: viewModel,
-                                                             imageUrl: song.imageUrl,
-                                                             title: viewModel.replaceSpacesWithDash(in: song.name),
-                                                             artistName: viewModel.replaceSpacesWithDash(in: song.artist)))
-                {
+                Button(action: {
+                    songData = SelectedSong(name: song.name, artist: song.artist, imageUrl: song.imageUrl)
+                }) {
                     HStack {
                         AsyncImage(url: song.imageUrl) { phase in
                             switch phase {
@@ -41,7 +41,7 @@ struct SearchMusicView: View {
                                 ProgressView()
                             }
                         }
-
+                        
                         VStack(alignment: .leading) {
                             Text(song.name)
                                 .foregroundColor(Color(hex: 0x111111))
@@ -53,6 +53,14 @@ struct SearchMusicView: View {
                         .padding()
                     }
                 }
+                .background(
+                    NavigationLink(
+                        destination: SelectLyricsView(viewModel: viewModel, selectedViewModel: lyricsViewModel, songData: $songData),
+                        isActive: Binding<Bool>(get: { songData != nil }, set: { _ in })
+                    ) {
+                        EmptyView()
+                    }
+                )
             }
             .listStyle(.plain)
             .searchable(text: $viewModel.searchTerm)
@@ -64,7 +72,7 @@ struct SearchMusicView: View {
     
     var backButton: some View {
         Button(action: {
-//            dismiss()
+            dismiss()
         }) {
             Image(systemName: "chevron.left")
                 .imageScale(.large)

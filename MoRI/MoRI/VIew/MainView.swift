@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct MainView: View {
-    
+    @State var songData: SelectedSong
     var body: some View {
         NavigationStack {
-            NavigationLink(destination: SearchMusicView()) {
+            NavigationLink(destination: SearchMusicView(songData: $songData)) {
                 
                 ZStack{
                     Rectangle()

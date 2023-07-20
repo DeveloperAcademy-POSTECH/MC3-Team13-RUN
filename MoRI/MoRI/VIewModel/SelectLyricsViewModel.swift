@@ -8,41 +8,58 @@
 import Foundation
 import SwiftSoup
 
-class SearchLyricsViewModel: ObservableObject {
+class SelectLyricsViewModel: ObservableObject {
     @Published var lyrics: [[String]] = []
     
     init() {
-        fetchHTMLParsingResult(artist: "", title: "")
+        fetchHTMLParsingResult(SelectedSong(name: "", artist: ""))
     }
     
     // MARK: 해당 url의 HTML 태그를 가져옵니다.
-    func fetchHTMLParsingResult(artist: String, title: String) {
-        let urlAddress = "https://genius.com/\(artist)-\(title)-lyrics"
+    func fetchHTMLParsingResult(_ selectedSong: SelectedSong) {
+        let urlAddress = "https://genius.com/\(selectedSong.artist)-\(selectedSong.name)-lyrics"
+        
         guard let url = URL(string: urlAddress) else {
             return
         }
         
-        DispatchQueue.global().async {
-            do {
-                let html = try String(contentsOf: url, encoding: .utf8)
-                let doc: Document = try SwiftSoup.parse(html)
-                
-                let container = try doc.select(".Lyrics__Container-sc-1ynbvzw-5.Dzxov")
-                var lyricsArray = [[String]]()
-                for element in container.array() {
-                    let lines = try element.html().replacingOccurrences(of: "<br>", with: "\n").replacingOccurrences(of: "<b>", with:"\n").replacingOccurrences(of: "</b>", with:"\n").replacingOccurrences(of: "<i>", with: "\n").replacingOccurrences(of: "</i>", with: "\n").replacingOccurrences(of: "\n\n", with: "\n")
-                    lyricsArray.append([lines])
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print("Error loading URL: \(error)")
+                return
+            }
+            
+            if let data = data {
+                do {
+                    let html = try String(data: data, encoding: .utf8)
+                    let doc: Document = try SwiftSoup.parse(html ?? "")
+                    
+                    let container = try doc.select(".Lyrics__Container-sc-1ynbvzw-5.Dzxov")
+                    var lyricsArray = [[String]]()
+                    for element in container.array() {
+                        let lines = try element.html()
+                            .replacingOccurrences(of: "<br>", with: "\n")
+                            .replacingOccurrences(of: "<b>", with: "\n")
+                            .replacingOccurrences(of: "</b>", with: "\n")
+                            .replacingOccurrences(of: "<i>", with: "\n")
+                            .replacingOccurrences(of: "</i>", with: "\n")
+                            .replacingOccurrences(of: "\n\n", with: "\n")
+                        lyricsArray.append([lines])
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.lyrics = lyricsArray
+                        print(self.lyrics)
+                    }
                 }
-                
-                DispatchQueue.main.async {
-                    self.lyrics = lyricsArray
+                catch {
+                    print("Error parsing HTML: \(error)")
                 }
-                
-            } catch {
-                print("Error parsing HTML: \(error)")
             }
         }
+        task.resume()
     }
+
     
     //MARK: TEXT에서 중괄호 안의 내용들을 삭제합니다.
     func removeCharactersInsideBrackets(from text: String) -> String {
@@ -54,7 +71,12 @@ class SearchLyricsViewModel: ObservableObject {
                 isInBrackets = true
             } else if char == "]" {
                 isInBrackets = false
-            } else if !isInBrackets {
+            } else if char == "<" {
+                isInBrackets = true
+            } else if char == ">" {
+                isInBrackets = false
+            }
+            else if !isInBrackets {
                 result.append(char)
             }
         }
