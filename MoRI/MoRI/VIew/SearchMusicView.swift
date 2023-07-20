@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SearchMusicView: View {
-    @ObservedObject var mosicViewModel = SearchMusicViewModel()
+    @ObservedObject var musicViewModel = SearchMusicViewModel()
     @ObservedObject var lyricsViewModel = SelectLyricsViewModel()
     @Binding var songData: SelectedSong
     
@@ -16,7 +16,7 @@ struct SearchMusicView: View {
     
     var body: some View {
         NavigationStack {
-            List(mosicViewModel.songs) { song in
+            List(musicViewModel.songs) { song in
                 Button(action: {
                     songData = SelectedSong(name: song.name, artist: song.artist, imageUrl: song.imageUrl)
                 }) {
@@ -55,7 +55,7 @@ struct SearchMusicView: View {
                 }
                 .background(
                     NavigationLink(
-                        destination: SelectLyricsView(mosicViewModel: mosicViewModel, lyricsViewModel: lyricsViewModel, songData: $songData),
+                        destination: SelectLyricsView(musicViewModel: musicViewModel, lyricsViewModel: lyricsViewModel, songData: $songData),
                         isActive: Binding<Bool>(get: { songData != nil }, set: { _ in })
                     ) {
                         EmptyView()
@@ -63,7 +63,7 @@ struct SearchMusicView: View {
                 )
             }
             .listStyle(.plain)
-            .searchable(text: $mosicViewModel.searchTerm)
+            .searchable(text: $musicViewModel.searchTerm)
         }
         .navigationTitle("노래 검색")
         .navigationBarBackButtonHidden(true)

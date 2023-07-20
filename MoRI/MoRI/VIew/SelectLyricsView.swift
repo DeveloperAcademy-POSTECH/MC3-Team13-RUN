@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SelectLyricsView: View {
-    @ObservedObject var mosicViewModel: SearchMusicViewModel
+    @ObservedObject var musicViewModel: SearchMusicViewModel
     @ObservedObject var lyricsViewModel: SelectLyricsViewModel
     @Binding var songData: SelectedSong
     

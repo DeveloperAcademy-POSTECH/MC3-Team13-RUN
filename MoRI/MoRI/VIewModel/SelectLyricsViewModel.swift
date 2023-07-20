@@ -61,7 +61,7 @@ class SelectLyricsViewModel: ObservableObject {
     }
 
     
-    //MARK: TEXT에서 중괄호 안의 내용들을 삭제합니다.
+    //MARK: TEXT에서 가사가 아닌 부분을 삭제합니다.
     func removeCharactersInsideBrackets(from text: String) -> String {
         var result = ""
         var isInBrackets = false

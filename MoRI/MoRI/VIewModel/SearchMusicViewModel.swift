@@ -61,7 +61,7 @@ class SearchMusicViewModel: ObservableObject {
         }
     }
     
-    
+    //MARK: 제목과 아티스트 이름 띄워쓰기 처리
     func replaceSpacesWithDash(in text: String) -> String {
         let result = text.replacingOccurrences(of: " ", with: "-")
         return result
