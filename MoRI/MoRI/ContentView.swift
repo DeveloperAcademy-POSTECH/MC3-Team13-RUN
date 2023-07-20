@@ -15,6 +15,7 @@ struct ContentView: View {
             Rectangle()
                 .foregroundColor(.gray)
             Text("hello MoRI dev")
+                .font(.custom(FontsManager.Pretendard.semiBold, size: 30))
         }
     }
 }
