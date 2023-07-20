@@ -9,16 +9,18 @@ import SwiftUI
 
 struct SearchMusicView: View {
     @ObservedObject var viewModel = SearchSongViewModel()
-    @State var selectedSong: SelectedSong
-
+    
 //    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         NavigationStack {
             List(viewModel.songs) { song in
-                NavigationLink(destination: SelectLyricsView(viewModel: viewModel, selectedSong: selectedSong, imageUrl: song.imageUrl, title: viewModel.replaceSpacesWithDash(in: song.name), artistName: viewModel.replaceSpacesWithDash(in: song.artist))) {
+                NavigationLink(destination: SelectLyricsView(viewModel: viewModel,
+                                                             imageUrl: song.imageUrl,
+                                                             title: viewModel.replaceSpacesWithDash(in: song.name),
+                                                             artistName: viewModel.replaceSpacesWithDash(in: song.artist)))
+                {
                     HStack {
-
                         AsyncImage(url: song.imageUrl) { phase in
                             switch phase {
                             case.success(let image):

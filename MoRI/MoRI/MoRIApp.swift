@@ -14,7 +14,7 @@ struct MoRIApp: App {
         WindowGroup {
 //            ContentView()
 //            SearchMusicView(selectedSong: selectedSong)
-            MainView(selectedSong: selectedSong)
+            MainView()
         }
     }
 }

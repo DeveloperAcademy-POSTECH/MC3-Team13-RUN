@@ -29,26 +29,13 @@ class SearchLyricsViewModel: ObservableObject {
                 
                 let container = try doc.select(".Lyrics__Container-sc-1ynbvzw-5.Dzxov")
                 var lyricsArray = [[String]]()
-                
                 for element in container.array() {
-//                    let brTags = try element.select("br")
-//                    if brTags.array().isEmpty {
-//                        lyricsArray.append([try element.text()])
-//                    } else {
-//                        for brTag in brTags.array() {
-//                            try brTag.after("\n")
-//                        }
-//                        let lines = try element.text().components(separatedBy: "\n")
-//                        lyricsArray.append(lines)
-//                    }
-                    let lines = try element.html().replacingOccurrences(of: "<br>", with: "\n")
-                    let cleanedText = try SwiftSoup.parse(lines).text()
-                    lyricsArray.append([cleanedText])
+                    let lines = try element.html().replacingOccurrences(of: "<br>", with: "\n").replacingOccurrences(of: "<b>", with:"\n").replacingOccurrences(of: "</b>", with:"\n").replacingOccurrences(of: "<i>", with: "\n").replacingOccurrences(of: "</i>", with: "\n").replacingOccurrences(of: "\n\n", with: "\n")
+                    lyricsArray.append([lines])
                 }
                 
                 DispatchQueue.main.async {
                     self.lyrics = lyricsArray
-                    print(self.lyrics)
                 }
                 
             } catch {
