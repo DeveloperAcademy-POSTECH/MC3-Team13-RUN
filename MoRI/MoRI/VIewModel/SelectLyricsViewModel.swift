@@ -9,7 +9,7 @@ import Foundation
 import SwiftSoup
 
 class SelectLyricsViewModel: ObservableObject {
-    @Published var lyrics: [[String]] = []
+    @Published var lyrics: [String] = []
     
     init() {
         fetchHTMLParsingResult(SelectedSong(name: "", artist: ""))
@@ -35,7 +35,7 @@ class SelectLyricsViewModel: ObservableObject {
                     let doc: Document = try SwiftSoup.parse(html ?? "")
                     
                     let container = try doc.select(".Lyrics__Container-sc-1ynbvzw-5.Dzxov")
-                    var lyricsArray = [[String]]()
+                    var lyricsText = ""
                     for element in container.array() {
                         let lines = try element.html()
                             .replacingOccurrences(of: "<br>", with: "\n,")
@@ -44,11 +44,12 @@ class SelectLyricsViewModel: ObservableObject {
                             .replacingOccurrences(of: "<i>", with: "\n")
                             .replacingOccurrences(of: "</i>", with: "\n")
                             .replacingOccurrences(of: "\n\n", with: "\n")
-                        lyricsArray.append([lines])
+                        lyricsText += lines
                     }
                     
+                    let linesArray = lyricsText.components(separatedBy: "\n")
                     DispatchQueue.main.async {
-                        self.lyrics = lyricsArray
+                        self.lyrics = linesArray
                         print(self.lyrics)
                     }
                 }

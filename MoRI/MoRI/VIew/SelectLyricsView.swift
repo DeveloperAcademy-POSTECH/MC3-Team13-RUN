@@ -36,8 +36,8 @@ struct SelectLyricsView: View {
             
             ScrollView{
                 VStack {
-                    ForEach(lyricsViewModel.lyrics, id: \.self) { lyricLine in
-                        Text(lyricsViewModel.removeCharactersInsideBrackets(from: lyricLine[0]))
+                    ForEach(lyricsViewModel.lyrics.indices, id: \.self) { index in
+                        Text(lyricsViewModel.removeCharactersInsideBrackets(from: lyricsViewModel.lyrics[index]))
                             .padding()
                     }
                 }
