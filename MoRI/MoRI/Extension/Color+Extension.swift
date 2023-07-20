@@ -15,6 +15,23 @@ extension Color {
             let blue = Double(hex & 0xff) / 255.0
             self.init(red: red, green: green, blue: blue, opacity: alpha)
     }
+    
+    var components: (r: Double, g: Double, b: Double, a: Double) {
+        #if canImport(UIKit)
+        typealias NativeColor = UIColor
+        #elseif canImport(AppKit)
+        typealias NativeColor = NSColor
+        #endif
+        
+        var r: CGFloat = 0
+        var g: CGFloat = 0
+        var b: CGFloat = 0
+        var a: CGFloat = 0
+        
+        guard NativeColor(self).getRed(&r, green: &g, blue: &b, alpha: &a) else { return (0,0,0,0) }
+        
+        return (Double(r), Double(g), Double(b), Double(a))
+    }
     // 예시
 //    static let neu100 = Color(hex: 0xE6E6E6)
 //    static let neu200 = Color(hex: 0xBFBFBF)
