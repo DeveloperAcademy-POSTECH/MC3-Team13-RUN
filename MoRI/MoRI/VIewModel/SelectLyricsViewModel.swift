@@ -38,7 +38,7 @@ class SelectLyricsViewModel: ObservableObject {
                     var lyricsArray = [[String]]()
                     for element in container.array() {
                         let lines = try element.html()
-                            .replacingOccurrences(of: "<br>", with: "\n")
+                            .replacingOccurrences(of: "<br>", with: "\n,")
                             .replacingOccurrences(of: "<b>", with: "\n")
                             .replacingOccurrences(of: "</b>", with: "\n")
                             .replacingOccurrences(of: "<i>", with: "\n")
