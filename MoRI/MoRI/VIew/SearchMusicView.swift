@@ -18,7 +18,9 @@ struct SearchMusicView: View {
         NavigationStack {
             List(musicViewModel.songs) { song in
                 Button(action: {
-                    songData = SelectedSong(name: song.name, artist: song.artist, imageUrl: song.imageUrl)
+                    songData = SelectedSong(name: musicViewModel.replaceSpacesWithDash(in: song.name),
+                                            artist: musicViewModel.replaceSpacesWithDash(in: song.artist),
+                                            imageUrl: song.imageUrl)
                 }) {
                     HStack {
                         AsyncImage(url: song.imageUrl) { phase in
@@ -51,7 +53,10 @@ struct SearchMusicView: View {
                                 .font(.system(size: 14.48276))
                         }
                         .padding()
+                        
+                        Spacer()
                     }
+                    .frame(maxWidth: .infinity, alignment: .trailing)
                 }
                 .background(
                     NavigationLink(
