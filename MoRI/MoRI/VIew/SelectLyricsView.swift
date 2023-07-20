@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SelectLyricsView: View {
-    @ObservedObject var viewModel: SearchMusicViewModel
-    @ObservedObject var selectedViewModel: SelectLyricsViewModel
+    @ObservedObject var mosicViewModel: SearchMusicViewModel
+    @ObservedObject var lyricsViewModel: SelectLyricsViewModel
     @Binding var songData: SelectedSong
     
     @Environment(\.dismiss) private var dismiss
@@ -33,15 +33,16 @@ struct SelectLyricsView: View {
                 
                 Spacer()
             }
+            
             ScrollView{
                 VStack {
-                    ForEach(selectedViewModel.lyrics, id: \.self) { lyricLine in
-                        Text(selectedViewModel.removeCharactersInsideBrackets(from: lyricLine[0]))
+                    ForEach(lyricsViewModel.lyrics, id: \.self) { lyricLine in
+                        Text(lyricsViewModel.removeCharactersInsideBrackets(from: lyricLine[0]))
                             .padding()
                     }
                 }
                 .onAppear {
-                    selectedViewModel.fetchHTMLParsingResult(songData)
+                    lyricsViewModel.fetchHTMLParsingResult(songData)
                 }
             }
         }
