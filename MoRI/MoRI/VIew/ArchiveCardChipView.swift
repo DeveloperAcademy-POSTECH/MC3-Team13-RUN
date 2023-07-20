@@ -8,6 +8,12 @@
 import SwiftUI
 
 struct ArchiveCardChipView: View {
+    @Environment(\.managedObjectContext) private var viewContext
+    
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \Card.date, ascending: true)])
+    private var items: FetchedResults<Card>
+    
     let background = Color(hue: 0, saturation: 0, brightness: 91/100)
     let backgroundArchive = Color(hue: 0, saturation: 0, brightness: 1)
     
@@ -171,6 +177,15 @@ struct ArchiveCardChipView: View {
                         self.cardSelected = false
                     }
             }
+            
+            Button(
+                action: {
+                    PersistenceController().addItem(viewContext, "https://static.wixstatic.com/media/2bf4f7_3cef257862174c4c893cd4a802fde28f~mv2.jpg/v1/fill/w_640,h_640,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/2bf4f7_3cef257862174c4c893cd4a802fde28f~mv2.jpg", "제목", "가수", "2023.00.00", "가사가사가사", .blue)
+                }, label: {
+                    Circle()
+                        .frame(width: 100, height: 100)
+                }
+            )
         }
         .ignoresSafeArea()
     }

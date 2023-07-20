@@ -9,12 +9,15 @@ import SwiftUI
 
 @main
 struct MoRIApp: App {
+    let persistenceController = PersistenceController.shared
     let selectedSong = SelectedSongList(name: "", artist: "", imageUrl: nil)
     var body: some Scene {
         WindowGroup {
 //            ContentView()
 //            SearchMusicView(selectedSong: selectedSong)
-            MainView(selectedSong: selectedSong)
+//            MainView(selectedSong: selectedSong)
+            ArchiveCardChipView()
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }
