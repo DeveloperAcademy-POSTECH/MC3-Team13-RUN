@@ -1,11 +1,11 @@
 //
-//  FontsManger.swift
+//  FontsManager.swift
 //  MoRI
 //
-//  Created by Ko Seokjun on 2023/07/20.
+//  Created by GYURI PARK on 2023/07/21.
 //
 
-import SwiftUI
+import Foundation
 
 struct FontsManager {
     struct Pretendard {
@@ -14,4 +14,3 @@ struct FontsManager {
         static let semiBold = "Pretendard-SemiBold"
     }
 }
-

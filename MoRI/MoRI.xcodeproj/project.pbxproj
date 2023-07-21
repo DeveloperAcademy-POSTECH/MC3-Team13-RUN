@@ -14,9 +14,11 @@
 		6CC611C52A6570B500B171FD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6CC611C42A6570B500B171FD /* Preview Assets.xcassets */; };
 		6CC611C72A6570B500B171FD /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC611C62A6570B500B171FD /* Persistence.swift */; };
 		6CC611CA2A6570B500B171FD /* MoRI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6CC611C82A6570B500B171FD /* MoRI.xcdatamodeld */; };
-
 		C1749AFF2A677D6900C089DB /* SelectLyricsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1749AFE2A677D6900C089DB /* SelectLyricsViewModel.swift */; };
-
+		C1749B072A6A11D700C089DB /* FontsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1749B062A6A11D700C089DB /* FontsManager.swift */; };
+		C1749B0B2A6A11FA00C089DB /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C1749B082A6A11FA00C089DB /* Pretendard-SemiBold.otf */; };
+		C1749B0C2A6A11FA00C089DB /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = C1749B092A6A11FA00C089DB /* Pretendard-Medium.otf */; };
+		C1749B0D2A6A11FA00C089DB /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = C1749B0A2A6A11FA00C089DB /* Pretendard-Regular.otf */; };
 		C18294612A6627530027577F /* SearchMusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18294602A6627520027577F /* SearchMusicView.swift */; };
 		C18294632A6627640027577F /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18294622A6627640027577F /* Song.swift */; };
 		C18294652A6627840027577F /* SearchMusicViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18294642A6627840027577F /* SearchMusicViewModel.swift */; };
@@ -34,12 +36,14 @@
 		6CC611C42A6570B500B171FD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		6CC611C62A6570B500B171FD /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		6CC611C92A6570B500B171FD /* MoRI.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MoRI.xcdatamodel; sourceTree = "<group>"; };
-
 		9E9F74FBA25F41C615921B03 /* Pods-MoRI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoRI.release.xcconfig"; path = "Target Support Files/Pods-MoRI/Pods-MoRI.release.xcconfig"; sourceTree = "<group>"; };
 		BC8BA210E0E2A857310AE2F4 /* Pods_MoRI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MoRI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1749AFE2A677D6900C089DB /* SelectLyricsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLyricsViewModel.swift; sourceTree = "<group>"; };
 		C1749B022A68FFD900C089DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-
+		C1749B062A6A11D700C089DB /* FontsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontsManager.swift; sourceTree = "<group>"; };
+		C1749B082A6A11FA00C089DB /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
+		C1749B092A6A11FA00C089DB /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
+		C1749B0A2A6A11FA00C089DB /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		C18294602A6627520027577F /* SearchMusicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMusicView.swift; sourceTree = "<group>"; };
 		C18294622A6627640027577F /* Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 		C18294642A6627840027577F /* SearchMusicViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMusicViewModel.swift; sourceTree = "<group>"; };
@@ -83,9 +87,8 @@
 		6CC611BC2A6570B300B171FD /* MoRI */ = {
 			isa = PBXGroup;
 			children = (
-
+				C1749B052A6A113300C089DB /* Fonts */,
 				C1749B022A68FFD900C089DB /* Info.plist */,
-
 				C182946A2A66B8630027577F /* Extension */,
 				C182945F2A66268E0027577F /* Model */,
 				C182945E2A6626890027577F /* VIewModel */,
@@ -108,7 +111,6 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-
 		6FD2F45C29DEF0E148245CF9 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -116,7 +118,17 @@
 				9E9F74FBA25F41C615921B03 /* Pods-MoRI.release.xcconfig */,
 			);
 			path = Pods;
-
+			sourceTree = "<group>";
+		};
+		C1749B052A6A113300C089DB /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				C1749B092A6A11FA00C089DB /* Pretendard-Medium.otf */,
+				C1749B0A2A6A11FA00C089DB /* Pretendard-Regular.otf */,
+				C1749B082A6A11FA00C089DB /* Pretendard-SemiBold.otf */,
+				C1749B062A6A11D700C089DB /* FontsManager.swift */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		C182945D2A6626830027577F /* VIew */ = {
@@ -223,11 +235,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6CDE92AD2A68DDBA00A569BD /* Pretendard-SemiBold.otf in Resources */,
+				C1749B0B2A6A11FA00C089DB /* Pretendard-SemiBold.otf in Resources */,
 				6CC611C52A6570B500B171FD /* Preview Assets.xcassets in Resources */,
-				6CDE92AF2A68DDBA00A569BD /* Pretendard-Regular.otf in Resources */,
+				C1749B0D2A6A11FA00C089DB /* Pretendard-Regular.otf in Resources */,
 				6CC611C22A6570B500B171FD /* Assets.xcassets in Resources */,
-				6CDE92AE2A68DDBA00A569BD /* Pretendard-Medium.otf in Resources */,
+				C1749B0C2A6A11FA00C089DB /* Pretendard-Medium.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,9 +292,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6CDE92B22A68DE6300A569BD /* FontsManger.swift in Sources */,
 				C18294632A6627640027577F /* Song.swift in Sources */,
 				C18294692A6630090027577F /* MainView.swift in Sources */,
+				C1749B072A6A11D700C089DB /* FontsManager.swift in Sources */,
 				C182946C2A66B8750027577F /* View+Extension.swift in Sources */,
 				6CC611CA2A6570B500B171FD /* MoRI.xcdatamodeld in Sources */,
 				C18294672A6627C00027577F /* SelectLyricsView.swift in Sources */,
