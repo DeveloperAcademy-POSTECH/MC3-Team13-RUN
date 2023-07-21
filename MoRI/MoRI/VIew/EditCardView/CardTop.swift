@@ -6,10 +6,9 @@
 //
 
 import SwiftUI
-
+//112 224
 struct CardTop: View {
     @StateObject var viewModel: EditCardViewModel
-    
     var body: some View {
         VStack(spacing: 0){
             ZStack{
@@ -33,7 +32,27 @@ struct CardTop: View {
                 }
                 .padding(.top, 280)
                 .padding(.leading, 300)
-
+                VStack{
+                    Circle()
+                        .frame(width: 30,height: 30)
+                        .offset(viewModel.draggedOffset)
+                        .foregroundColor(viewModel.card.cardColor)
+                    Circle()
+                        .frame(width: 15, height: 15)
+                        .offset(viewModel.draggedOffset)
+                        .opacity(0.4)
+                        .gesture(
+                            DragGesture()
+                                .onChanged{ gesture in
+                                    viewModel.draggedOffset = viewModel.accumulatedOffset + gesture.translation
+                                    viewModel.repositionDrag()
+                                    viewModel.getColorFromImagePixel()
+                                }
+                                .onEnded { gesture in
+                                    viewModel.accumulatedOffset = viewModel.accumulatedOffset + gesture.translation
+                                }
+                        )
+                }
             }
             .compositingGroup()
             ZStack(alignment: .top){
