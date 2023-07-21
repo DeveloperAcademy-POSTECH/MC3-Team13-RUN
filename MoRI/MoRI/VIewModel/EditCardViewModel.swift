@@ -16,8 +16,7 @@ final class EditCardViewModel: ObservableObject {
     init(card: Card) {
         self.card = card
     }
-    
-    public func getColorFromImagePixel(){
+    public func getColorFromImagePixel(_ draggedX: Int, _ draggedY: Int){
         let image = card.albumArtUIImage
         guard let cgImage = image.cgImage else {
             card.cardColor = .black
@@ -36,8 +35,8 @@ final class EditCardViewModel: ObservableObject {
         let rect = CGRect(x: 0, y: 0, width: width, height: height)
         context.draw(cgImage, in: rect)
         
-        let x = width/2
-        let y = height-1
+        let x = draggedX
+        let y = draggedY
         let pixelData = context.data?.assumingMemoryBound(to: UInt8.self)
         let offset = bytesPerRow * y + bytesPerPixel * x
         let r = Double((pixelData?[offset])!)/225
