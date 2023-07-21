@@ -12,11 +12,22 @@ final class EditCardViewModel: ObservableObject {
     @Published public var card:Card
     @Published public var lyricsContainerColor: Color = .clear
     @Published public var lyricsColor: Color = .clear
+    @Published public var draggedOffset: CGSize
+    @Published public var accumulatedOffset = CGSize.zero
+
     
     init(card: Card) {
         self.card = card
+        let image = card.albumArtUIImage
+        guard let cgImage = image.cgImage else {
+            draggedOffset = CGSize(width: 0, height: 150)
+            accumulatedOffset = CGSize(width: 0, height: 150)
+            return
+        }
+        draggedOffset = CGSize(width: 0, height: 150)
+        accumulatedOffset = CGSize(width: 0, height: 150)
     }
-    public func getColorFromImagePixel(_ draggedX: Int, _ draggedY: Int){
+    public func getColorFromImagePixel(){
         let image = card.albumArtUIImage
         guard let cgImage = image.cgImage else {
             card.cardColor = .black
@@ -35,8 +46,8 @@ final class EditCardViewModel: ObservableObject {
         let rect = CGRect(x: 0, y: 0, width: width, height: height)
         context.draw(cgImage, in: rect)
         
-        let x = draggedX
-        let y = draggedY
+        let x = Int((draggedOffset.width+175)/350*225)
+        let y = Int((draggedOffset.height+175)/350*225)
         let pixelData = context.data?.assumingMemoryBound(to: UInt8.self)
         let offset = bytesPerRow * y + bytesPerPixel * x
         let r = Double((pixelData?[offset])!)/225
@@ -62,8 +73,6 @@ final class EditCardViewModel: ObservableObject {
         lyricsColor = lightness >= 60 ? .black : .white
         if( 0.0 <= brightness && brightness < 0.70){
             lyricsContainerColor = Color(UIColor(hue: hue, saturation: saturation, brightness: brightness+0.1, alpha: 1.0))
-            print(card.cardColor)
-            print(lyricsContainerColor)
         }
         else if( 0.70 <= brightness && brightness <= 0.85 ){
             lyricsContainerColor = Color(UIColor(hue: hue, saturation: saturation, brightness: brightness+0.15, alpha: 1.0))
@@ -72,7 +81,12 @@ final class EditCardViewModel: ObservableObject {
             lyricsContainerColor = Color(UIColor(hue: hue, saturation: saturation, brightness: brightness-0.15, alpha: 1.0))
         }
     }
-    
+    public func repositionDrag(){
+        if(draggedOffset.width >= 170 || draggedOffset.width <= -170 || draggedOffset.height >= 170 || draggedOffset.height <= -170 ){
+            draggedOffset = .zero
+            accumulatedOffset = .zero
+        }
+    }
 }
 
 
