@@ -9,6 +9,7 @@ import SwiftUI
 //112 224
 struct CardTop: View {
     @StateObject var viewModel: EditCardViewModel
+    @State private var dragPointerIsHidden = false
     var body: some View {
         VStack(spacing: 0){
             ZStack{
@@ -22,36 +23,38 @@ struct CardTop: View {
                     .padding(.top, -160)
                     .padding(.leading, -160)
                     .blendMode(.destinationOut)
-                Button(action: {print("pick color")}){
+                Button(action: { dragPointerIsHidden.toggle() }){
                     ZStack{
                         Circle()
-                        .frame(width: 28, height: 28)
-                        .foregroundColor(.white)
+                            .frame(width: 28, height: 28)
+                            .foregroundColor(.white)
                         Image("dropper")
                     }
                 }
                 .padding(.top, 280)
                 .padding(.leading, 300)
-                VStack{
-                    Circle()
-                        .frame(width: 30,height: 30)
-                        .offset(viewModel.draggedOffset)
-                        .foregroundColor(viewModel.card.cardColor)
-                    Circle()
-                        .frame(width: 15, height: 15)
-                        .offset(viewModel.draggedOffset)
-                        .opacity(0.4)
-                        .gesture(
-                            DragGesture()
-                                .onChanged{ gesture in
-                                    viewModel.draggedOffset = viewModel.accumulatedOffset + gesture.translation
-                                    viewModel.repositionDrag()
-                                    viewModel.getColorFromImagePixel()
-                                }
-                                .onEnded { gesture in
-                                    viewModel.accumulatedOffset = viewModel.accumulatedOffset + gesture.translation
-                                }
-                        )
+                if dragPointerIsHidden {
+                    VStack{
+                        Circle()
+                            .frame(width: 30,height: 30)
+                            .offset(viewModel.draggedOffset)
+                            .foregroundColor(viewModel.card.cardColor)
+                        Circle()
+                            .frame(width: 15, height: 15)
+                            .offset(viewModel.draggedOffset)
+                            .opacity(0.4)
+                            .gesture(
+                                DragGesture()
+                                    .onChanged{ gesture in
+                                        viewModel.draggedOffset = viewModel.accumulatedOffset + gesture.translation
+                                        viewModel.repositionDrag()
+                                        viewModel.getColorFromImagePixel()
+                                    }
+                                    .onEnded { gesture in
+                                        viewModel.accumulatedOffset = viewModel.accumulatedOffset + gesture.translation
+                                    }
+                            )
+                    }
                 }
             }
             .compositingGroup()
