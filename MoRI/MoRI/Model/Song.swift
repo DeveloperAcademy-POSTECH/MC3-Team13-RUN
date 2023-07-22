@@ -9,14 +9,21 @@ import Foundation
 
 internal struct SongList: Identifiable, Hashable {
     var id = UUID()
-    let name: String
-    let artist: String
-    let imageUrl: URL?
+    var name: String
+    var artist: String
+    var imageUrl: URL?
 }
 
-internal struct SelectedSongList: Identifiable, Hashable {
+//internal struct SelectedSong: Identifiable, Hashable {
+//    var id = UUID()
+//    var name: String
+//    var artist: String
+//    var imageUrl: URL?
+//}
+
+struct SelectedSong {
     var id = UUID()
-    let name: String
-    let artist: String
-    let imageUrl: URL?
+    var name: String
+    var artist: String
+    var imageUrl: URL?
 }

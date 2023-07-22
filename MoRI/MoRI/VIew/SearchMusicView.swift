@@ -8,15 +8,21 @@
 import SwiftUI
 
 struct SearchMusicView: View {
-    @ObservedObject var viewModel = SearchSongViewModel()
-    @State var selectedSong: SelectedSongList
-
+    @ObservedObject var musicViewModel = SearchMusicViewModel()
+    @ObservedObject var lyricsViewModel = SelectLyricsViewModel()
+    @Binding var songData: SelectedSong
+    
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         NavigationStack {
-            List(viewModel.songs) { song in
-                NavigationLink(destination: SelectLyricsView(viewModel: viewModel, selectedSong: selectedSong, imageUrl: song.imageUrl, title: viewModel.replaceSpacesWithDash(in: song.name), artistName: viewModel.replaceSpacesWithDash(in: song.artist))) {
+            List(musicViewModel.songs) { song in
+                Button(action: {
+                    songData = SelectedSong(name: musicViewModel.replaceSpacesWithDash(in: song.name),
+                                            artist: musicViewModel.replaceSpacesWithDash(in: song.artist),
+                                            imageUrl: song.imageUrl)
+                }) {
                     HStack {
-
                         AsyncImage(url: song.imageUrl) { phase in
                             switch phase {
                             case.success(let image):
@@ -37,9 +43,7 @@ struct SearchMusicView: View {
                                 ProgressView()
                             }
                         }
-
-
-
+                        
                         VStack(alignment: .leading) {
                             Text(song.name)
                                 .foregroundColor(Color(hex: 0x111111))
@@ -49,14 +53,35 @@ struct SearchMusicView: View {
                                 .font(.system(size: 14.48276))
                         }
                         .padding()
+                        
+                        Spacer()
                     }
+                    .frame(maxWidth: .infinity, alignment: .trailing)
                 }
+                .background(
+                    NavigationLink(
+                        destination: SelectLyricsView(musicViewModel: musicViewModel, lyricsViewModel: lyricsViewModel, songData: $songData),
+                        isActive: Binding<Bool>(get: { songData != nil }, set: { _ in })
+                    ) {
+                        EmptyView()
+                    }
+                )
             }
             .listStyle(.plain)
-            .searchable(text: $viewModel.searchTerm)
+            .searchable(text: $musicViewModel.searchTerm)
         }
         .navigationTitle("노래 검색")
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: backButton)
+    }
+    
+    var backButton: some View {
+        Button(action: {
+            dismiss()
+        }) {
+            Image(systemName: "chevron.left")
+                .imageScale(.large)
+                .foregroundColor(Color(hex: 0x767676))
+        }
     }
 }

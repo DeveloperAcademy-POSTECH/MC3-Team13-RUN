@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import MusicKit
 
-class SearchSongViewModel: ObservableObject {
+class SearchMusicViewModel: ObservableObject {
     
     @Published var searchTerm: String = ""
     @Published var songs: [SongList] = [SongList]()
@@ -61,7 +61,7 @@ class SearchSongViewModel: ObservableObject {
         }
     }
     
-    
+    //MARK: 제목과 아티스트 이름 띄워쓰기 처리
     func replaceSpacesWithDash(in text: String) -> String {
         let result = text.replacingOccurrences(of: " ", with: "-")
         return result
