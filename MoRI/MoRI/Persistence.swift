@@ -27,7 +27,7 @@ struct PersistenceController {
     public func addItem(_ viewContext: NSManagedObjectContext, _ albumArt: UIImage, _ title: String, _ singer: String, _ date: String, _ lyrics: String, _ cardColor: Color) {
         print("addItem start")
         let newItem = CardCD(context: viewContext)
-        newItem.albumArt = UiImageToBinary(albumArt)
+        newItem.albumArt = uiImageToBinary(albumArt)
         newItem.title = title
         newItem.singer = singer
         newItem.date = date
@@ -48,7 +48,7 @@ struct PersistenceController {
 }
 
 extension PersistenceController {
-    private func UiImageToBinary(_ uiImage: UIImage)->Data{
+    private func uiImageToBinary(_ uiImage: UIImage)->Data{
         guard let data = uiImage.pngData() else { fatalError("이미지 data 추출 에러") }
         return data
     }
