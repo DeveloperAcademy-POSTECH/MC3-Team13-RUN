@@ -7,12 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		48B4579E8EC5E8069539E408 /* Pods_MoRI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC8BA210E0E2A857310AE2F4 /* Pods_MoRI.framework */; };
 		6CC611BE2A6570B300B171FD /* MoRIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC611BD2A6570B300B171FD /* MoRIApp.swift */; };
 		6CC611C02A6570B300B171FD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC611BF2A6570B300B171FD /* ContentView.swift */; };
 		6CC611C22A6570B500B171FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6CC611C12A6570B500B171FD /* Assets.xcassets */; };
 		6CC611C52A6570B500B171FD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6CC611C42A6570B500B171FD /* Preview Assets.xcassets */; };
 		6CC611C72A6570B500B171FD /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC611C62A6570B500B171FD /* Persistence.swift */; };
 		6CC611CA2A6570B500B171FD /* MoRI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6CC611C82A6570B500B171FD /* MoRI.xcdatamodeld */; };
+		C1749AFF2A677D6900C089DB /* SelectLyricsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1749AFE2A677D6900C089DB /* SelectLyricsViewModel.swift */; };
+		C1749B072A6A11D700C089DB /* FontsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1749B062A6A11D700C089DB /* FontsManager.swift */; };
+		C1749B0B2A6A11FA00C089DB /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C1749B082A6A11FA00C089DB /* Pretendard-SemiBold.otf */; };
+		C1749B0C2A6A11FA00C089DB /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = C1749B092A6A11FA00C089DB /* Pretendard-Medium.otf */; };
+		C1749B0D2A6A11FA00C089DB /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = C1749B0A2A6A11FA00C089DB /* Pretendard-Regular.otf */; };
 		8E9CB8B62A68D7880088D736 /* CardChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9CB8B52A68D7880088D736 /* CardChip.swift */; };
 		8E9CB8B82A68D7DB0088D736 /* ArchiveCardChipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9CB8B72A68D7DB0088D736 /* ArchiveCardChipView.swift */; };
 		C18294612A6627530027577F /* SearchMusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18294602A6627520027577F /* SearchMusicView.swift */; };
@@ -32,6 +38,14 @@
 		6CC611C42A6570B500B171FD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		6CC611C62A6570B500B171FD /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		6CC611C92A6570B500B171FD /* MoRI.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MoRI.xcdatamodel; sourceTree = "<group>"; };
+		9E9F74FBA25F41C615921B03 /* Pods-MoRI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoRI.release.xcconfig"; path = "Target Support Files/Pods-MoRI/Pods-MoRI.release.xcconfig"; sourceTree = "<group>"; };
+		BC8BA210E0E2A857310AE2F4 /* Pods_MoRI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MoRI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C1749AFE2A677D6900C089DB /* SelectLyricsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLyricsViewModel.swift; sourceTree = "<group>"; };
+		C1749B022A68FFD900C089DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		C1749B062A6A11D700C089DB /* FontsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontsManager.swift; sourceTree = "<group>"; };
+		C1749B082A6A11FA00C089DB /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
+		C1749B092A6A11FA00C089DB /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
+		C1749B0A2A6A11FA00C089DB /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		8E9CB8B52A68D7880088D736 /* CardChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardChip.swift; sourceTree = "<group>"; };
 		8E9CB8B72A68D7DB0088D736 /* ArchiveCardChipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveCardChipView.swift; sourceTree = "<group>"; };
 		C18294602A6627520027577F /* SearchMusicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMusicView.swift; sourceTree = "<group>"; };
@@ -41,6 +55,7 @@
 		C18294682A6630090027577F /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		C182946B2A66B8750027577F /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		C182946D2A66C8B90027577F /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
+		DC20D5CE2BA6D6711AED29AF /* Pods-MoRI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoRI.debug.xcconfig"; path = "Target Support Files/Pods-MoRI/Pods-MoRI.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48B4579E8EC5E8069539E408 /* Pods_MoRI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +75,8 @@
 			children = (
 				6CC611BC2A6570B300B171FD /* MoRI */,
 				6CC611BB2A6570B300B171FD /* Products */,
+				6FD2F45C29DEF0E148245CF9 /* Pods */,
+				FE8C2CE3AE0645A24A0A375B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -73,6 +91,8 @@
 		6CC611BC2A6570B300B171FD /* MoRI */ = {
 			isa = PBXGroup;
 			children = (
+				C1749B052A6A113300C089DB /* Fonts */,
+				C1749B022A68FFD900C089DB /* Info.plist */,
 				C182946A2A66B8630027577F /* Extension */,
 				C182945F2A66268E0027577F /* Model */,
 				C182945E2A6626890027577F /* VIewModel */,
@@ -95,6 +115,26 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		6FD2F45C29DEF0E148245CF9 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DC20D5CE2BA6D6711AED29AF /* Pods-MoRI.debug.xcconfig */,
+				9E9F74FBA25F41C615921B03 /* Pods-MoRI.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		C1749B052A6A113300C089DB /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				C1749B092A6A11FA00C089DB /* Pretendard-Medium.otf */,
+				C1749B0A2A6A11FA00C089DB /* Pretendard-Regular.otf */,
+				C1749B082A6A11FA00C089DB /* Pretendard-SemiBold.otf */,
+				C1749B062A6A11D700C089DB /* FontsManager.swift */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		C182945D2A6626830027577F /* VIew */ = {
 			isa = PBXGroup;
 			children = (
@@ -110,6 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				C18294642A6627840027577F /* SearchMusicViewModel.swift */,
+				C1749AFE2A677D6900C089DB /* SelectLyricsViewModel.swift */,
 			);
 			path = VIewModel;
 			sourceTree = "<group>";
@@ -132,6 +173,14 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		FE8C2CE3AE0645A24A0A375B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BC8BA210E0E2A857310AE2F4 /* Pods_MoRI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -139,9 +188,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6CC611CD2A6570B500B171FD /* Build configuration list for PBXNativeTarget "MoRI" */;
 			buildPhases = (
+				061F6BC6AA4D551AF3B3D8B5 /* [CP] Check Pods Manifest.lock */,
 				6CC611B62A6570B300B171FD /* Sources */,
 				6CC611B72A6570B300B171FD /* Frameworks */,
 				6CC611B82A6570B300B171FD /* Resources */,
+				8AE34A788F66F5A1EFBBE421 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -190,12 +241,57 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C1749B0B2A6A11FA00C089DB /* Pretendard-SemiBold.otf in Resources */,
 				6CC611C52A6570B500B171FD /* Preview Assets.xcassets in Resources */,
+				C1749B0D2A6A11FA00C089DB /* Pretendard-Regular.otf in Resources */,
 				6CC611C22A6570B500B171FD /* Assets.xcassets in Resources */,
+				C1749B0C2A6A11FA00C089DB /* Pretendard-Medium.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		061F6BC6AA4D551AF3B3D8B5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MoRI-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8AE34A788F66F5A1EFBBE421 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MoRI/Pods-MoRI-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MoRI/Pods-MoRI-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MoRI/Pods-MoRI-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6CC611B62A6570B300B171FD /* Sources */ = {
@@ -204,6 +300,7 @@
 			files = (
 				C18294632A6627640027577F /* Song.swift in Sources */,
 				C18294692A6630090027577F /* MainView.swift in Sources */,
+				C1749B072A6A11D700C089DB /* FontsManager.swift in Sources */,
 				C182946C2A66B8750027577F /* View+Extension.swift in Sources */,
 				8E9CB8B62A68D7880088D736 /* CardChip.swift in Sources */,
 				6CC611CA2A6570B500B171FD /* MoRI.xcdatamodeld in Sources */,
@@ -211,6 +308,7 @@
 				6CC611C72A6570B500B171FD /* Persistence.swift in Sources */,
 				6CC611C02A6570B300B171FD /* ContentView.swift in Sources */,
 				C18294652A6627840027577F /* SearchMusicViewModel.swift in Sources */,
+				C1749AFF2A677D6900C089DB /* SelectLyricsViewModel.swift in Sources */,
 				6CC611BE2A6570B300B171FD /* MoRIApp.swift in Sources */,
 				C182946E2A66C8B90027577F /* Color+Extension.swift in Sources */,
 				8E9CB8B82A68D7DB0088D736 /* ArchiveCardChipView.swift in Sources */,
@@ -271,6 +369,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -324,6 +423,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -335,6 +435,7 @@
 		};
 		6CC611CE2A6570B500B171FD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DC20D5CE2BA6D6711AED29AF /* Pods-MoRI.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -344,8 +445,8 @@
 				DEVELOPMENT_TEAM = XF4GNZL7MP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MoRI/Info.plist;
 				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Please allow access to continue";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -365,6 +466,7 @@
 		};
 		6CC611CF2A6570B500B171FD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9E9F74FBA25F41C615921B03 /* Pods-MoRI.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -374,8 +476,8 @@
 				DEVELOPMENT_TEAM = XF4GNZL7MP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MoRI/Info.plist;
 				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Please allow access to continue";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

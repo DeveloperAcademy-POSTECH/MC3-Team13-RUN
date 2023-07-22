@@ -8,26 +8,25 @@
 import SwiftUI
 
 struct SelectLyricsView: View {
-    @StateObject var viewModel: SearchSongViewModel
-    @State var selectedSong: SelectedSongList
-    @State var imageUrl: URL?
-    @State var title: String
-    @State var artistName: String
+    @ObservedObject var musicViewModel: SearchMusicViewModel
+    @ObservedObject var lyricsViewModel: SelectLyricsViewModel
+    @Binding var songData: SelectedSong
+    
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         VStack{
             HStack {
-                AsyncImage(url: imageUrl)
+                AsyncImage(url: songData.imageUrl)
                     .frame(width: 56, height: 56, alignment: .center)
                    
-
                 Spacer()
                 
                 VStack{
-                    Text("\(title)")
+                    Text(songData.name)
                         .foregroundColor(Color(hex: 0x111111))
                         .font(.system(size: 14.48276))
-                    Text("\(artistName)")
+                    Text(songData.artist)
                         .foregroundColor(Color(hex: 0x767676))
                         .font(.system(size: 14.48276))
                 }
@@ -35,9 +34,29 @@ struct SelectLyricsView: View {
                 Spacer()
             }
             
-//            LyricsView(title: title, artistName: artistName)
-        
+            ScrollView{
+                VStack {
+                    ForEach(lyricsViewModel.lyrics.indices, id: \.self) { index in
+                        Text(lyricsViewModel.removeCharactersInsideBrackets(from: lyricsViewModel.lyrics[index]))
+                            .padding()
+                    }
+                }
+                .onAppear {
+                    lyricsViewModel.fetchHTMLParsingResult(songData)
+                }
+            }
+        }
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: backButton)
+    }
+    
+    var backButton: some View {
+        Button(action: {
+            dismiss()
+        }) {
+            Image(systemName: "chevron.left")
+                .imageScale(.large)
+                .foregroundColor(Color(hex: 0x767676))
         }
     }
 }
-
