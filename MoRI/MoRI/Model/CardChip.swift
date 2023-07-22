@@ -8,36 +8,29 @@
 import SwiftUI
 
 struct CardChip: View {    // 색상표
-    let name: String
-    let image: String
+    let title: String
+    let singer: String
+    let date: String
+    let lyrics: String
+    let image: UIImage
     let scale: CGFloat
-    let type: String    // 카드 표현 형태
+    let heightView: CGFloat // 카드 출력 형태에 따른 높이
     
     var body: some View {
         let width: CGFloat = 350*scale
-        let heightAll: CGFloat = 587*scale  // 카드 전체
-        let heightTop: CGFloat = 350*scale  // 카드 상단부
-        let heightArt: CGFloat = (587-161)*scale    // 카드 앨범아트
-        var height: CGFloat {   // type에 따라 다른 높이 부여
-            switch type {
-            case "all":
-                return heightAll
-            case "top":
-                return heightTop
-            case "art":
-                return heightArt
-            default:
-                return heightAll
-            }
-        }
+        let height: CGFloat = heightView*scale
         
         ZStack {
-//            Image(image)
-            Image(systemName: image)    // 이미지 에셋 없어서 임시 사용
+            Image(uiImage: image)    // 이미지 에셋 없어서 임시 사용
                 .resizable()
-                .frame(width: width, height: height)
-            Text(name)  // 색상 RGB 값
-                .font(Font.custom("HelveticaNeue-Bold", size: 90*scale))
+                .frame(width: width, height: heightView)
+            VStack {
+                Text(title)  // 제목
+                Text(singer)  // 아티스트
+                Text(date) // 날짜
+                Text(lyrics)  // 가사
+            }
+                .font(Font.custom("HelveticaNeue-Bold", size: 30*scale))
                 .padding(3)
                 .foregroundColor(.white)
                 .frame(width: width, height: height, alignment: .top)
@@ -45,21 +38,24 @@ struct CardChip: View {    // 색상표
         .background(Color.teal) // 이미지 에셋 없어서 임시 사용
     }
     
-    init(name: String, image: String, scale: CGFloat, type: String) {
-        self.name = name
+    init(title: String, singer: String, date: String, lyrics: String, image: UIImage, scale: CGFloat, heightView: CGFloat) {
+        self.title = title
+        self.singer = singer
+        self.date = date
+        self.lyrics = lyrics
         self.image = image
         self.scale = scale
-        self.type = type
+        self.heightView = heightView
     }
 }
 
 
-struct CardChip_Previews: PreviewProvider {
-    static var previews: some View {
-        CardChip(name: "index",
-                 image: "square",
-                 scale: 1,
-                 type: "all"
-        )
-    }
-}
+//struct CardChip_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CardChip(name: "index",
+//                 image: UIImage(data: "https://static.wixstatic.com/media/2bf4f7_3cef257862174c4c893cd4a802fde28f~mv2.jpg/v1/fill/w_640,h_640,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/2bf4f7_3cef257862174c4c893cd4a802fde28f~mv2.jpg")!,
+//                 scale: 1,
+//                 type: "all"
+//        )
+//    }
+//}

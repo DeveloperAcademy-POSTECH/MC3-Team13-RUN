@@ -36,6 +36,7 @@ struct PersistenceController {
     let container: NSPersistentContainer
     
     init() {
+        print("container 연결")
         container = NSPersistentContainer(name: "MoRI")
         
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
@@ -46,8 +47,11 @@ struct PersistenceController {
     }
     
     func addItem(_ viewContext: NSManagedObjectContext, _ albumArt: String, _ title: String, _ singer: String, _ date: String, _ lyrics: String, _ cardColor: Color) {
+        print("addItem start")
         let newItem = Card(context: viewContext)
+        print("1")
         newItem.albumArt = stringToBinary(albumArt)
+        print("2")
         newItem.title = title
         newItem.singer = singer
         newItem.date = date
@@ -55,9 +59,11 @@ struct PersistenceController {
         newItem.cardColorR = cardColor.components.r
         newItem.cardColorG = cardColor.components.g
         newItem.cardColorB = cardColor.components.b
+        newItem.cardColorA = cardColor.components.a
 
         do {
             try viewContext.save()
+            print("save")
         } catch {
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
@@ -75,6 +81,7 @@ struct PersistenceController {
     }
     
     func stringToBinary(_ str: String)->Data{
+        print("stringToBinary")
         let url = URL(string: str)!
         let data = try? Data(contentsOf: url)
         return data!

@@ -9,49 +9,77 @@ import SwiftUI
 
 struct ArchiveCardChipView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Card.date, ascending: true)])
-    private var items: FetchedResults<Card>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Card.date, ascending: true)]) private var items: FetchedResults<Card>
     
     let background = Color(hue: 0, saturation: 0, brightness: 91/100)
     let backgroundArchive = Color(hue: 0, saturation: 0, brightness: 1)
+    let heightAlbumArt: CGFloat = 426
+    let heightCard: CGFloat = 587
     
+    /* 코드 원본 저장 (수정 시 참고 후 삭제 예정)
     // MARK: - CardChip 생성
     var chipShapes: [CardChip]  // 저장된 카드 이미지 "art"
     var detailChipShapes: [CardChip]    // 저장된 카드 이미지 "all"
-    let zIndexPreset: [Double]
-    let chipNumber: Int = 12 // 저장된 카드의 수
+    var zIndexPreset: [Double]
+    var chipNumber = 0 // 저장된 카드의 수
     
     init() {
         chipShapes = [CardChip]()
         detailChipShapes = [CardChip]()
-        
-        // MARK: - CoreData에 저장된 item.albumArt => CardChip.image
-        for i in (0..<chipNumber) { // chipNumber장의 CardChip 초기화 및 선언
-            self.chipShapes.append(
-                CardChip(
-                    name: String(format: "%d", i), // for Archiving
-                    image: i % 2 == 0 ? "square.fill" : "square", // art
-                    scale: 0.5,
-                    type: "art"
-                )
-            )
-            self.detailChipShapes.append(   // for Detail
-                CardChip(name: String(format: "%d", i),
-                         image: i % 2 == 0 ? "bookmark.square.fill" : "bookmark.square", // all
-                         scale: 0.5,
-                         type: "all"
-                        )
-            )
-        }
-        
-        self.zIndexPreset = (1...self.chipShapes.count).map({ value in Double(value) / Double(1) })
+        zIndexPreset = (1...items.count).map({ value in Double(value) / Double(1) })
             .reversed()
         /*
          reversed(): 회전 방향 및 크기 원근감, 적재 순서 반대
          */
+        chipNumber = items.count
+     }
+     */
+    
+    // MARK: - CardChip 생성 => 앨범아트카드 / 디테일카드
+    
+    private var chipShapes: [CardChip] {
+        var shapes = [CardChip]()
+        for i in (0..<chipNumber) {
+            shapes.append(
+                CardChip(
+                    title: "\(i), \(items[i].title)",
+                    singer: items[i].singer!,
+                    date: items[i].date!,
+                    lyrics: items[i].lyrics ?? "No Lyrics",
+                    image: UIImage(data: items[i].albumArt!)!,
+                    //색 Color(red: items[i].cardColorR, green: items[i].cardColorG, blue: items[i].cardColorB)
+                    scale: 0.5,
+                    heightView: heightAlbumArt
+                )
+            )
+        }
+        return shapes
     }
+
+    private var detailChipShapes: [CardChip] {
+        var shapes = [CardChip]()
+        for i in (0..<chipNumber) {
+            shapes.append(
+                CardChip(
+                    title: "\(i), \(items[i].title)",
+                    singer: items[i].singer!,
+                    date: items[i].date!,
+                    lyrics: items[i].lyrics ?? "No Lyrics",
+                    image: UIImage(data: items[i].albumArt!)!,
+                    //색 Color(red: items[i].cardColorR, green: items[i].cardColorG, blue: items[i].cardColorB)
+                    scale: 0.5,
+                    heightView: heightCard
+                )
+            )
+        }
+        return shapes
+    }
+    
+    private var chipNumber: Int {
+        return items.count
+    }
+    
+    @State private var zIndexPreset: [Double] = [] // zIndexPreset을 State로 선언
     
     // MARK: - 각도, 드래그 여부, 카드 선택 관련 변수
     @State var delta: Double = 0 // 각도 변화
@@ -111,7 +139,7 @@ struct ArchiveCardChipView: View {
                     
                     chipShapes[index]
                         .padding(.bottom, 200) // for "top"
-                        .zIndex(zIndexPreset[correctdRelativeIndex])
+//                        .zIndex(zIndexPreset[correctdRelativeIndex])
                         .opacity(   // 출력 부분 범위 설정
                             (rotationAngle <= 0 && (Int(rotationAngle) % 360) >= -90) && (Int(rotationAngle) % 360) <= 0
                             || (rotationAngle >= 0 && (Int(rotationAngle) % 360) >= 270 && (Int(rotationAngle) % 360) <= 360) ? 1 : 0
@@ -138,9 +166,8 @@ struct ArchiveCardChipView: View {
                              currentAngle + delta: 드래그 전 각도(currentAngle)에 드래그 변화량(delta)를 더하여 계산한 현재 회전 각도
                              */
                             axis: (x: 1, y: 0, z: 0),   // 고정 축(기둥)
-//                            anchor: UnitPoint(x: 0.5, y: 2),  // 회전 기준점
                             anchor: UnitPoint(x: 0.5, y: 1.0),  // 회전 기준점
-                            perspective: 0.5    // 원근감(중심축과의 거리)
+                            perspective: 0.1    // 원근감(중심축과의 거리)
                             /*
                              anchor: UnitPoint 값
                              x: x축 기준 반지름(마주보는 카드 간의 간격)과 좌->우 스크롤시 회전 방향 (+: 시계, -: 반시계)
@@ -182,17 +209,19 @@ struct ArchiveCardChipView: View {
                 action: {
                     PersistenceController().addItem(viewContext, "https://static.wixstatic.com/media/2bf4f7_3cef257862174c4c893cd4a802fde28f~mv2.jpg/v1/fill/w_640,h_640,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/2bf4f7_3cef257862174c4c893cd4a802fde28f~mv2.jpg", "제목", "가수", "2023.00.00", "가사가사가사", .blue)
                 }, label: {
-                    Circle()
-                        .frame(width: 100, height: 100)
+                    ZStack{
+                        Circle()
+                            .frame(width: 100, height: 100)
+                        Text("\(items.count)\n\(chipNumber)")
+                            .foregroundColor(.white)
+                    }
                 }
             )
+            .offset(x: 120, y: -300)
         }
         .ignoresSafeArea()
-    }
-}
-
-struct ArchiveCardChipView_Previews: PreviewProvider {
-    static var previews: some View {
-        ArchiveCardChipView()
+        .onAppear {
+            zIndexPreset = (1...items.count).map { value in Double(value) / Double(1) }
+        }
     }
 }
