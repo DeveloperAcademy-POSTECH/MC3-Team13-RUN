@@ -10,13 +10,16 @@ import SwiftUI
 @main
 struct MoRIApp: App {
 //    private let selectedSong = SelectedSong(name: "", artist: "", imageUrl: nil)
+    let persistenceController = PersistenceController.shared
     @State var songData: SelectedSong = SelectedSong(name: "", artist: "", imageUrl: nil)
     
     var body: some Scene {
         WindowGroup {
 //                        ContentView()
             //            SearchMusicView(selectedSong: selectedSong)
-            MainView(songData: songData)
+//            MainView(songData: songData)
+            ArchiveCardChipView()
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }

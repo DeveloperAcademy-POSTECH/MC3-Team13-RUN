@@ -13,7 +13,7 @@ struct ArchiveCardChipView: View {
     
     let background = Color(hue: 0, saturation: 0, brightness: 91/100)
     let backgroundArchive = Color(hue: 0, saturation: 0, brightness: 1)
-    let heightAlbumArt: CGFloat = 426
+    let heightAlbumArt: CGFloat = 350
     let heightCard: CGFloat = 587
     
     /* 코드 원본 저장 (수정 시 참고 후 삭제 예정)
@@ -36,7 +36,6 @@ struct ArchiveCardChipView: View {
      */
     
     // MARK: - CardChip 생성 => 앨범아트카드 / 디테일카드
-    
     private var chipShapes: [CardChip] {
         var shapes = [CardChip]()
         for i in (0..<chipNumber) {
@@ -89,7 +88,7 @@ struct ArchiveCardChipView: View {
     
     @State private var cardSelected = false // 카드 선택 여부
     @State private var selectedChip: CardChip?  // 선택된 카드
-    @State private var selectedIndex: Int = 0   // 선택된 카드 index
+    @State var selectedIndex: Int = 0   // 선택된 카드 index
     
     
     var body: some View {
@@ -134,12 +133,12 @@ struct ArchiveCardChipView: View {
                     // 0도를 기준으로 절대적인 인덱스 계산
                     let relativeIndex =
                     index - currentCard < 0 ? (index - currentCard + chipShapes.count) : (index - currentCard)
-                    let correctdRelativeIndex = relativeIndex + chipShapes.count/2 >= chipShapes.count ? relativeIndex + chipShapes.count/2 - chipShapes.count : relativeIndex + chipShapes.count/2
+                    let correctedRelativeIndex = relativeIndex + chipShapes.count/2 >= chipShapes.count ? relativeIndex + chipShapes.count/2 - chipShapes.count : relativeIndex + chipShapes.count/2
                     let rotationAngle = (Double(360 / chipShapes.count) * Double(index) + (isDragging ? currentAngle + delta : currentAngle))
                     
                     chipShapes[index]
                         .padding(.bottom, 200) // for "top"
-//                        .zIndex(zIndexPreset[correctdRelativeIndex])
+//                        .zIndex(zIndexPreset[correctedRelativeIndex])
                         .opacity(   // 출력 부분 범위 설정
                             (rotationAngle <= 0 && (Int(rotationAngle) % 360) >= -90) && (Int(rotationAngle) % 360) <= 0
                             || (rotationAngle >= 0 && (Int(rotationAngle) % 360) >= 270 && (Int(rotationAngle) % 360) <= 360) ? 1 : 0
@@ -188,26 +187,30 @@ struct ArchiveCardChipView: View {
             .background(backgroundArchive)
             .cornerRadius(20)
             
+            ///*
             // MARK: - Card Detail
             ZStack {
                 // Background Blur 80%
-                detailChipShapes[selectedIndex]
-                    .scaleEffect(cardSelected ? 2 : 0)
-                    .opacity(cardSelected ? 1.0 : 0.0)
-                    .rotation3DEffect(  // 회전 효과
-                        Angle.degrees(cardSelected ? 0: 180),
-                        axis: (-5,1,0),
-                        perspective: 0.3
-                    )
-                    .animation(Animation.easeInOut(duration: 0.25))  // 표출
-                    .onTapGesture() {
-                        self.cardSelected = false
-                    }
+                if selectedIndex != -1 {  // 선택된 카드가 있을 경우에만 표시
+                    detailChipShapes[selectedIndex]
+                        .scaleEffect(cardSelected ? 2 : 0)
+                        .opacity(cardSelected ? 1.0 : 0.0)
+                        .rotation3DEffect(  // 회전 효과
+                            Angle.degrees(cardSelected ? 0: 180),
+                            axis: (-5,1,0),
+                            perspective: 0.3
+                        )
+                        .animation(Animation.easeInOut(duration: 0.25))  // 표출
+                        .onTapGesture() {
+                            self.cardSelected = false
+                        }
+                }
             }
+             //*/
             
             Button(
                 action: {
-                    PersistenceController().addItem(viewContext, "https://static.wixstatic.com/media/2bf4f7_3cef257862174c4c893cd4a802fde28f~mv2.jpg/v1/fill/w_640,h_640,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/2bf4f7_3cef257862174c4c893cd4a802fde28f~mv2.jpg", "제목", "가수", "2023.00.00", "가사가사가사", .blue)
+                    PersistenceController().addItem(viewContext, "https://static.wixstatic.com/media/2bf4f7_3cef257862174c4c893cd4a802fde28f~mv2.jpg/v1/fill/w_640,h_640,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/2bf4f7_3cef257862174c4c893cd4a802fde28f~mv2.jpg", "제목", "가수", "2023.00.00", "가사가사가사", Color.blue)
                 }, label: {
                     ZStack{
                         Circle()
@@ -220,8 +223,8 @@ struct ArchiveCardChipView: View {
             .offset(x: 120, y: -300)
         }
         .ignoresSafeArea()
-        .onAppear {
-            zIndexPreset = (1...items.count).map { value in Double(value) / Double(1) }
-        }
+//        .onAppear {
+//            zIndexPreset = (1...items.count).map { value in Double(value) / Double(1) }
+//        }
     }
 }

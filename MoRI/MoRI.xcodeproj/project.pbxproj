@@ -14,13 +14,13 @@
 		6CC611C52A6570B500B171FD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6CC611C42A6570B500B171FD /* Preview Assets.xcassets */; };
 		6CC611C72A6570B500B171FD /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC611C62A6570B500B171FD /* Persistence.swift */; };
 		6CC611CA2A6570B500B171FD /* MoRI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6CC611C82A6570B500B171FD /* MoRI.xcdatamodeld */; };
+		8E9CB8B62A68D7880088D736 /* CardChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9CB8B52A68D7880088D736 /* CardChip.swift */; };
+		8E9CB8B82A68D7DB0088D736 /* ArchiveCardChipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9CB8B72A68D7DB0088D736 /* ArchiveCardChipView.swift */; };
 		C1749AFF2A677D6900C089DB /* SelectLyricsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1749AFE2A677D6900C089DB /* SelectLyricsViewModel.swift */; };
 		C1749B072A6A11D700C089DB /* FontsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1749B062A6A11D700C089DB /* FontsManager.swift */; };
 		C1749B0B2A6A11FA00C089DB /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C1749B082A6A11FA00C089DB /* Pretendard-SemiBold.otf */; };
 		C1749B0C2A6A11FA00C089DB /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = C1749B092A6A11FA00C089DB /* Pretendard-Medium.otf */; };
 		C1749B0D2A6A11FA00C089DB /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = C1749B0A2A6A11FA00C089DB /* Pretendard-Regular.otf */; };
-		8E9CB8B62A68D7880088D736 /* CardChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9CB8B52A68D7880088D736 /* CardChip.swift */; };
-		8E9CB8B82A68D7DB0088D736 /* ArchiveCardChipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9CB8B72A68D7DB0088D736 /* ArchiveCardChipView.swift */; };
 		C18294612A6627530027577F /* SearchMusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18294602A6627520027577F /* SearchMusicView.swift */; };
 		C18294632A6627640027577F /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18294622A6627640027577F /* Song.swift */; };
 		C18294652A6627840027577F /* SearchMusicViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18294642A6627840027577F /* SearchMusicViewModel.swift */; };
@@ -38,6 +38,8 @@
 		6CC611C42A6570B500B171FD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		6CC611C62A6570B500B171FD /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		6CC611C92A6570B500B171FD /* MoRI.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MoRI.xcdatamodel; sourceTree = "<group>"; };
+		8E9CB8B52A68D7880088D736 /* CardChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardChip.swift; sourceTree = "<group>"; };
+		8E9CB8B72A68D7DB0088D736 /* ArchiveCardChipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveCardChipView.swift; sourceTree = "<group>"; };
 		9E9F74FBA25F41C615921B03 /* Pods-MoRI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoRI.release.xcconfig"; path = "Target Support Files/Pods-MoRI/Pods-MoRI.release.xcconfig"; sourceTree = "<group>"; };
 		BC8BA210E0E2A857310AE2F4 /* Pods_MoRI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MoRI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1749AFE2A677D6900C089DB /* SelectLyricsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLyricsViewModel.swift; sourceTree = "<group>"; };
@@ -46,8 +48,6 @@
 		C1749B082A6A11FA00C089DB /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		C1749B092A6A11FA00C089DB /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
 		C1749B0A2A6A11FA00C089DB /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
-		8E9CB8B52A68D7880088D736 /* CardChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardChip.swift; sourceTree = "<group>"; };
-		8E9CB8B72A68D7DB0088D736 /* ArchiveCardChipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveCardChipView.swift; sourceTree = "<group>"; };
 		C18294602A6627520027577F /* SearchMusicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMusicView.swift; sourceTree = "<group>"; };
 		C18294622A6627640027577F /* Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 		C18294642A6627840027577F /* SearchMusicViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMusicViewModel.swift; sourceTree = "<group>"; };
@@ -99,8 +99,8 @@
 				C182945D2A6626830027577F /* VIew */,
 				6CC611BD2A6570B300B171FD /* MoRIApp.swift */,
 				6CC611BF2A6570B300B171FD /* ContentView.swift */,
-				6CC611C12A6570B500B171FD /* Assets.xcassets */,
 				6CC611C62A6570B500B171FD /* Persistence.swift */,
+				6CC611C12A6570B500B171FD /* Assets.xcassets */,
 				6CC611C82A6570B500B171FD /* MoRI.xcdatamodeld */,
 				6CC611C32A6570B500B171FD /* Preview Content */,
 			);
@@ -442,7 +442,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MoRI/Preview Content\"";
-				DEVELOPMENT_TEAM = XF4GNZL7MP;
+				DEVELOPMENT_TEAM = 95KH8LTQV6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MoRI/Info.plist;
@@ -456,7 +456,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.doris.mc3practice;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ocean.mc3practice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -473,7 +473,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MoRI/Preview Content\"";
-				DEVELOPMENT_TEAM = XF4GNZL7MP;
+				DEVELOPMENT_TEAM = 95KH8LTQV6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MoRI/Info.plist;
@@ -487,7 +487,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.doris.mc3practice;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ocean.mc3practice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
