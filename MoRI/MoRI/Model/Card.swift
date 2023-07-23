@@ -25,7 +25,7 @@ struct Card {
         dateFormatter.dateFormat = "yyyy.MM.dd"
         let convertDate = dateFormatter.string(from: Date())
         self.date = convertDate
-        self.cardColor = .clear
+        self.cardColor = cardColor
     }
 }
 
