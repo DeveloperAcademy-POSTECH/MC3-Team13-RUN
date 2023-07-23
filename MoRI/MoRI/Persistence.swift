@@ -9,31 +9,9 @@ import CoreData
 import SwiftUI
 
 struct PersistenceController {
-    static let shared = PersistenceController()
-    
-//    static var preview: PersistenceController = {
-//        let result = PersistenceController()
-//        let viewContext = result.container.viewContext
-//        for _ in 0..<10 {
-//            let newItem = Card(context: viewContext)
-//            newItem.date = Date()
-//            newItem.cardColorR = 0.1
-//            newItem.cardColorG = 0.2
-//            newItem.cardColorB = 0.3
-//            newItem.textColorR = 1.1
-//            newItem.textColorG = 1.2
-//            newItem.textColorB = 1.3
-//        }
-//        do {
-//            try viewContext.save()
-//        } catch {
-//            let nsError = error as NSError
-//            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-//        }
-//        return result
-//    }()
-    
-    let container: NSPersistentContainer
+    static public let shared = PersistenceController()
+        
+    private let container: NSPersistentContainer
     
     init() {
         print("container 연결")
@@ -46,12 +24,10 @@ struct PersistenceController {
         })
     }
     
-    func addItem(_ viewContext: NSManagedObjectContext, _ albumArt: String, _ title: String, _ singer: String, _ date: String, _ lyrics: String, _ cardColor: Color) {
+    public func addItem(_ viewContext: NSManagedObjectContext, _ albumArt: UIImage, _ title: String, _ singer: String, _ date: String, _ lyrics: String, _ cardColor: Color) {
         print("addItem start")
-        let newItem = Card(context: viewContext)
-        print("1")
-        newItem.albumArt = stringToBinary(albumArt)
-        print("2")
+        let newItem = CardCD(context: viewContext)
+        newItem.albumArt = uiImageToBinary(albumArt)
         newItem.title = title
         newItem.singer = singer
         newItem.date = date
@@ -69,21 +45,11 @@ struct PersistenceController {
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
     }
-    
-    func deleteItems(_ viewContext: NSManagedObjectContext, items: FetchedResults<Card>, offsets: IndexSet) {
-        offsets.map { items[$0] }.forEach(viewContext.delete)
-        do {
-            try viewContext.save()
-        } catch {
-            let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-        }
-    }
-    
-    func stringToBinary(_ str: String)->Data{
-        print("stringToBinary")
-        let url = URL(string: str)!
-        let data = try? Data(contentsOf: url)
-        return data!
+}
+
+extension PersistenceController {
+    private func uiImageToBinary(_ uiImage: UIImage)->Data{
+        guard let data = uiImage.pngData() else { fatalError("이미지 data 추출 에러") }
+        return data
     }
 }
