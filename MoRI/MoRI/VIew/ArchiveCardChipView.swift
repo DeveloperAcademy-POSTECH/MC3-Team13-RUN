@@ -16,25 +16,6 @@ struct ArchiveCardChipView: View {
     let background = Color(hue: 0, saturation: 0, brightness: 91/100)
     let backgroundArchive = Color(hue: 0, saturation: 0, brightness: 1)
     
-    /* 코드 원본 저장 (수정 시 참고 후 삭제 예정)
-     // MARK: - CardChip 생성
-     var chipShapes: [CardChip]  // 저장된 카드 이미지 "art"
-     var detailChipShapes: [CardChip]    // 저장된 카드 이미지 "all"
-     var zIndexPreset: [Double]
-     var chipNumber = 0 // 저장된 카드의 수
-     
-     init() {
-     chipShapes = [CardChip]()
-     detailChipShapes = [CardChip]()
-     zIndexPreset = (1...items.count).map({ value in Double(value) / Double(1) })
-     .reversed()
-     /*
-      reversed(): 회전 방향 및 크기 원근감, 적재 순서 반대
-      */
-     chipNumber = items.count
-     }
-     */
-    
     // MARK: - Card 생성 => 앨범아트카드(CardDetailArt) / 디테일카드(CardDetailView)
     private var cardMark: [CardDetailArt] {
         var shapes = [CardDetailArt]()
@@ -82,12 +63,6 @@ struct ArchiveCardChipView: View {
         return shapes
     }
     
-    //    private var chipNumber: Int {
-    //        return items.count
-    //    }
-    
-    //    @State private var zIndexPreset: [Double] = [] // zIndexPreset을 State로 선언
-    
     // MARK: - 각도, 드래그 여부, 카드 선택 관련 변수
     @State var delta: Double = 0 // 각도 변화
     @State var currentAngle: Double = 0 // 현재 각도
@@ -118,8 +93,7 @@ struct ArchiveCardChipView: View {
                  Double(360 / cardMark.count) = 카드 1개 당 각도 범위 = standardAngle
                  */
                 
-                // 현재 카드가 음수인 경우 양수로 변환
-                withAnimation(.easeInOut(duration: 0.1)) {
+                withAnimation(.easeInOut(duration: 0.1)) {  // 현재 카드가 음수인 경우 양수로 변환
                     if tempCurrentCard < 0 {
                         currentCard = tempCurrentCard + cardMark.count
                     } else {
@@ -129,10 +103,8 @@ struct ArchiveCardChipView: View {
             }
             .onEnded { val in   // 드래그가 끝났을 때 과다 회전한 각도 보정
                 isDragging = false
-                //                if (cardMark.count > 3) {   // 3개 이하일 경우 드래그 결과 미반영
                 currentAngle += delta
                 currentAngle = Double((Int(currentAngle) % 360)) // 현재 각도를 -360 ~ 360으로 조정
-                //                }
             }
         
         
@@ -206,8 +178,9 @@ struct ArchiveCardChipView: View {
                          +: 270~ 360, -: -90~0
                          */
                         .rotation3DEffect(  // 회전 효과
-                            //                                .degrees(rotationAngle),
-                            .degrees(cardMark.count > 3 ? rotationAngle : (standardAngle / 4) * Double(index)), // 3개 이하일 경우 회전 효과 제거
+//                            .degrees(((rotationAngle >= -90 && rotationAngle <= 0) && (Int(rotationAngle) % 360) >= -90) && (Int(rotationAngle) % 360) <= 0
+//                                     || ((rotationAngle <= 360 && rotationAngle >= 270) && (Int(rotationAngle) % 360) >= 270 && (Int(rotationAngle) % 360) <= 360) ? 180.0 : Double(Int(rotationAngle) % 90)),
+                            .degrees(cardMark.count > 3 ? rotationAngle : Double(Int(rotationAngle) % 90)), // 3개 이하일 경우 회전 효과 제거
                             /*
                              360 / cardMark.count: 카드 1개가 갖는 각도
                              Double(index): 현재 카드의 인덱스
@@ -228,7 +201,6 @@ struct ArchiveCardChipView: View {
                             cardSelected.toggle()
                         }
                     }
-                    //                .padding(.bottom, -100)
                     .shadow(radius: 5, x: 12, y: -8)
                     .gesture(dragGesture)
                 }
@@ -261,6 +233,7 @@ struct ArchiveCardChipView: View {
                     }
                 }
                 
+                // 테스트용 -> 코어데이터 추가 버튼 (단, 수정 시 Persistence의 stringToBinary 형태의 것을 uiImageToBinary로 수정 필요)
                 Button(
                     action: {
                         PersistenceController().addItem(viewContext, "https://static.wixstatic.com/media/2bf4f7_3cef257862174c4c893cd4a802fde28f~mv2.jpg/v1/fill/w_640,h_640,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/2bf4f7_3cef257862174c4c893cd4a802fde28f~mv2.jpg", "제목", "가수", "2023.00.00", "가사가사가사", Color.blue)
