@@ -56,7 +56,7 @@ struct ArchiveCardChipView: View {
     
     @State private var cardSelected = false // 카드 선택 여부
     @State var selectedIndex: Int?   // 선택된 카드 index
-    
+    @State private var lastTempCurrentCard = 0
     
     var body: some View {
         var standardAngle: Double = items.count > 0 ? Double(360 / items.count) : 0  // 단위각도
@@ -73,9 +73,17 @@ struct ArchiveCardChipView: View {
                     isHapticOn = true
                 }
                 draggedOffset = accumulatedOffset + val.translation
-                playHapticFeedback()
                 
                 let tempCurrentCard = -Int(round(Double(currentAngle + delta) / min(standardAngle, 45))) % items.count
+
+                
+                if tempCurrentCard != lastTempCurrentCard {
+                    playHapticFeedback()
+                    print("tempCurrentCard \(tempCurrentCard)")
+                    print("lastTempCurrentCard \(lastTempCurrentCard)")
+                    lastTempCurrentCard = tempCurrentCard
+                }
+                
                 /*
                  현재 위치에 해당하는 카드 계산
                  현재 각도(360 ~ -360) / 단위 각도(-360/칩 개수) 반올림하여 현재 카드 계산
@@ -92,6 +100,7 @@ struct ArchiveCardChipView: View {
                         currentCard = tempCurrentCard
                     }
                 }
+                
             }
             .onEnded { val in   // 드래그가 끝났을 때 과다 회전한 각도 보정
                 isDragging = false
@@ -278,10 +287,10 @@ struct ArchiveCardChipView: View {
         // Define haptic pattern here
         var events = [CHHapticEvent]()
         
-        for i in stride(from: 0, to: 10, by: 1.0) {
-            let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: 3.0)
+        for i in stride(from: 0, to: 1, by: 1.0) {
+            let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: 0.7)
             let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: 0.5)
-            let event = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: i, duration: 100)
+            let event = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: i, duration: 10)
             events.append(event)
         }
         
