@@ -46,8 +46,8 @@ final class EditCardViewModel: ObservableObject {
         let rect = CGRect(x: 0, y: 0, width: width, height: height)
         context.draw(cgImage, in: rect)
         
-        let x = Int((draggedOffset.width+175)/350*225)
-        let y = Int((draggedOffset.height+175)/350*225)
+        let x = Int(Int(draggedOffset.width+175)*width/350)
+        let y = Int(Int(draggedOffset.height+175)*height/350)
         let pixelData = context.data?.assumingMemoryBound(to: UInt8.self)
         let offset = bytesPerRow * y + bytesPerPixel * x
         let r = Double((pixelData?[offset])!)/225
