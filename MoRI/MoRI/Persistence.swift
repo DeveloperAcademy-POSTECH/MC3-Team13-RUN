@@ -11,7 +11,7 @@ import SwiftUI
 struct PersistenceController {
     static public let shared = PersistenceController()
         
-    private let container: NSPersistentContainer
+    let container: NSPersistentContainer
     
     init() {
         print("container 연결")

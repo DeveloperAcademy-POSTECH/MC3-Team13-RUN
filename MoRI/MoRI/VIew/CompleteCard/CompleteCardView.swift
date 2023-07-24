@@ -10,7 +10,10 @@ import SwiftUI
 struct CompleteCardView: View {
     @StateObject var viewModel: CompleteCardViewModel
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.managedObjectContext) private var viewContext
+    
     @State private var isShareSheetShowing = false
+    @State private var isButtonPressed = false
 
     
     var body: some View {
@@ -39,12 +42,18 @@ struct CompleteCardView: View {
                     .lineSpacing(15)
             }
             .compositingGroup()
-            Button(action: { print("done")} ){
+            
+            Button(action: {
+                PersistenceController().addItem(viewContext, viewModel.card.albumArtUIImage, viewModel.card.title, viewModel.card.singer, viewModel.card.date, viewModel.card.lyrics, viewModel.card.cardColor)
+                isButtonPressed = true
+                print("Save")
+                
+            } ){
                 ZStack{ Rectangle()
                         .frame(width: 350, height: 60)
                         .cornerRadius(30)
                         .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
-                    Text("저장하기")
+                    Text(isButtonPressed ? "메인으로 돌아가기" : "저장하기")
                         .foregroundColor(.yellow)
                         .font(.system(size: 20, weight: .medium))
                 }
@@ -54,7 +63,7 @@ struct CompleteCardView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Image(uiImage:viewModel.card.albumArtUIImage).resizable().ignoresSafeArea().scaledToFill().blur(radius: 20))
         .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: backButton)
+        .navigationBarItems(leading: backButton, trailing: shareButton)
     }
     
     var backButton: some View {
@@ -77,7 +86,7 @@ struct CompleteCardView: View {
                 .foregroundColor(Color(hex: 0x767676))
         }
         .sheet(isPresented: $isShareSheetShowing) {
-            ActivityViewController(activityItems: [UIImage(named: "커다란")!])
+            ActivityViewController(activityItems: [viewModel.card.albumArtUIImage])
         }
     }
     
