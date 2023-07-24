@@ -21,9 +21,18 @@ struct SelectLyricsView: View {
         
         VStack{
             HStack(spacing: 11){
-                AsyncImage(url: songData.imageUrl)
-                    .frame(width: 56, height: 56)
-                    .padding(.leading, 35)
+//                AsyncImage(url: songData.imageUrl)
+//                    .frame(width: 56, height: 56)
+//                    .padding(.leading, 35)
+                
+                AsyncImage(url: songData.imageUrl) { image in
+                            image
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 56, height: 56)
+                                .padding(.leading, 35)
+                        } placeholder: {
+                        }
                 
                 VStack(alignment: .leading){
                     Text(songData.name)
@@ -67,27 +76,29 @@ struct SelectLyricsView: View {
                                 .background(selectedTexts.contains(text) ? Color.gray.opacity(0.75) : Color.clear)
                                 .foregroundColor(selectedTexts.contains(text) ? Color.white : Color.white)
                                 .cornerRadius(10)
+                            
                         }
                     }
                 }
                 .onAppear {
                     lyricsViewModel.fetchHTMLParsingResult(songData)
+                    print(songData.imageUrl)
                 }
             }
             
-            Button(action: { print("done")} ){
-                ZStack{ Rectangle()
+            
+            NavigationLink(destination: EditCardView(viewModel: EditCardViewModel(card: Card(albumArtUIImage:  UIImage(data: try! Data(contentsOf: songData.imageUrl!))!, title: songData.name, singer: songData.artist, lyrics: "\(selectedTexts[0])\n\(selectedTexts[1])" , cardColor: .gray)))){
+                ZStack{
+                    Rectangle()
                         .frame(width: 350, height: 60)
                         .cornerRadius(30)
                         .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
-                    Text("색상 선택 완료")
+                    Text("가사 선택 완료")
                         .foregroundColor(Color(red: 0.81, green : 0.92, blue: 0))
                         .font(.system(size: 20, weight: .medium))
                 }
             }
             .padding(.top, 33)
-            
-            
         }
         .background(
             Image(uiImage: UIImage(data: try! Data(contentsOf: songData.imageUrl!))!)
