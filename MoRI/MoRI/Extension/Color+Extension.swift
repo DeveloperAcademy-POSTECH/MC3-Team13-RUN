@@ -8,6 +8,12 @@
 import Foundation
 import SwiftUI
 
+#if canImport(UIKit)
+import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
+
 extension Color {
     init(hex: UInt, alpha: Double = 1.0) {
             let red = Double((hex >> 16) & 0xff) / 255.0
