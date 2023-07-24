@@ -11,34 +11,13 @@ struct ArchiveCardChipView: View {
     @State var songData: SelectedSong
     
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \CardCD.date, ascending: true)]) private var items: FetchedResults<CardCD>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \CardCD.date, ascending: true)], animation: .default) private var items: FetchedResults<CardCD>
     
     let background = Color(hue: 0, saturation: 0, brightness: 91/100)
     let backgroundArchive = Color(hue: 0, saturation: 0, brightness: 1)
     
     // MARK: - Card 생성 => 앨범아트카드(CardDetailArt) / 디테일카드(CardDetailView)
-    private var cardMark: [CardDetailArt] {
-        var shapes = [CardDetailArt]()
-        for i in (0..<items.count) {
-            shapes.append(
-                CardDetailArt(
-                    viewModel: CardDetailViewModel(
-                        card: Card(
-                            albumArtUIImage: UIImage(data: items[i].albumArt!)!,
-                            title: items[i].title!,
-                            singer: items[i].singer!,
-                            lyrics: items[i].lyrics ?? "No Lyrics",
-                            cardColor: Color(red: items[i].cardColorR,
-                                             green: items[i].cardColorG,
-                                             blue: items[i].cardColorB,
-                                             opacity: items[i].cardColorA)
-                        )
-                    )
-                )
-            )
-        }
-        return shapes
-    }
+//    @State private var cardMark = [Card]()
     
     private var detailCardMark: [CardDetailView] {
         var shapes = [CardDetailView]()
@@ -74,7 +53,7 @@ struct ArchiveCardChipView: View {
     
     
     var body: some View {
-        var standardAngle: Double = cardMark.count > 0 ? Double(360 / cardMark.count) : 0  // 단위각도
+        var standardAngle: Double = items.count > 0 ? Double(360 / items.count) : 0  // 단위각도
         let zIndexPreset = items.count > 0 ? (1...items.count).map { value in Double(value) / Double(1) }.reversed() : []
         
         // MARK: - Drag Gesture
@@ -83,7 +62,7 @@ struct ArchiveCardChipView: View {
                 isDragging = true
                 delta = -val.translation.height  // 높이 위치 값 변화 반영
                 
-                let tempCurrentCard = -Int(round(Double(currentAngle + delta) / min(standardAngle, 45))) % cardMark.count
+                let tempCurrentCard = -Int(round(Double(currentAngle + delta) / min(standardAngle, 45))) % items.count
                 /*
                  현재 위치에 해당하는 카드 계산
                  현재 각도(360 ~ -360) / 단위 각도(-360/칩 개수) 반올림하여 현재 카드 계산
@@ -95,7 +74,7 @@ struct ArchiveCardChipView: View {
                 
                 withAnimation(.easeInOut(duration: 0.1)) {  // 현재 카드가 음수인 경우 양수로 변환
                     if tempCurrentCard < 0 {
-                        currentCard = tempCurrentCard + cardMark.count
+                        currentCard = tempCurrentCard + items.count
                     } else {
                         currentCard = tempCurrentCard
                     }
@@ -140,21 +119,32 @@ struct ArchiveCardChipView: View {
                         .padding(.bottom, 545)
                      */
                     
-                    ForEach(0 ..< cardMark.count) { index in
+                    ForEach(items) { item in
                         // 0도를 기준으로 절대적인 인덱스 계산
                         
                         // 현재 카드(currentCard)를 중첩레벨(relativeIndex) 기준 0으로 설정 후 순차적으로 중첩레벨 반영
-                        let tempRelativeIndex = index - currentCard
-                        let relativeIndex = tempRelativeIndex < 0 ? tempRelativeIndex + cardMark.count : tempRelativeIndex
+                        let tempRelativeIndex = items.firstIndex(of: item)! - currentCard
+                        let relativeIndex = tempRelativeIndex < 0 ? tempRelativeIndex + items.count : tempRelativeIndex
                         
                         // 범위 밖(음수)인 중첩레벨 양수로 보정
-                        let tempCorrectedRelativeIndex = relativeIndex + cardMark.count/2
-                        let correctedRelativeIndex = tempCorrectedRelativeIndex >= cardMark.count ? tempCorrectedRelativeIndex - cardMark.count : tempCorrectedRelativeIndex
+                        let tempCorrectedRelativeIndex = relativeIndex + items.count/2
+                        let correctedRelativeIndex = tempCorrectedRelativeIndex >= items.count ? tempCorrectedRelativeIndex - items.count : tempCorrectedRelativeIndex
                         
-                        let rotationAngle = (standardAngle) * Double(index) + (isDragging ? currentAngle + delta : currentAngle)
+                        let rotationAngle = (standardAngle) * Double(items.firstIndex(of: item)!) + (isDragging ? currentAngle + delta : currentAngle)
                         ZStack (alignment: .top) {
-                            cardMark[index]
-                            Text("\(index)")    // 테스트용 -> 카드 번호 구분
+                            // MARK: - Card 생성 => 앨범아트카드(CardDetailArt)
+                            CardDetailArt(viewModel: CardDetailViewModel(
+                                card: Card(
+                                    albumArtUIImage: UIImage(data: item.albumArt!)!,
+                                    title: item.title!,
+                                    singer: item.singer!,
+                                    lyrics: item.lyrics ?? "No Lyrics",
+                                    cardColor: Color(red: item.cardColorR,
+                                                     green: item.cardColorG,
+                                                     blue: item.cardColorB,
+                                                     opacity: item.cardColorA)
+                                )))
+                            Text("\(items.firstIndex(of: item)!)")    // 테스트용 -> 카드 번호 구분
                                 .font(Font.custom("HelveticaNeue-Bold", size: 90))
                                 .foregroundColor(.white)
                         }
@@ -162,7 +152,7 @@ struct ArchiveCardChipView: View {
                         .padding(.bottom, 150) // for "top"
                         .zIndex(zIndexPreset[correctedRelativeIndex])
                         .opacity(   // 출력 부분 범위 설정
-                            cardMark.count <= 3 ? 1 :
+                            items.count <= 3 ? 1 :
                                 (rotationAngle <= 0 && (Int(rotationAngle) % 360) >= -90) && (Int(rotationAngle) % 360) <= 0
                             || (rotationAngle >= 0 && (Int(rotationAngle) % 360) >= 270 && (Int(rotationAngle) % 360) <= 360) ? 1 : 0
                         )  // 회전된 각도가 90 이상인 경우 투명도 조정
@@ -180,7 +170,7 @@ struct ArchiveCardChipView: View {
                          +: 270~ 360, -: -90~0
                          */
                         .rotation3DEffect(  // 회전 효과
-                            .degrees(cardMark.count > 3 ? rotationAngle : Double(Int(rotationAngle) % 90)), // 3개 이하일 경우 위에서만 보이도록 수정
+                            .degrees(items.count > 3 ? rotationAngle : Double(Int(rotationAngle) % 90)), // 3개 이하일 경우 위에서만 보이도록 수정
                             /*
                              360 / cardMark.count: 카드 1개가 갖는 각도
                              Double(index): 현재 카드의 인덱스
@@ -197,11 +187,11 @@ struct ArchiveCardChipView: View {
                              */
                         )
                         .onTapGesture {
-                            selectedIndex = index
+                            selectedIndex = items.firstIndex(of: item)!
                             cardSelected.toggle()
                         }
                     }
-                    .shadow(radius: 5, x: 12, y: -8)
+                    .shadow(radius: 5, x: 8, y: -4)
                     .gesture(dragGesture)
                 }
                 .frame(width: 350, height: 585, alignment: .center)
@@ -237,6 +227,7 @@ struct ArchiveCardChipView: View {
                 Button(
                     action: {
                         PersistenceController().addItem(viewContext, "https://static.wixstatic.com/media/2bf4f7_3cef257862174c4c893cd4a802fde28f~mv2.jpg/v1/fill/w_640,h_640,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/2bf4f7_3cef257862174c4c893cd4a802fde28f~mv2.jpg", "제목", "가수", "2023.00.00", "가사가사가사", Color.blue)
+
                     }, label: {
                         ZStack{
                             Circle()
