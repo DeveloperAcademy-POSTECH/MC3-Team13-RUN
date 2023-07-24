@@ -1,17 +1,16 @@
 {
   "images" : [
     {
-      "filename" : "다운로드 3.png",
+      "filename" : "moriLogo.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "다운로드 4.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "다운로드.png",
+      "filename" : "moriLogo3.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

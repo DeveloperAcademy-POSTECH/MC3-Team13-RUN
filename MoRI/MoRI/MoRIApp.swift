@@ -18,7 +18,7 @@ struct MoRIApp: App {
 //                        ContentView()
             //            SearchMusicView(selectedSong: selectedSong)
 //            MainView(songData: songData)
-            ArchiveCardChipView()
+            ArchiveCardChipView(songData: songData)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

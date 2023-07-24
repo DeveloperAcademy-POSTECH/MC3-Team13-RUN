@@ -89,7 +89,7 @@ final class EditCardViewModel: ObservableObject {
     }
 }
 
-
+/* Color+Extension과 중복되어 주석처리함
 extension Color {
 
     var components: (r: Double, g: Double, b: Double, a: Double) {
@@ -110,3 +110,4 @@ extension Color {
         return (Double(r), Double(g), Double(b), Double(a))
     }
 }
+*/
