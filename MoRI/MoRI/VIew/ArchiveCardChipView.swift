@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreHaptics
 
 struct ArchiveCardChipView: View {
     @State var songData: SelectedSong
@@ -16,8 +17,13 @@ struct ArchiveCardChipView: View {
     let background = Color(hue: 0, saturation: 0, brightness: 91/100)
     let backgroundArchive = Color(hue: 0, saturation: 0, brightness: 1)
     
+    @State private var isHapticOn = false
+    @State private var engine: CHHapticEngine?
+    @State private var draggedOffset = CGSize.zero
+    @State private var accumulatedOffset = CGSize.zero
+    
     // MARK: - Card 생성 => 앨범아트카드(CardDetailArt) / 디테일카드(CardDetailView)
-//    @State private var cardMark = [Card]()
+    //    @State private var cardMark = [Card]()
     
     private var detailCardMark: [CardDetailView] {
         var shapes = [CardDetailView]()
@@ -50,7 +56,7 @@ struct ArchiveCardChipView: View {
     
     @State private var cardSelected = false // 카드 선택 여부
     @State var selectedIndex: Int?   // 선택된 카드 index
-    
+    @State private var lastTempCurrentCard = 0
     
     var body: some View {
         var standardAngle: Double = items.count > 0 ? Double(360 / items.count) : 0  // 단위각도
@@ -62,7 +68,22 @@ struct ArchiveCardChipView: View {
                 isDragging = true
                 delta = -val.translation.height  // 높이 위치 값 변화 반영
                 
+                if !isHapticOn {
+                    prepareHaptics()
+                    isHapticOn = true
+                }
+                draggedOffset = accumulatedOffset + val.translation
+                
                 let tempCurrentCard = -Int(round(Double(currentAngle + delta) / min(standardAngle, 45))) % items.count
+
+                
+                if tempCurrentCard != lastTempCurrentCard {
+                    playHapticFeedback()
+                    print("tempCurrentCard \(tempCurrentCard)")
+                    print("lastTempCurrentCard \(lastTempCurrentCard)")
+                    lastTempCurrentCard = tempCurrentCard
+                }
+                
                 /*
                  현재 위치에 해당하는 카드 계산
                  현재 각도(360 ~ -360) / 단위 각도(-360/칩 개수) 반올림하여 현재 카드 계산
@@ -79,11 +100,15 @@ struct ArchiveCardChipView: View {
                         currentCard = tempCurrentCard
                     }
                 }
+                
             }
             .onEnded { val in   // 드래그가 끝났을 때 과다 회전한 각도 보정
                 isDragging = false
                 currentAngle += delta
                 currentAngle = Double((Int(currentAngle) % 360)) // 현재 각도를 -360 ~ 360으로 조정
+                accumulatedOffset = accumulatedOffset + val.translation
+                stopHapticFeedback()
+                isHapticOn = false
             }
         
         
@@ -112,11 +137,11 @@ struct ArchiveCardChipView: View {
                 // MARK: - Wheel 형태의 로테이션 애니메이션 효과
                 ZStack {
                     /*
-                    // 모은 카드
-                    Text("모은 카드")
-                        .font(.system(size: 20, weight: .medium))
-                        .padding(.top, 17)
-                        .padding(.bottom, 545)
+                     // 모은 카드
+                     Text("모은 카드")
+                     .font(.system(size: 20, weight: .medium))
+                     .padding(.top, 17)
+                     .padding(.bottom, 545)
                      */
                     
                     ForEach(items) { item in
@@ -227,7 +252,7 @@ struct ArchiveCardChipView: View {
                 Button(
                     action: {
                         PersistenceController().addItem(viewContext, "https://static.wixstatic.com/media/2bf4f7_3cef257862174c4c893cd4a802fde28f~mv2.jpg/v1/fill/w_640,h_640,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/2bf4f7_3cef257862174c4c893cd4a802fde28f~mv2.jpg", "제목", "가수", "2023.00.00", "가사가사가사", Color.blue)
-
+                        
                     }, label: {
                         ZStack{
                             Circle()
@@ -245,5 +270,45 @@ struct ArchiveCardChipView: View {
                 selectedIndex = nil
             }
         }
+    }
+    
+    func prepareHaptics() {
+        do {
+            engine = try CHHapticEngine()
+            try engine?.start()
+        } catch {
+            print("Creating engine error: \(error.localizedDescription)")
+        }
+    }
+    
+    func playHapticFeedback() {
+        guard let engine = engine else { return }
+        
+        // Define haptic pattern here
+        var events = [CHHapticEvent]()
+        
+        for i in stride(from: 0, to: 1, by: 1.0) {
+            let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: 0.7)
+            let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: 0.5)
+            let event = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: i, duration: 10)
+            events.append(event)
+        }
+        
+        do {
+            let pattern = try CHHapticPattern(events: events, parameters: [])
+            let player = try engine.makeAdvancedPlayer(with: pattern)
+            try player.start(atTime: 0)
+        } catch {
+            print("Failed to play pattern \(error.localizedDescription)")
+        }
+    }
+    
+    func stopHapticFeedback() {
+        guard let engine = engine else { return }
+        engine.stop(completionHandler: { (error) in
+            if let error = error {
+                print("Stopping haptic engine error: \(error.localizedDescription)")
+            }
+        })
     }
 }
