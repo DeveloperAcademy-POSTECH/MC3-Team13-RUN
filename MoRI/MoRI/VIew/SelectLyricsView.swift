@@ -12,7 +12,10 @@ struct SelectLyricsView: View {
     @ObservedObject var lyricsViewModel: SelectLyricsViewModel
     @Binding var songData: SelectedSong
     
-    @State private var selectedTexts: [String] = []
+
+    @State private var selectedTexts: [String] = Array(repeating: "", count: 4)
+
+//    @State private var selectedTexts: [String] = []
     @State private var startSelectionIndex: Int?
     
     @Environment(\.dismiss) private var dismiss
@@ -21,9 +24,6 @@ struct SelectLyricsView: View {
         
         VStack{
             HStack(spacing: 11){
-//                AsyncImage(url: songData.imageUrl)
-//                    .frame(width: 56, height: 56)
-//                    .padding(.leading, 35)
                 
                 AsyncImage(url: songData.imageUrl) { image in
                             image
@@ -57,7 +57,6 @@ struct SelectLyricsView: View {
                                 let range = startIndex...endIndex
                                 
                                 
-                                
                                 selectedTexts = lyricsViewModel.lyrics[range].map { $0 }
                                 startSelectionIndex = nil
                             } else {
@@ -82,12 +81,10 @@ struct SelectLyricsView: View {
                 }
                 .onAppear {
                     lyricsViewModel.fetchHTMLParsingResult(songData)
-                    print(songData.imageUrl)
                 }
             }
             
-            
-            NavigationLink(destination: EditCardView(viewModel: EditCardViewModel(card: Card(albumArtUIImage:  UIImage(data: try! Data(contentsOf: songData.imageUrl!))!, title: songData.name, singer: songData.artist, lyrics: "\(selectedTexts[0])\n\(selectedTexts[1])" , cardColor: .gray)))){
+            NavigationLink(destination: EditCardView(viewModel: EditCardViewModel(card: Card(albumArtUIImage:  UIImage(data: try! Data(contentsOf: songData.imageUrl!))!, title: songData.name, singer: songData.artist, lyrics: selectedLyrics, cardColor: .gray)))){
                 ZStack{
                     Rectangle()
                         .frame(width: 350, height: 60)
@@ -114,6 +111,11 @@ struct SelectLyricsView: View {
         
         
     }
+    
+    var selectedLyrics: String {
+            let selectedTextsFiltered = selectedTexts.prefix(4).filter { !$0.isEmpty }
+            return selectedTextsFiltered.joined(separator: "\n")
+        }
     
     var backButton: some View {
         Button(action: {
