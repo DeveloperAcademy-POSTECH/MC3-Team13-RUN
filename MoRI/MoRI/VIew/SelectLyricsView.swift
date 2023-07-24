@@ -12,42 +12,106 @@ struct SelectLyricsView: View {
     @ObservedObject var lyricsViewModel: SelectLyricsViewModel
     @Binding var songData: SelectedSong
     
+//    @StateObject var viewModel: EditCardViewModel
+    @State private var selectedTexts: [String] = []
+    @State private var startSelectionIndex: Int?
+    
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         VStack{
-            HStack {
+            HStack(spacing: 11){
                 AsyncImage(url: songData.imageUrl)
-                    .frame(width: 56, height: 56, alignment: .center)
-                   
-                Spacer()
+                    .frame(width: 56, height: 56)
+                    .padding(.leading, 35)
                 
-                VStack{
+                VStack(alignment: .leading){
                     Text(songData.name)
                         .foregroundColor(Color(hex: 0x111111))
                         .font(.system(size: 14.48276))
-                    Text(songData.artist)
+                    Text("노래 · " + songData.artist)
                         .foregroundColor(Color(hex: 0x767676))
                         .font(.system(size: 14.48276))
                 }
-                
                 Spacer()
             }
             
-            ScrollView{
-                VStack {
+            
+            ScrollView {
+                VStack{
                     ForEach(lyricsViewModel.lyrics.indices, id: \.self) { index in
-                        Text(lyricsViewModel.removeCharactersInsideBrackets(from: lyricsViewModel.lyrics[index]))
-                            .padding()
+                        let text = lyricsViewModel.removeCharactersInsideBrackets(from: lyricsViewModel.lyrics[index])
+                        Button(action: {
+                            if let start = startSelectionIndex {
+                                let startIndex = min(start, index)
+                                let endIndex = max(start, index)
+                                let range = startIndex...endIndex
+                                
+//                                if selectedTexts.count <= 3 {
+//                                    selectedTexts = lyricsViewModel.lyrics[range].map { $0 }
+//                                } else {
+//                                    // 이미 4개 선택된 경우 더 선택하지 않음
+//                                    return
+//                                }
+                                
+                                selectedTexts = lyricsViewModel.lyrics[range].map { $0 }
+                                startSelectionIndex = nil
+                            } else {
+                                if selectedTexts.contains(text) {
+                                    selectedTexts.removeAll { $0 == text }
+                                } else {
+                                    selectedTexts.append(text)
+                                    startSelectionIndex = index
+                                }
+                            }
+                        }) {
+                            Text(text)
+                                .padding()
+                                .font(.system(size: 34, weight : .medium))
+                                .lineSpacing(30)
+                                .background(selectedTexts.contains(text) ? Color.gray : Color.clear)
+                                .foregroundColor(selectedTexts.contains(text) ? Color.white : Color.black)
+                                .cornerRadius(10)
+                        }
                     }
                 }
                 .onAppear {
                     lyricsViewModel.fetchHTMLParsingResult(songData)
-                }
+                                }
             }
+            
+            Button(action: { print("done")} ){
+                            ZStack{ Rectangle()
+                                .frame(width: 350, height: 60)
+                                .cornerRadius(30)
+                                .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
+                                Text("색상 선택 완료")
+                                    .foregroundColor(Color(red: 0.81, green : 0.92, blue: 0))
+                                .font(.system(size: 20, weight: .medium))
+                            }
+                        }
+                        .padding(.top, 33)
+//                    .background(Image(uiImage:viewModel.card.albumArtUIImage).resizable().ignoresSafeArea().scaledToFill().blur(radius: 20))
+                
+            
+            
+//            ScrollView{
+//                VStack {
+//                    ForEach(lyricsViewModel.lyrics.indices, id: \.self) { index in
+//                        Text(lyricsViewModel.removeCharactersInsideBrackets(from: lyricsViewModel.lyrics[index]))
+//                            .padding()
+//                    }
+//                }
+//                .onAppear {
+//                    lyricsViewModel.fetchHTMLParsingResult(songData)
+//                }
+//            }
         }
+        .background(Image(uiImage:viewModel.card.albumArtUIImage).resizable().ignoresSafeArea().scaledToFill().blur(radius: 20))
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: backButton)
+        
     }
     
     var backButton: some View {
