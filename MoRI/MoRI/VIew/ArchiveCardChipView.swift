@@ -132,11 +132,13 @@ struct ArchiveCardChipView: View {
                 
                 // MARK: - Wheel 형태의 로테이션 애니메이션 효과
                 ZStack {
+                    /*
                     // 모은 카드
                     Text("모은 카드")
                         .font(.system(size: 20, weight: .medium))
                         .padding(.top, 17)
                         .padding(.bottom, 545)
+                     */
                     
                     ForEach(0 ..< cardMark.count) { index in
                         // 0도를 기준으로 절대적인 인덱스 계산
@@ -157,7 +159,7 @@ struct ArchiveCardChipView: View {
                                 .foregroundColor(.white)
                         }
                         .scaleEffect(0.59)
-                        .padding(.bottom, 120) // for "top"
+                        .padding(.bottom, 150) // for "top"
                         .zIndex(zIndexPreset[correctedRelativeIndex])
                         .opacity(   // 출력 부분 범위 설정
                             cardMark.count <= 3 ? 1 :
@@ -178,9 +180,7 @@ struct ArchiveCardChipView: View {
                          +: 270~ 360, -: -90~0
                          */
                         .rotation3DEffect(  // 회전 효과
-//                            .degrees(((rotationAngle >= -90 && rotationAngle <= 0) && (Int(rotationAngle) % 360) >= -90) && (Int(rotationAngle) % 360) <= 0
-//                                     || ((rotationAngle <= 360 && rotationAngle >= 270) && (Int(rotationAngle) % 360) >= 270 && (Int(rotationAngle) % 360) <= 360) ? 180.0 : Double(Int(rotationAngle) % 90)),
-                            .degrees(cardMark.count > 3 ? rotationAngle : Double(Int(rotationAngle) % 90)), // 3개 이하일 경우 회전 효과 제거
+                            .degrees(cardMark.count > 3 ? rotationAngle : Double(Int(rotationAngle) % 90)), // 3개 이하일 경우 위에서만 보이도록 수정
                             /*
                              360 / cardMark.count: 카드 1개가 갖는 각도
                              Double(index): 현재 카드의 인덱스
@@ -221,7 +221,7 @@ struct ArchiveCardChipView: View {
                                 axis: (-5,1,0),
                                 perspective: 0.3
                             )
-                            .animation(Animation.easeInOut(duration: 0.25))  // 표출
+                            .animation(Animation.easeInOut(duration: 0.25))
                             .onTapGesture() {
                                 self.cardSelected = false
                             }
