@@ -251,7 +251,7 @@ struct ArchiveCardChipView: View {
                 // 테스트용 -> 코어데이터 추가 버튼 (단, 수정 시 Persistence의 stringToBinary 형태의 것을 uiImageToBinary로 수정 필요)
                 Button(
                     action: {
-                        PersistenceController().addItem(viewContext, "https://static.wixstatic.com/media/2bf4f7_3cef257862174c4c893cd4a802fde28f~mv2.jpg/v1/fill/w_640,h_640,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/2bf4f7_3cef257862174c4c893cd4a802fde28f~mv2.jpg", "제목", "가수", "2023.00.00", "가사가사가사", Color.blue)
+                        PersistenceController().addItem(viewContext, UIImage(named: "test") ?? UIImage(), "제목", "가수", "2023.00.01", "가사가사가사", Color.blue)
                         
                     }, label: {
                         ZStack{
