@@ -38,11 +38,11 @@ class SelectLyricsViewModel: ObservableObject {
                     var lyricsText = ""
                     for element in container.array() {
                         let lines = try element.html()
-                            .replacingOccurrences(of: "<br>", with: "")
+                            .replacingOccurrences(of: "<br>", with: " ")
                             .replacingOccurrences(of: "</br>", with: " ")
-                            .replacingOccurrences(of: "<b>", with: "")
+                            .replacingOccurrences(of: "<b>", with: " ")
                             .replacingOccurrences(of: "</b>", with: " ")
-                            .replacingOccurrences(of: "<i>", with: "")
+                            .replacingOccurrences(of: "<i>", with: " ")
                             .replacingOccurrences(of: "</i>", with: " ")
                             .replacingOccurrences(of: "\n\n", with: " ")
                         lyricsText += lines
