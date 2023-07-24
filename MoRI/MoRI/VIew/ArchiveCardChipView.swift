@@ -95,7 +95,6 @@ struct ArchiveCardChipView: View {
     @State var isDragging = false   // 드래그 여부
     
     @State private var cardSelected = false // 카드 선택 여부
-    @State private var selectedChip: CardChip?  // 선택된 카드
     @State var selectedIndex: Int?   // 선택된 카드 index
     
     
@@ -280,7 +279,6 @@ struct ArchiveCardChipView: View {
             .onTapGesture {
                 // 다른 곳을 탭하면 선택된 카드 해제
                 selectedIndex = nil
-                selectedChip = nil
             }
         }
     }
