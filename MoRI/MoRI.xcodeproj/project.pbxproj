@@ -34,6 +34,9 @@
 		C18294692A6630090027577F /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18294682A6630090027577F /* MainView.swift */; };
 		C182946C2A66B8750027577F /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C182946B2A66B8750027577F /* View+Extension.swift */; };
 		C182946E2A66C8B90027577F /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C182946D2A66C8B90027577F /* Color+Extension.swift */; };
+		D1A8D1722A6E7BEC0086BF9B /* CompleteCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A8D1712A6E7BEC0086BF9B /* CompleteCardView.swift */; };
+		D1A8D1742A6E7BFF0086BF9B /* CompleteCardTop.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A8D1732A6E7BFF0086BF9B /* CompleteCardTop.swift */; };
+		D1A8D1762A6E7C130086BF9B /* CompleteCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A8D1752A6E7C130086BF9B /* CompleteCardViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +70,9 @@
 		C18294682A6630090027577F /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		C182946B2A66B8750027577F /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		C182946D2A66C8B90027577F /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
+		D1A8D1712A6E7BEC0086BF9B /* CompleteCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteCardView.swift; sourceTree = "<group>"; };
+		D1A8D1732A6E7BFF0086BF9B /* CompleteCardTop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteCardTop.swift; sourceTree = "<group>"; };
+		D1A8D1752A6E7C130086BF9B /* CompleteCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteCardViewModel.swift; sourceTree = "<group>"; };
 		DC20D5CE2BA6D6711AED29AF /* Pods-MoRI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoRI.debug.xcconfig"; path = "Target Support Files/Pods-MoRI/Pods-MoRI.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -168,6 +174,7 @@
 		C182945D2A6626830027577F /* VIew */ = {
 			isa = PBXGroup;
 			children = (
+				D1A8D1702A6E7BD70086BF9B /* CompleteCard */,
 				6CDE92C42A6CA61B00A569BD /* CardDetail */,
 				6CDE92B52A6BF1FA00A569BD /* EditCard */,
 				C18294602A6627520027577F /* SearchMusicView.swift */,
@@ -184,6 +191,7 @@
 				C1749AFE2A677D6900C089DB /* SelectLyricsViewModel.swift */,
 				6CDE92BA2A6BF27000A569BD /* EditCardViewModel.swift */,
 				6CDE92C22A6CA4CF00A569BD /* CardDetailViewModel.swift */,
+				D1A8D1752A6E7C130086BF9B /* CompleteCardViewModel.swift */,
 			);
 			path = VIewModel;
 			sourceTree = "<group>";
@@ -205,6 +213,15 @@
 				6CDE92BE2A6BF2A800A569BD /* CGSize+Extension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		D1A8D1702A6E7BD70086BF9B /* CompleteCard */ = {
+			isa = PBXGroup;
+			children = (
+				D1A8D1712A6E7BEC0086BF9B /* CompleteCardView.swift */,
+				D1A8D1732A6E7BFF0086BF9B /* CompleteCardTop.swift */,
+			);
+			path = CompleteCard;
 			sourceTree = "<group>";
 		};
 		FE8C2CE3AE0645A24A0A375B /* Frameworks */ = {
@@ -347,10 +364,13 @@
 				C18294652A6627840027577F /* SearchMusicViewModel.swift in Sources */,
 				6CDE92C62A6CA63200A569BD /* CardDetailTop.swift in Sources */,
 				6CDE92C32A6CA4CF00A569BD /* CardDetailViewModel.swift in Sources */,
+				D1A8D1742A6E7BFF0086BF9B /* CompleteCardTop.swift in Sources */,
+				D1A8D1722A6E7BEC0086BF9B /* CompleteCardView.swift in Sources */,
 				C1749AFF2A677D6900C089DB /* SelectLyricsViewModel.swift in Sources */,
 				6CC611BE2A6570B300B171FD /* MoRIApp.swift in Sources */,
 				6CDE92BF2A6BF2A800A569BD /* CGSize+Extension.swift in Sources */,
 				C182946E2A66C8B90027577F /* Color+Extension.swift in Sources */,
+				D1A8D1762A6E7C130086BF9B /* CompleteCardViewModel.swift in Sources */,
 				6CDE92BB2A6BF27000A569BD /* EditCardViewModel.swift in Sources */,
 				C18294612A6627530027577F /* SearchMusicView.swift in Sources */,
 			);
