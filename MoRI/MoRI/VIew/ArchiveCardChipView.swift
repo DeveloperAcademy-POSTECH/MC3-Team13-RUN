@@ -15,39 +15,13 @@ struct ArchiveCardChipView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \CardCD.date, ascending: true)], animation: .default) private var items: FetchedResults<CardCD>
     
-    let background = Color(hue: 0, saturation: 0, brightness: 91/100)
-    let backgroundArchive = Color(hue: 0, saturation: 0, brightness: 1)
-    
     @State private var isHapticOn = false
     @State private var engine: CHHapticEngine?
     @State private var draggedOffset = CGSize.zero
     @State private var accumulatedOffset = CGSize.zero
     
-    // MARK: - Card 생성 => 앨범아트카드(CardDetailArt) / 디테일카드(CardDetailView)
-    //    @State private var cardMark = [Card]()
-    
-    private var detailCardMark: [CardDetailView] {
-        var shapes = [CardDetailView]()
-        for i in (0..<items.count) {
-            shapes.append(
-                CardDetailView(
-                    viewModel: CardDetailViewModel(
-                        card: Card(
-                            albumArtUIImage: UIImage(data: items[i].albumArt!)!,
-                            title: items[i].title!,
-                            singer: items[i].singer!,
-                            lyrics: items[i].lyrics ?? "No Lyrics",
-                            cardColor: Color(red: items[i].cardColorR,
-                                             green: items[i].cardColorG,
-                                             blue: items[i].cardColorB,
-                                             opacity: items[i].cardColorA)
-                        )
-                    )
-                )
-            )
-        }
-        return shapes
-    }
+    let background = Color(hue: 0, saturation: 0, brightness: 91/100)
+    let backgroundArchive = Color(hue: 0, saturation: 0, brightness: 1)
     
     // MARK: - 각도, 드래그 여부, 카드 선택 관련 변수
     @State var delta: Double = 0 // 각도 변화
@@ -100,8 +74,7 @@ struct ArchiveCardChipView: View {
                 stopHapticFeedback()
                 isHapticOn = false
             }
-        
-        
+        // MARK: - Navigation
         NavigationStack {
             ZStack {
                 background.frame(width:UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
@@ -158,6 +131,7 @@ struct ArchiveCardChipView: View {
                                                      opacity: item.cardColorA)
                                 )))
                         }
+                        // MARK: - Card 생성 => 앨범아트카드(CardDetailArt) 효과
                         .scaleEffect(0.59)
                         .padding(.bottom, 150) // for "top"
                         .zIndex(zIndexPreset[correctedRelativeIndex])
@@ -209,11 +183,29 @@ struct ArchiveCardChipView: View {
                     }
                     
                     // MARK: - 디테일 화면 삭제/공유 버튼
-                    HStack {
+                    HStack (spacing: 37) {
                         // 삭제버튼
+                        Circle()
+                            .foregroundColor(Color.white.opacity(0.15))
+                            .frame(width: 39, height: 39)
+                            .overlay {
+                                Image(systemName: "trash.fill")
+                                    .frame(width: 39, height: 39)
+                                    .foregroundColor(.white)
+                            }
                         // 공유버튼
+                        Circle()
+                            .foregroundColor(Color.white.opacity(0.15))
+                            .frame(width: 39, height: 39)
+                            .overlay {
+                                Image(systemName: "square.and.arrow.up")
+                                    .frame(width: 39, height: 39)
+                                    .foregroundColor(.white)
+                            }
                     }
+                    .offset(x: 117.5, y: -346.5)
                 }
+                // MARK: - Card 디테일 화면 생성 => 앨범디테일카드(CardDetailView) 효과
                 .opacity(cardSelected ? 1.0 : 0.0)
                 .scaleEffect(cardSelected ? 1 : 0)
                 .rotation3DEffect(
@@ -227,6 +219,7 @@ struct ArchiveCardChipView: View {
         }
     }
     
+    // MARK: - Haptic 함수
     func prepareHaptics() {
         do {
             engine = try CHHapticEngine()
