@@ -10,9 +10,8 @@ import SwiftUI
 struct SearchMusicView: View {
     @ObservedObject var musicViewModel = SearchMusicViewModel()
     @ObservedObject var lyricsViewModel = SelectLyricsViewModel()
-    @Binding var songData: SelectedSong
+    @State var songData = SelectedSong(name: "", artist: "")
     
-
     
     @Environment(\.dismiss) private var dismiss
     
@@ -29,6 +28,7 @@ struct SearchMusicView: View {
                             switch phase {
                             case.success(let image):
                                 image
+                                    .resizable()
                                     .frame(width: 56, height: 56, alignment: .center)
                                     .cornerRadius(4.8)
                             case .failure(_):
