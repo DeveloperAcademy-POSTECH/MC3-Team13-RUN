@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct MoRIApp: App {
 //    private let selectedSong = SelectedSong(name: "", artist: "", imageUrl: nil)
-    @State var songData: SelectedSong = SelectedSong(name: "", artist: "", imageUrl: nil)
+//    @State var songData: SelectedSong = SelectedSong(name: "", artist: "", imageUrl: nil)
     let persistenceController = PersistenceController.shared
 
     
@@ -18,7 +18,7 @@ struct MoRIApp: App {
         WindowGroup {
 //                        ContentView()
             //            SearchMusicView(selectedSong: selectedSong)
-            MainView(songData: songData)
+            MainView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

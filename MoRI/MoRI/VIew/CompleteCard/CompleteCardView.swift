@@ -13,7 +13,7 @@ struct CompleteCardView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
     @Environment(\.presentationMode) private var presentationMode
-
+    
     @State private var isShareSheetShowing = false
     @State private var isButtonPressed = false
     @State private var isNavigateToMain = false
@@ -47,34 +47,78 @@ struct CompleteCardView: View {
             }
             .compositingGroup()
             
-            Button(action: {
-                PersistenceController().addItem(viewContext, viewModel.card.albumArtUIImage, viewModel.card.title, viewModel.card.singer, viewModel.card.date, viewModel.card.lyrics, viewModel.card.cardColor)
-                isButtonPressed = true
-                
+            
+            NavigationStack {
+                VStack {
+                    if !isButtonPressed {
+                        Button(action: {
+                            PersistenceController().addItem(viewContext, viewModel.card.albumArtUIImage, viewModel.card.title, viewModel.card.singer, viewModel.card.date, viewModel.card.lyrics, viewModel.card.cardColor)
+                            isButtonPressed.toggle()
+                        }) {
+                            ZStack {
+                                Rectangle()
+                                    .frame(width: 350, height: 60)
+                                    .cornerRadius(30)
+                                    .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
+                                Text("저장하기")
+                                    .foregroundColor(.yellow)
+                                    .font(.system(size: 20, weight: .medium))
+                            }
+                        }
+                        .padding(.top, 33)
+                    } else {
+                        Button(action: {
+                            isNavigateToMain = true
+                        }) {
+                            ZStack {
+                                Rectangle()
+                                    .frame(width: 350, height: 60)
+                                    .cornerRadius(30)
+                                    .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
+                                Text("메인으로 돌아가기")
+                                    .foregroundColor(.yellow)
+                                    .font(.system(size: 20, weight: .medium))
+                            }
+                        }
+                        .padding(.top, 33)
+                        .background(
+                            NavigationLink(destination: MainView(), isActive: $isNavigateToMain) {
+                                EmptyView()
+                            }
+                        )
+                    }
+                }
+            }
+            
+//            Button(action: {
+//                PersistenceController().addItem(viewContext, viewModel.card.albumArtUIImage, viewModel.card.title, viewModel.card.singer, viewModel.card.date, viewModel.card.lyrics, viewModel.card.cardColor)
+//                isButtonPressed = true
+//
+//
+////                if isNavigateToMain{
+////                    presentationMode.wrappedValue.dismiss() // 해당 버튼 클릭 시 뷰 닫기 (루트 뷰로 돌아가기)
+////                }
+//
+//
 //                if isNavigateToMain{
-//                    presentationMode.wrappedValue.dismiss() // 해당 버튼 클릭 시 뷰 닫기 (루트 뷰로 돌아가기)
-//                }
-//                if isNavigateToMain{
-//                    NavigationLink(destination: MainView(), isActive: $isButtonPressed) {
+//                    NavigationLink(destination: MainView()) {
 //                                    EmptyView()
 //                                }
 //
 //                }
-                isNavigateToMain = true
-
-
-                
-            } ){
-                ZStack{ Rectangle()
-                        .frame(width: 350, height: 60)
-                        .cornerRadius(30)
-                        .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
-                    Text(isButtonPressed ? "메인으로 돌아가기" : "저장하기")
-                        .foregroundColor(.yellow)
-                        .font(.system(size: 20, weight: .medium))
-                }
-            }
-            .padding(.top, 33)
+//                isNavigateToMain = true
+//
+//            } ){
+//                ZStack{ Rectangle()
+//                        .frame(width: 350, height: 60)
+//                        .cornerRadius(30)
+//                        .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
+//                    Text(isButtonPressed ? "메인으로 돌아가기" : "저장하기")
+//                        .foregroundColor(.yellow)
+//                        .font(.system(size: 20, weight: .medium))
+//                }
+//            }
+//            .padding(.top, 33)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Image(uiImage:viewModel.card.albumArtUIImage).resizable().ignoresSafeArea().scaledToFill().blur(radius: 20))
