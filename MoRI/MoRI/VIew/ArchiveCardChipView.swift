@@ -185,14 +185,20 @@ struct ArchiveCardChipView: View {
                     // MARK: - 디테일 화면 삭제/공유 버튼
                     HStack (spacing: 37) {
                         // 삭제버튼
-                        Circle()
-                            .foregroundColor(Color.white.opacity(0.15))
-                            .frame(width: 39, height: 39)
-                            .overlay {
-                                Image(systemName: "trash.fill")
-                                    .frame(width: 39, height: 39)
-                                    .foregroundColor(.white)
-                            }
+                        Button(action: {
+                            PersistenceController().deleteItems(viewContext, items[selectedIndex!])
+                            self.cardSelected = false
+                            selectedIndex = nil
+                        }){
+                            Circle()
+                                .foregroundColor(Color.white.opacity(0.15))
+                                .frame(width: 39, height: 39)
+                                .overlay {
+                                    Image(systemName: "trash.fill")
+                                        .frame(width: 39, height: 39)
+                                        .foregroundColor(.white)
+                                }
+                        }
                         // 공유버튼
                         Circle()
                             .foregroundColor(Color.white.opacity(0.15))

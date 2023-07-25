@@ -46,28 +46,16 @@ struct PersistenceController {
      fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
      }
      }
-     
-//    public func addItem(_ viewContext: NSManagedObjectContext, _ albumArt: String, _ title: String, _ singer: String, _ date: String, _ lyrics: String, _ cardColor: Color) {   // 테스트용 -> 테스트용 코어데이터 입력 용도
-//        print("addItem start")
-//        let newItem = CardCD(context: viewContext)
-//        newItem.albumArt = stringToBinary(albumArt)    // before: stringToBinary
-//        newItem.title = title
-//        newItem.singer = singer
-//        newItem.date = date
-//        newItem.lyrics = lyrics
-//        newItem.cardColorR = cardColor.components.r
-//        newItem.cardColorG = cardColor.components.g
-//        newItem.cardColorB = cardColor.components.b
-//        newItem.cardColorA = cardColor.components.a
-//
-//        do {
-//            try viewContext.save()
-//            print("save")
-//        } catch {
-//            let nsError = error as NSError
-//            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-//        }
-//    }
+    func deleteItems(_ viewContext: NSManagedObjectContext,_ cardCD: CardCD) {
+        viewContext.delete(cardCD)
+        do {
+            print("delete")
+            try viewContext.save()
+        } catch {
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+    }
 }
 // 임시 -> 테스트를 위해 주석처리
 extension PersistenceController {
