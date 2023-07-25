@@ -7,31 +7,15 @@
 
 import SwiftUI
 
-//func removeCharactersInsideBrackets(from text: String) -> String {
-//    // 정규표현식을 사용하여 '<...>' 형태의 문자열을 제거합니다.
-//    let regex = try! NSRegularExpression(pattern: "<[^>]+>", options: .caseInsensitive)
-//    let range = NSRange(location: 0, length: text.utf16.count)
-//    let withoutHTMLTags = regex.stringByReplacingMatches(in: text, options: [], range: range, withTemplate: "")
-//
-//    // 가사의 '[...]' 형태의 문자열을 제거합니다.
-//    let withoutBrackets = withoutHTMLTags.replacingOccurrences(of: "\\[.*?\\]", with: "", options: .regularExpression)
-//
-//    // 공백과 줄바꿈 문자를 제거합니다.
-//    let withoutExtraSpaces = withoutBrackets.trimmingCharacters(in: .whitespacesAndNewlines)
-//
-//    return withoutExtraSpaces
-//}
-
 
 struct SelectLyricsView: View {
     @ObservedObject var musicViewModel: SearchMusicViewModel
     @ObservedObject var lyricsViewModel: SelectLyricsViewModel
     @Binding var songData: SelectedSong
     
-
+    
     @State private var selectedTexts: [String] = Array(repeating: "", count: 4)
-
-//    @State private var selectedTexts: [String] = []
+    
     @State private var startSelectionIndex: Int?
     
     @Environment(\.dismiss) private var dismiss
@@ -42,13 +26,13 @@ struct SelectLyricsView: View {
             HStack(spacing: 11){
                 
                 AsyncImage(url: songData.imageUrl) { image in
-                            image
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 56, height: 56)
-                                .padding(.leading, 35)
-                        } placeholder: {
-                        }
+                    image
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 56, height: 56)
+                        .padding(.leading, 35)
+                } placeholder: {
+                }
                 
                 
                 
@@ -65,10 +49,10 @@ struct SelectLyricsView: View {
             
             
             ScrollView {
-                VStack(){
+                VStack(alignment: .leading){
                     ForEach(lyricsViewModel.lyrics.indices, id: \.self) { index in
-
-//                        let text = removeHTMLTags(from: lyricsViewModel.lyrics[index])
+                        
+                        //                        let text = removeHTMLTags(from: lyricsViewModel.lyrics[index])
                         let text = lyricsViewModel.removeCharactersInsideBrackets(from: lyricsViewModel.lyrics[index])
                         
                         Button(action: {
@@ -89,15 +73,20 @@ struct SelectLyricsView: View {
                                 }
                             }
                         }) {
-                            Text(text)
-                                .padding()
-                                .font(.system(size: 34, weight : .medium))
-                                .lineSpacing(10)
+                                HStack() { // 여기서 HStack으로 묶습니다.
+                                    Text(text)
+                                        .padding()
+                                        .font(.system(size: 34, weight: .medium))
+                                        .lineSpacing(10)
+                                        .foregroundColor(selectedTexts.contains(text) ? Color.white : Color.white)
+                                        .multilineTextAlignment(.leading)
+                                    
+                                }
                                 .background(selectedTexts.contains(text) ? Color.gray.opacity(0.75) : Color.clear)
-                                .foregroundColor(selectedTexts.contains(text) ? Color.white : Color.white)
                                 .cornerRadius(10)
                             
                         }
+                        .padding(.leading, 28)
                     }
                 }
                 .onAppear {
@@ -129,16 +118,14 @@ struct SelectLyricsView: View {
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: backButton)
         
-        
-        
     }
     
     
     
     var selectedLyrics: String {
-            let selectedTextsFiltered = selectedTexts.prefix(4).filter { !$0.isEmpty }
-            return selectedTextsFiltered.joined(separator: "\n")
-        }
+        let selectedTextsFiltered = selectedTexts.prefix(4).filter { !$0.isEmpty }
+        return selectedTextsFiltered.joined(separator: "\n")
+    }
     
     var backButton: some View {
         Button(action: {
