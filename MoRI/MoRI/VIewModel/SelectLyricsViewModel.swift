@@ -56,7 +56,7 @@ class SelectLyricsViewModel: ObservableObject {
                     
                     DispatchQueue.main.async {
                         self.lyrics = linesArray
-                        print(self.lyrics)
+//                        print(self.lyrics)
                     }
                 } catch {
                     print("Error parsing HTML: \(error)")

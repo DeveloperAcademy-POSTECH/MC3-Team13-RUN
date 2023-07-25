@@ -12,16 +12,13 @@ struct SelectLyricsView: View {
     @ObservedObject var musicViewModel: SearchMusicViewModel
     @ObservedObject var lyricsViewModel: SelectLyricsViewModel
     @Binding var songData: SelectedSong
-    
-    
     @State private var selectedTexts: [String] = Array(repeating: "", count: 4)
-    
+
     @State private var startSelectionIndex: Int?
     
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        
         VStack(alignment: .leading){
             HStack(spacing: 11){
                 
@@ -33,9 +30,7 @@ struct SelectLyricsView: View {
                         .padding(.leading, 35)
                 } placeholder: {
                 }
-                
-                
-                
+
                 VStack(alignment: .leading){
                     Text(songData.name)
                         .foregroundColor(Color(hex: 0x111111))
@@ -46,7 +41,6 @@ struct SelectLyricsView: View {
                 }
                 Spacer()
             }
-            
             
             ScrollView {
                 VStack(alignment: .leading){
@@ -110,16 +104,23 @@ struct SelectLyricsView: View {
             .padding(.top, 33)
         }
         .background(
-            Image(uiImage: UIImage(data: try! Data(contentsOf: songData.imageUrl!))!)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .ignoresSafeArea()
-                .blur(radius: 20, opaque: false)
+            AsyncImage(url: songData.imageUrl) { image in
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .ignoresSafeArea()
+                    .blur(radius: 20)
+            } placeholder : {
+                Image(systemName: "music.note")
+                    .resizable()
+                    .frame(width: 56, height: 56)
+                    .cornerRadius(4.8)
+            }
+
         )
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: backButton)
-        
     }
     
     
@@ -139,3 +140,4 @@ struct SelectLyricsView: View {
         }
     }
 }
+

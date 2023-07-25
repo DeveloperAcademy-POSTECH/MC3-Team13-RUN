@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		48B4579E8EC5E8069539E408 /* Pods_MoRI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC8BA210E0E2A857310AE2F4 /* Pods_MoRI.framework */; };
+		6C8916A32A6FEE5E001350E0 /* NavigationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8916A22A6FEE5E001350E0 /* NavigationUtils.swift */; };
 		6CC611BE2A6570B300B171FD /* MoRIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC611BD2A6570B300B171FD /* MoRIApp.swift */; };
 		6CC611C02A6570B300B171FD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC611BF2A6570B300B171FD /* ContentView.swift */; };
 		6CC611C22A6570B500B171FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6CC611C12A6570B500B171FD /* Assets.xcassets */; };
@@ -36,12 +37,14 @@
 		C18294692A6630090027577F /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18294682A6630090027577F /* MainView.swift */; };
 		C182946C2A66B8750027577F /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C182946B2A66B8750027577F /* View+Extension.swift */; };
 		C182946E2A66C8B90027577F /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C182946D2A66C8B90027577F /* Color+Extension.swift */; };
+		C1982A912A6FA64000DD9E02 /* AsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1982A902A6FA64000DD9E02 /* AsyncImageView.swift */; };
 		D1A8D1722A6E7BEC0086BF9B /* CompleteCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A8D1712A6E7BEC0086BF9B /* CompleteCardView.swift */; };
 		D1A8D1742A6E7BFF0086BF9B /* CompleteCardTop.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A8D1732A6E7BFF0086BF9B /* CompleteCardTop.swift */; };
 		D1A8D1762A6E7C130086BF9B /* CompleteCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A8D1752A6E7C130086BF9B /* CompleteCardViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6C8916A22A6FEE5E001350E0 /* NavigationUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationUtils.swift; sourceTree = "<group>"; };
 		6CC611BA2A6570B300B171FD /* MoRI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoRI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CC611BD2A6570B300B171FD /* MoRIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoRIApp.swift; sourceTree = "<group>"; };
 		6CC611BF2A6570B300B171FD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -74,6 +77,7 @@
 		C18294682A6630090027577F /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		C182946B2A66B8750027577F /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		C182946D2A66C8B90027577F /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
+		C1982A902A6FA64000DD9E02 /* AsyncImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AsyncImageView.swift; path = MoRI/View/AsyncImageView.swift; sourceTree = SOURCE_ROOT; };
 		D1A8D1712A6E7BEC0086BF9B /* CompleteCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteCardView.swift; sourceTree = "<group>"; };
 		D1A8D1732A6E7BFF0086BF9B /* CompleteCardTop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteCardTop.swift; sourceTree = "<group>"; };
 		D1A8D1752A6E7C130086BF9B /* CompleteCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteCardViewModel.swift; sourceTree = "<group>"; };
@@ -92,6 +96,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6C8916A12A6FEE4F001350E0 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				6C8916A22A6FEE5E001350E0 /* NavigationUtils.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		6CC611B12A6570B300B171FD = {
 			isa = PBXGroup;
 			children = (
@@ -113,6 +125,7 @@
 		6CC611BC2A6570B300B171FD /* MoRI */ = {
 			isa = PBXGroup;
 			children = (
+				6C8916A12A6FEE4F001350E0 /* Utils */,
 				C1749B052A6A113300C089DB /* Fonts */,
 				C1749B022A68FFD900C089DB /* Info.plist */,
 				C182946A2A66B8630027577F /* Extension */,
@@ -186,6 +199,7 @@
 				C18294662A6627C00027577F /* SelectLyricsView.swift */,
 				C18294682A6630090027577F /* MainView.swift */,
 				8E9CB8B72A68D7DB0088D736 /* ArchiveCardChipView.swift */,
+				C1982A902A6FA64000DD9E02 /* AsyncImageView.swift */,
 			);
 			path = VIew;
 			sourceTree = "<group>";
@@ -369,11 +383,13 @@
 				6CC611C72A6570B500B171FD /* Persistence.swift in Sources */,
 				6CC611C02A6570B300B171FD /* ContentView.swift in Sources */,
 				C18294652A6627840027577F /* SearchMusicViewModel.swift in Sources */,
+				C1982A912A6FA64000DD9E02 /* AsyncImageView.swift in Sources */,
 				6CDE92C62A6CA63200A569BD /* CardDetailTop.swift in Sources */,
 				6CDE92C32A6CA4CF00A569BD /* CardDetailViewModel.swift in Sources */,
 				D1A8D1742A6E7BFF0086BF9B /* CompleteCardTop.swift in Sources */,
 				D1A8D1722A6E7BEC0086BF9B /* CompleteCardView.swift in Sources */,
 				C1749AFF2A677D6900C089DB /* SelectLyricsViewModel.swift in Sources */,
+				6C8916A32A6FEE5E001350E0 /* NavigationUtils.swift in Sources */,
 				6CC611BE2A6570B300B171FD /* MoRIApp.swift in Sources */,
 				6CDE92BF2A6BF2A800A569BD /* CGSize+Extension.swift in Sources */,
 				C182946E2A66C8B90027577F /* Color+Extension.swift in Sources */,

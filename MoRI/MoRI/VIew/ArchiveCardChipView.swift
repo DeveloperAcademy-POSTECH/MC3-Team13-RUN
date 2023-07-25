@@ -9,44 +9,19 @@ import SwiftUI
 import CoreHaptics
 
 struct ArchiveCardChipView: View {
-    @State var songData: SelectedSong
+
+    @State private var isSearchMusicViewActive = false
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \CardCD.date, ascending: true)], animation: .default) private var items: FetchedResults<CardCD>
-    
-    let background = Color(hue: 0, saturation: 0, brightness: 91/100)
-    let backgroundArchive = Color(hue: 0, saturation: 0, brightness: 1)
     
     @State private var isHapticOn = false
     @State private var engine: CHHapticEngine?
     @State private var draggedOffset = CGSize.zero
     @State private var accumulatedOffset = CGSize.zero
     
-    // MARK: - Card 생성 => 앨범아트카드(CardDetailArt) / 디테일카드(CardDetailView)
-    //    @State private var cardMark = [Card]()
-    
-    private var detailCardMark: [CardDetailView] {
-        var shapes = [CardDetailView]()
-        for i in (0..<items.count) {
-            shapes.append(
-                CardDetailView(
-                    viewModel: CardDetailViewModel(
-                        card: Card(
-                            albumArtUIImage: UIImage(data: items[i].albumArt!)!,
-                            title: items[i].title!,
-                            singer: items[i].singer!,
-                            lyrics: items[i].lyrics ?? "No Lyrics",
-                            cardColor: Color(red: items[i].cardColorR,
-                                             green: items[i].cardColorG,
-                                             blue: items[i].cardColorB,
-                                             opacity: items[i].cardColorA)
-                        )
-                    )
-                )
-            )
-        }
-        return shapes
-    }
+    let background = Color(hue: 0, saturation: 0, brightness: 91/100)
+    let backgroundArchive = Color(hue: 0, saturation: 0, brightness: 1)
     
     // MARK: - 각도, 드래그 여부, 카드 선택 관련 변수
     @State var delta: Double = 0 // 각도 변화
@@ -60,7 +35,7 @@ struct ArchiveCardChipView: View {
     
     var body: some View {
         var standardAngle: Double = items.count > 0 ? Double(360 / items.count) : 0  // 단위각도
-        let zIndexPreset = items.count > 0 ? (1...items.count).map { value in Double(value) / Double(1) }.reversed() : []
+        let zIndexPreset = items.count > 0 ? (1...items.count).map { value in Double(value) / Double(1) }.reversed() : []   // 중첩 레벨
         
         // MARK: - Drag Gesture
         let dragGesture = DragGesture()
@@ -79,19 +54,8 @@ struct ArchiveCardChipView: View {
                 
                 if tempCurrentCard != lastTempCurrentCard {
                     playHapticFeedback()
-                    print("tempCurrentCard \(tempCurrentCard)")
-                    print("lastTempCurrentCard \(lastTempCurrentCard)")
                     lastTempCurrentCard = tempCurrentCard
                 }
-                
-                /*
-                 현재 위치에 해당하는 카드 계산
-                 현재 각도(360 ~ -360) / 단위 각도(-360/칩 개수) 반올림하여 현재 카드 계산
-                 ** 단위 각도가 '-'이기 때문에 -Int로 계산
-                 
-                 cardMark.count = 카드 갯수
-                 Double(360 / cardMark.count) = 카드 1개 당 각도 범위 = standardAngle
-                 */
                 
                 withAnimation(.easeInOut(duration: 0.1)) {  // 현재 카드가 음수인 경우 양수로 변환
                     if tempCurrentCard < 0 {
@@ -110,8 +74,7 @@ struct ArchiveCardChipView: View {
                 stopHapticFeedback()
                 isHapticOn = false
             }
-        
-        
+        // MARK: - Navigation
         NavigationStack {
             ZStack {
                 background.frame(width:UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
@@ -120,31 +83,29 @@ struct ArchiveCardChipView: View {
                     .padding(.top, 63)
                     .padding(.bottom, 758.21)
                 
-                NavigationLink(destination: SearchMusicView()) {
-                    ZStack{
-                        Rectangle()
-                            .frame(width: 350, height: 60)
-                            .cornerRadius(30)
-                            .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
-                        Text("만들러 가기")
-                            .foregroundColor(Color(red: 0.81, green : 0.92, blue: 0))
-                            .font(.system(size: 20, weight: .medium))
-                    }
-                    .padding(.top, 739)
-                    .padding(.bottom, 45)
+                NavigationLink(destination: SearchMusicView(), isActive: $isSearchMusicViewActive) {
+                    EmptyView()
+                }
+                .hidden()
+                
+                ZStack{
+                    Rectangle()
+                        .frame(width: 350, height: 60)
+                        .cornerRadius(30)
+                        .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
+                    Text("만들러 가기")
+                        .foregroundColor(Color(red: 0.81, green : 0.92, blue: 0))
+                        .font(.system(size: 20, weight: .medium))
+                }
+                .padding(.top, 739)
+                .padding(.bottom, 45)
+                .onTapGesture {
+                    isSearchMusicViewActive = true // 버튼을 눌렀을 때 NavigationLink 활성화
                 }
                 
                 // MARK: - Wheel 형태의 로테이션 애니메이션 효과
                 ZStack {
-                    /*
-                     // 모은 카드
-                     Text("모은 카드")
-                     .font(.system(size: 20, weight: .medium))
-                     .padding(.top, 17)
-                     .padding(.bottom, 545)
-                     */
-                    
-                    ForEach(items) { item in
+                    ForEach(Array(items.enumerated()), id: \.offset) { index, item in
                         // 0도를 기준으로 절대적인 인덱스 계산
                         
                         // 현재 카드(currentCard)를 중첩레벨(relativeIndex) 기준 0으로 설정 후 순차적으로 중첩레벨 반영
@@ -169,51 +130,25 @@ struct ArchiveCardChipView: View {
                                                      blue: item.cardColorB,
                                                      opacity: item.cardColorA)
                                 )))
-                            Text("\(items.firstIndex(of: item)!)")    // 테스트용 -> 카드 번호 구분
-                                .font(Font.custom("HelveticaNeue-Bold", size: 90))
-                                .foregroundColor(.white)
                         }
+                        // MARK: - Card 생성 => 앨범아트카드(CardDetailArt) 효과
                         .scaleEffect(0.59)
                         .padding(.bottom, 150) // for "top"
                         .zIndex(zIndexPreset[correctedRelativeIndex])
-                        .opacity(   // 출력 부분 범위 설정
+                        .opacity(   // 회전된 각도에 따른 투명도 조절
                             items.count <= 3 ? 1 :
                                 (rotationAngle <= 0 && (Int(rotationAngle) % 360) >= -90) && (Int(rotationAngle) % 360) <= 0
                             || (rotationAngle >= 0 && (Int(rotationAngle) % 360) >= 270 && (Int(rotationAngle) % 360) <= 360) ? 1 : 0
-                        )  // 회전된 각도가 90 이상인 경우 투명도 조정
-                        /*
-                         rotationAngle의 값
-                         +: 위로 드래그, -: 아래로 드래그
-                         
-                         360도 이상 회전일 경우 360도 단위로 계산
-                         Int(rotationAngle) % 360
-                         
-                         A <= rotationAngle <= B
-                         A: 후면부, B: 전면부
-                         
-                         현재 출력 부분
-                         +: 270~ 360, -: -90~0
-                         */
+                        )  // 3개 이하일 경우 전부 출력, 3개 초과일 경우 4사분면만 출력
                         .rotation3DEffect(  // 회전 효과
                             .degrees(items.count > 1 ? rotationAngle : Double(Int(rotationAngle) % 90)),
-                            /*
-                             360 / cardMark.count: 카드 1개가 갖는 각도
-                             Double(index): 현재 카드의 인덱스
-                             Double(360 / cardMark.count) * Double(index): 현재 카드의 회전 각도 = standardAngle * Double(index)
-                             currentAngle + delta: 드래그 전 각도(currentAngle)에 드래그 변화량(delta)를 더하여 계산한 현재 회전 각도
-                             */
                             axis: (x: 1, y: 0, z: 0),   // 고정 축(기둥)
                             anchor: UnitPoint(x: 0.5, y: 1.0),  // 회전 기준점
                             perspective: 0.5    // 원근감(중심축과의 거리)
-                            /*
-                             anchor: UnitPoint 값
-                             x: x축 기준 반지름(마주보는 카드 간의 간격)과 좌->우 스크롤시 회전 방향 (+: 시계, -: 반시계)
-                             y: y축 기준 반지름 (+: 앞, -: 뒤)
-                             */
                         )
                         .onTapGesture {
-                            selectedIndex = items.firstIndex(of: item)!
-                            cardSelected.toggle()
+                            selectedIndex = index
+                            cardSelected = true
                         }
                     }
                     .shadow(radius: 5, x: 8, y: -4)
@@ -224,44 +159,79 @@ struct ArchiveCardChipView: View {
                 .cornerRadius(20)
                 .padding(.bottom, 23)
                 
-                // MARK: - Card Detail
+                // MARK: - Card 디테일 화면 생성 => 앨범디테일카드(CardDetailView)
                 ZStack {
-                    if (items.count > 0) {   // 생성된 카드가 없을 경우의 "Thread 1: Fatal error: Index out of range" 발생 방지
-                        detailCardMark[selectedIndex ?? 0]
-                            .padding(.bottom, 23)
-                            .scaleEffect(cardSelected ? 1 : 0)
-                            .opacity(cardSelected ? 1.0 : 0.0)
-                            .rotation3DEffect(  // 회전 효과
-                                Angle.degrees(cardSelected ? 0: 180),
-                                axis: (-5,1,0),
-                                perspective: 0.3
-                            )
-                            .animation(Animation.easeInOut(duration: 0.25))
-                            .onTapGesture() {
-                                self.cardSelected = false
-                            }
+                    ForEach(Array(items.enumerated()), id: \.offset) { index, item in
+                        if (selectedIndex == index) {   // 해당 인덱스 카드 선택일 경우
+                            CardDetailView(viewModel: CardDetailViewModel(
+                                card: Card(
+                                    albumArtUIImage: UIImage(data: items[index].albumArt!)!,
+                                    title: items[index].title!,
+                                    singer: items[index].singer!,
+                                    lyrics: items[index].lyrics ?? "No Lyrics",
+                                    cardColor: Color(red: items[index].cardColorR,
+                                                     green: items[index].cardColorG,
+                                                     blue: items[index].cardColorB,
+                                                     opacity: items[index].cardColorA)
+                                )))
+                                .padding(.bottom, 23)
+                                .onTapGesture() {
+                                    self.cardSelected = false
+                                    selectedIndex = nil
+                                }
+                        }
                     }
                     
-                    HStack {
+                    // MARK: - 디테일 화면 삭제/공유 버튼
+                    HStack (spacing: 37) {
                         // 삭제버튼
+                        Button(action: {
+                            PersistenceController().deleteItems(viewContext, items[selectedIndex!])
+                            self.cardSelected = false
+                            selectedIndex = nil
+                        }){
+                            Circle()
+                                .foregroundColor(Color.white.opacity(0.15))
+                                .frame(width: 39, height: 39)
+                                .overlay {
+                                    Image(systemName: "trash.fill")
+                                        .frame(width: 39, height: 39)
+                                        .foregroundColor(.white)
+                                }
+                        }
                         // 공유버튼
+                        Circle()
+                            .foregroundColor(Color.white.opacity(0.15))
+                            .frame(width: 39, height: 39)
+                            .overlay {
+                                Image(systemName: "square.and.arrow.up")
+                                    .frame(width: 39, height: 39)
+                                    .foregroundColor(.white)
+                            }
                     }
+                    .offset(x: 117.5, y: -346.5)
                 }
+                // MARK: - Card 디테일 화면 생성 => 앨범디테일카드(CardDetailView) 효과
+                .opacity(cardSelected ? 1.0 : 0.0)
+                .scaleEffect(cardSelected ? 1 : 0)
+                .rotation3DEffect(
+                    Angle.degrees(cardSelected ? 0: 180),
+                    axis: (-5,1,0),
+                    perspective: 0.3
+                )
+                .animation(Animation.easeInOut(duration: 0.25))
             }
             .ignoresSafeArea()
-            .onTapGesture {
-                // 다른 곳을 탭하면 선택된 카드 해제
-                selectedIndex = nil
-            }
         }
     }
     
+    // MARK: - Haptic 함수
     func prepareHaptics() {
         do {
             engine = try CHHapticEngine()
             try engine?.start()
         } catch {
-            print("Creating engine error: \(error.localizedDescription)")
+//            print("Creating engine error: \(error.localizedDescription)")
         }
     }
     
@@ -283,7 +253,7 @@ struct ArchiveCardChipView: View {
             let player = try engine.makeAdvancedPlayer(with: pattern)
             try player.start(atTime: 0)
         } catch {
-            print("Failed to play pattern \(error.localizedDescription)")
+//            print("Failed to play pattern \(error.localizedDescription)")
         }
     }
     
@@ -291,7 +261,7 @@ struct ArchiveCardChipView: View {
         guard let engine = engine else { return }
         engine.stop(completionHandler: { (error) in
             if let error = error {
-                print("Stopping haptic engine error: \(error.localizedDescription)")
+//                print("Stopping haptic engine error: \(error.localizedDescription)")
             }
         })
     }
