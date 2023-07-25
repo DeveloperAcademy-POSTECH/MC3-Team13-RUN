@@ -76,10 +76,39 @@ class SearchMusicViewModel: ObservableObject {
         }
     }
     
-//    //MARK: 가수 뒤의 () 삭제
-//    func deleteParentheses(in text: String) -> String {
-//        let regex = try! NSRegularExpression(pattern: "\\([^\\)]*\\)", options: [])
-//        let range = NSRange(location: 0, length: text.utf16.count)
-//        return regex.stringByReplacingMatches(in: text, options: [], range: range, withTemplate: "")
+    //MARK: 가수 이름 처리
+    func replaceArtistName(in text: String) -> String {
+        let regex = try! NSRegularExpression(pattern: "\\([^\\)]*\\)", options: [])
+        let range = NSRange(location: 0, length: text.utf16.count)
+        let result = regex.stringByReplacingMatches(in: text, options: [], range: range, withTemplate: "")
+        
+        // Step 4: Replace "and" with "&"
+        var finalResult = ""
+        if countOccurrences(of: ",", in: result) >= 2 {
+                finalResult = result.replacingOccurrences(of: "&", with: "-")
+        } else {
+            finalResult = result.replacingOccurrences(of: "&", with: "and")
+        }
+        let dashResult = finalResult.replacingOccurrences(of: " ", with: "-")
+        let removeResult = dashResult.replacingOccurrences(of: "---", with: "-")
+        let Result = removeResult.replacingOccurrences(of: ",", with: "")
+
+        return Result
+    }
+    
+    //MARK: 문자열에서 특정 문자의 개수 파악
+    func countOccurrences(of character: Character, in text: String) -> Int {
+        var count = 0
+        for char in text {
+            if char == character {
+                count += 1
+            }
+        }
+        return count
+    }
+    
+    //MARK: 노래 제목 처리
+//    func replaceMusicTitle(in text: String) -> String {
+//        
 //    }
 }
