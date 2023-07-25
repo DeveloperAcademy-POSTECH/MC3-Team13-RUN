@@ -9,7 +9,6 @@ import SwiftUI
 import CoreHaptics
 
 struct ArchiveCardChipView: View {
-    @State var songData: SelectedSong
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \CardCD.date, ascending: true)], animation: .default) private var items: FetchedResults<CardCD>
