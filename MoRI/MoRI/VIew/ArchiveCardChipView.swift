@@ -195,7 +195,7 @@ struct ArchiveCardChipView: View {
                          +: 270~ 360, -: -90~0
                          */
                         .rotation3DEffect(  // 회전 효과
-                            .degrees(items.count > 3 ? rotationAngle : Double(Int(rotationAngle) % 90)), // 3개 이하일 경우 위에서만 보이도록 수정
+                            .degrees(items.count > 1 ? rotationAngle : Double(Int(rotationAngle) % 90)),
                             /*
                              360 / cardMark.count: 카드 1개가 갖는 각도
                              Double(index): 현재 카드의 인덱스
