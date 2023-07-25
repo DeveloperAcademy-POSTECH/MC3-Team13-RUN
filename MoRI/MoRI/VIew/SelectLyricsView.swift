@@ -11,29 +11,16 @@ struct SelectLyricsView: View {
     @ObservedObject var musicViewModel: SearchMusicViewModel
     @ObservedObject var lyricsViewModel: SelectLyricsViewModel
     @Binding var songData: SelectedSong
-    
 
     @State private var selectedTexts: [String] = Array(repeating: "", count: 4)
-
-//    @State private var selectedTexts: [String] = []
     @State private var startSelectionIndex: Int?
     
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        
         VStack{
             HStack(spacing: 11){
-                
-                AsyncImage(url: songData.imageUrl) { image in
-                            image
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 56, height: 56)
-                                .padding(.leading, 35)
-                        } placeholder: {
-                        }
-                
+                AsyncImageView(url: songData.imageUrl!)
                 VStack(alignment: .leading){
                     Text(songData.name)
                         .foregroundColor(Color(hex: 0x111111))
@@ -44,7 +31,6 @@ struct SelectLyricsView: View {
                 }
                 Spacer()
             }
-            
             
             ScrollView {
                 VStack(){
@@ -98,18 +84,22 @@ struct SelectLyricsView: View {
             .padding(.top, 33)
         }
         .background(
-            Image(uiImage: UIImage(data: try! Data(contentsOf: songData.imageUrl!))!)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .ignoresSafeArea()
-                .blur(radius: 20)
+            AsyncImage(url: songData.imageUrl) { image in
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .ignoresSafeArea()
+                    .blur(radius: 20)
+            } placeholder : {
+                Image(systemName: "music.note")
+                    .resizable()
+                    .frame(width: 56, height: 56)
+                    .cornerRadius(4.8)
+            }
         )
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: backButton)
-        
-        
-        
     }
     
     var selectedLyrics: String {
@@ -127,3 +117,4 @@ struct SelectLyricsView: View {
         }
     }
 }
+
