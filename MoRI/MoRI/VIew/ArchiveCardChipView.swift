@@ -9,7 +9,7 @@ import SwiftUI
 import CoreHaptics
 
 struct ArchiveCardChipView: View {
-    @State var songData: SelectedSong
+
     @State private var isSearchMusicViewActive = false
     
     @Environment(\.managedObjectContext) private var viewContext
