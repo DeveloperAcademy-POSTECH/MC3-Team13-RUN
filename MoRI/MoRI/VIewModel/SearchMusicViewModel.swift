@@ -53,7 +53,7 @@ class SearchMusicViewModel: ObservableObject {
                         })
                     }
                 } catch {
-                    print(String(describing: error))
+//                    print(String(describing: error))
                 }
             default:
                 break
