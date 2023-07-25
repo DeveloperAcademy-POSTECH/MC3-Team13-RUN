@@ -7,6 +7,22 @@
 
 import SwiftUI
 
+//func removeCharactersInsideBrackets(from text: String) -> String {
+//    // 정규표현식을 사용하여 '<...>' 형태의 문자열을 제거합니다.
+//    let regex = try! NSRegularExpression(pattern: "<[^>]+>", options: .caseInsensitive)
+//    let range = NSRange(location: 0, length: text.utf16.count)
+//    let withoutHTMLTags = regex.stringByReplacingMatches(in: text, options: [], range: range, withTemplate: "")
+//
+//    // 가사의 '[...]' 형태의 문자열을 제거합니다.
+//    let withoutBrackets = withoutHTMLTags.replacingOccurrences(of: "\\[.*?\\]", with: "", options: .regularExpression)
+//
+//    // 공백과 줄바꿈 문자를 제거합니다.
+//    let withoutExtraSpaces = withoutBrackets.trimmingCharacters(in: .whitespacesAndNewlines)
+//
+//    return withoutExtraSpaces
+//}
+
+
 struct SelectLyricsView: View {
     @ObservedObject var musicViewModel: SearchMusicViewModel
     @ObservedObject var lyricsViewModel: SelectLyricsViewModel
@@ -34,6 +50,8 @@ struct SelectLyricsView: View {
                         } placeholder: {
                         }
                 
+                
+                
                 VStack(alignment: .leading){
                     Text(songData.name)
                         .foregroundColor(Color(hex: 0x111111))
@@ -49,7 +67,10 @@ struct SelectLyricsView: View {
             ScrollView {
                 VStack(){
                     ForEach(lyricsViewModel.lyrics.indices, id: \.self) { index in
+
+//                        let text = removeHTMLTags(from: lyricsViewModel.lyrics[index])
                         let text = lyricsViewModel.removeCharactersInsideBrackets(from: lyricsViewModel.lyrics[index])
+                        
                         Button(action: {
                             if let start = startSelectionIndex {
                                 let startIndex = min(start, index)
@@ -71,7 +92,7 @@ struct SelectLyricsView: View {
                             Text(text)
                                 .padding()
                                 .font(.system(size: 34, weight : .medium))
-                                .lineSpacing(30)
+                                .lineSpacing(10)
                                 .background(selectedTexts.contains(text) ? Color.gray.opacity(0.75) : Color.clear)
                                 .foregroundColor(selectedTexts.contains(text) ? Color.white : Color.white)
                                 .cornerRadius(10)
@@ -102,7 +123,7 @@ struct SelectLyricsView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .ignoresSafeArea()
-                .blur(radius: 20)
+                .blur(radius: 20, opaque: false)
         )
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationBarBackButtonHidden(true)
@@ -111,6 +132,8 @@ struct SelectLyricsView: View {
         
         
     }
+    
+    
     
     var selectedLyrics: String {
             let selectedTextsFiltered = selectedTexts.prefix(4).filter { !$0.isEmpty }

@@ -38,47 +38,46 @@ class SelectLyricsViewModel: ObservableObject {
                     var lyricsText = ""
                     for element in container.array() {
                         let lines = try element.html()
-                            .replacingOccurrences(of: "<br>", with: " ")
-                            .replacingOccurrences(of: "</br>", with: " ")
-                            .replacingOccurrences(of: "<b>", with: " ")
-                            .replacingOccurrences(of: "</b>", with: " ")
-                            .replacingOccurrences(of: "<i>", with: " ")
-                            .replacingOccurrences(of: "</i>", with: " ")
-                            .replacingOccurrences(of: "\n\n", with: " ")
-                        lyricsText += lines
+                            .replacingOccurrences(of: "<br>", with: "\n")
+                            .replacingOccurrences(of: "<b>", with: "")
+                            .replacingOccurrences(of: "</b>", with: "\n")
+                            .replacingOccurrences(of: "<i>", with: "")
+                            .replacingOccurrences(of: "</i>", with: "\n")
+                            .replacingOccurrences(of: "<br>\n<br>", with: "\n")
+                        
+                        let cleanLines = self.removeCharactersInsideBrackets(from: lines)
+                        
+                        lyricsText += cleanLines
                     }
                     
-                    let linesArray = lyricsText.components(separatedBy: "\n")
+                    let linesArray = lyricsText.components(separatedBy: ["\n", "."])
+                        .filter { !$0.isEmpty }
+                        .map { $0.trimmingCharacters(in: .whitespaces) }
+                    
                     DispatchQueue.main.async {
                         self.lyrics = linesArray
                         print(self.lyrics)
                     }
-                }
-                catch {
+                } catch {
                     print("Error parsing HTML: \(error)")
                 }
+
             }
         }
         task.resume()
     }
-
     
-    //MARK: TEXT에서 가사가 아닌 부분을 삭제합니다.
+    
     func removeCharactersInsideBrackets(from text: String) -> String {
         var result = ""
         var isInBrackets = false
-
+        
         for char in text {
-            if char == "[" {
+            if char == "[" || char == "<" {
                 isInBrackets = true
-            } else if char == "]" {
+            } else if char == "]" || char == ">" {
                 isInBrackets = false
-            } else if char == "<" {
-                isInBrackets = true
-            } else if char == ">" {
-                isInBrackets = false
-            }
-            else if !isInBrackets {
+            } else if !isInBrackets {
                 result.append(char)
             }
         }
