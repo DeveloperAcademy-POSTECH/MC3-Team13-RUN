@@ -120,7 +120,7 @@ struct ArchiveCardChipView: View {
                     .padding(.top, 63)
                     .padding(.bottom, 758.21)
                 
-                NavigationLink(destination: SearchMusicView(songData: $songData)) {
+                NavigationLink(destination: SearchMusicView()) {
                     ZStack{
                         Rectangle()
                             .frame(width: 350, height: 60)
