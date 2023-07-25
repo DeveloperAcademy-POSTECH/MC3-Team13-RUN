@@ -144,7 +144,7 @@ struct ArchiveCardChipView: View {
                      .padding(.bottom, 545)
                      */
                     
-                    ForEach(items) { item in
+                    ForEach(Array(items.enumerated()), id: \.offset) { index, item in
                         // 0도를 기준으로 절대적인 인덱스 계산
                         
                         // 현재 카드(currentCard)를 중첩레벨(relativeIndex) 기준 0으로 설정 후 순차적으로 중첩레벨 반영
@@ -169,7 +169,7 @@ struct ArchiveCardChipView: View {
                                                      blue: item.cardColorB,
                                                      opacity: item.cardColorA)
                                 )))
-                            Text("\(items.firstIndex(of: item)!)")    // 테스트용 -> 카드 번호 구분
+                            Text("\(index)")    // 테스트용 -> 카드 번호 구분
                                 .font(Font.custom("HelveticaNeue-Bold", size: 90))
                                 .foregroundColor(.white)
                         }
@@ -212,7 +212,7 @@ struct ArchiveCardChipView: View {
                              */
                         )
                         .onTapGesture {
-                            selectedIndex = items.firstIndex(of: item)!
+                            selectedIndex = index
                             cardSelected.toggle()
                         }
                     }
@@ -226,20 +226,33 @@ struct ArchiveCardChipView: View {
                 
                 // MARK: - Card Detail
                 ZStack {
-                    if (items.count > 0) {   // 생성된 카드가 없을 경우의 "Thread 1: Fatal error: Index out of range" 발생 방지
-                        detailCardMark[selectedIndex ?? 0]
-                            .padding(.bottom, 23)
-                            .scaleEffect(cardSelected ? 1 : 0)
-                            .opacity(cardSelected ? 1.0 : 0.0)
-                            .rotation3DEffect(  // 회전 효과
-                                Angle.degrees(cardSelected ? 0: 180),
-                                axis: (-5,1,0),
-                                perspective: 0.3
-                            )
-                            .animation(Animation.easeInOut(duration: 0.25))
-                            .onTapGesture() {
-                                self.cardSelected = false
-                            }
+                    ForEach(Array(items.enumerated()), id: \.offset) { index, item in
+                        let isSelectedIndex = (selectedIndex == index)  // 해당 카드 선택 여부 확인
+                        if (cardSelected) {   // 카드 선택이 있을 경우
+                            CardDetailView(viewModel: CardDetailViewModel(
+                                card: Card(
+                                    albumArtUIImage: UIImage(data: item.albumArt!)!,
+                                    title: item.title!,
+                                    singer: item.singer!,
+                                    lyrics: item.lyrics ?? "No Lyrics",
+                                    cardColor: Color(red: item.cardColorR,
+                                                     green: item.cardColorG,
+                                                     blue: item.cardColorB,
+                                                     opacity: item.cardColorA)
+                                )))
+                                .padding(.bottom, 23)
+                                .scaleEffect(isSelectedIndex ? 1 : 0)
+                                .opacity(isSelectedIndex ? 1.0 : 0.0)
+                                .rotation3DEffect(  // 회전 효과
+                                    Angle.degrees(isSelectedIndex ? 0: 180),
+                                    axis: (-5,1,0),
+                                    perspective: 0.3
+                                )
+                                .animation(Animation.easeInOut(duration: 0.25))
+                                .onTapGesture() {
+                                    self.cardSelected = false
+                                }
+                        }
                     }
                     
                     HStack {
@@ -249,10 +262,6 @@ struct ArchiveCardChipView: View {
                 }
             }
             .ignoresSafeArea()
-            .onTapGesture {
-                // 다른 곳을 탭하면 선택된 카드 해제
-                selectedIndex = nil
-            }
         }
     }
     
