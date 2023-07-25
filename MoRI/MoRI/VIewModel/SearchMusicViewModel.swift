@@ -124,16 +124,11 @@ class SearchMusicViewModel: ObservableObject {
                 }
             }
         }
-        
         extractedText = extractedText.replacingOccurrences(of: " ", with: "-")
-        
-        // Check if '.' exists in extractedText
         let containsDot = extractedText.contains(".")
-        
-        // Check if '.' exists in extractedText, and remove parentheses in asteriskResult accordingly
         var result = ""
         if containsDot {
-            let removeParenthesesPattern = "\\([^()]*\\)"
+            let removeParenthesesPattern = "\\([^().]*\\)"
             result = asteriskResult.replacingOccurrences(of: removeParenthesesPattern, with: "", options: .regularExpression)
         } else {
             result = asteriskResult.replacingOccurrences(of: "[()]", with: "", options: .regularExpression)
@@ -143,5 +138,4 @@ class SearchMusicViewModel: ObservableObject {
         
         return result
     }
-
 }
