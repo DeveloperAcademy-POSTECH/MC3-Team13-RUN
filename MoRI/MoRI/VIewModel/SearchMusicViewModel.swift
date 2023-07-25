@@ -61,20 +61,20 @@ class SearchMusicViewModel: ObservableObject {
         }
     }
     
-    //MARK: 제목과 아티스트 이름 띄워쓰기 처리
-    func replaceSpacesWithDash(in text: String) -> String {
-        let regex = try! NSRegularExpression(pattern: "\\([^\\)]*\\)", options: [])
-        let range = NSRange(location: 0, length: text.utf16.count)
-        let result = regex.stringByReplacingMatches(in: text, options: [], range: range, withTemplate: "")
-        
-        let dashResult = result.replacingOccurrences(of: " ", with: "-")
-        
-        if dashResult.last == "-" {
-            return String(dashResult.dropLast())
-        } else {
-            return dashResult
-        }
-    }
+//    //MARK: 제목과 아티스트 이름 띄워쓰기 처리
+//    func replaceSpacesWithDash(in text: String) -> String {
+//        let regex = try! NSRegularExpression(pattern: "\\([^\\)]*\\)", options: [])
+//        let range = NSRange(location: 0, length: text.utf16.count)
+//        let result = regex.stringByReplacingMatches(in: text, options: [], range: range, withTemplate: "")
+//
+//        let dashResult = result.replacingOccurrences(of: " ", with: "-")
+//
+//        if dashResult.last == "-" {
+//            return String(dashResult.dropLast())
+//        } else {
+//            return dashResult
+//        }
+//    }
     
     //MARK: 가수 이름 처리
     func replaceArtistName(in text: String) -> String {
@@ -108,7 +108,40 @@ class SearchMusicViewModel: ObservableObject {
     }
     
     //MARK: 노래 제목 처리
-//    func replaceMusicTitle(in text: String) -> String {
-//        
-//    }
+    func replaceMusicTitle(in text: String) -> String {
+        let regexPattern = "[+*]"
+        let regex = try! NSRegularExpression(pattern: regexPattern, options: [])
+        let range = NSRange(location: 0, length: text.utf16.count)
+        let asteriskResult = regex.stringByReplacingMatches(in: text, options: [], range: range, withTemplate: "")
+        
+        //MARK: 노래 안에 소괄호 처리함수
+        var extractedText = ""
+        regex.enumerateMatches(in: text, options: [], range: range) { (match, _, _) in
+            if let matchRange = match?.range {
+                if let range = Range(matchRange, in: text) {
+                    let matchedString = text[range]
+                    extractedText.append(String(matchedString))
+                }
+            }
+        }
+        
+        extractedText = extractedText.replacingOccurrences(of: " ", with: "-")
+        
+        // Check if '.' exists in extractedText
+        let containsDot = extractedText.contains(".")
+        
+        // Check if '.' exists in extractedText, and remove parentheses in asteriskResult accordingly
+        var result = ""
+        if containsDot {
+            let removeParenthesesPattern = "\\([^()]*\\)"
+            result = asteriskResult.replacingOccurrences(of: removeParenthesesPattern, with: "", options: .regularExpression)
+        } else {
+            result = asteriskResult.replacingOccurrences(of: "[()]", with: "", options: .regularExpression)
+        }
+        
+        result = result.replacingOccurrences(of: " ", with: "-")
+        
+        return result
+    }
+
 }
