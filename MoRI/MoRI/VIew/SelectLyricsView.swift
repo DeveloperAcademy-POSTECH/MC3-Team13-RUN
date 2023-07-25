@@ -22,7 +22,7 @@ struct SelectLyricsView: View {
     
     var body: some View {
         
-        VStack{
+        VStack(alignment: .leading){
             HStack(spacing: 11){
                 
                 AsyncImage(url: songData.imageUrl) { image in
@@ -52,7 +52,6 @@ struct SelectLyricsView: View {
                 VStack(alignment: .leading){
                     ForEach(lyricsViewModel.lyrics.indices, id: \.self) { index in
                         
-                        //                        let text = removeHTMLTags(from: lyricsViewModel.lyrics[index])
                         let text = lyricsViewModel.removeCharactersInsideBrackets(from: lyricsViewModel.lyrics[index])
                         
                         Button(action: {
@@ -73,22 +72,25 @@ struct SelectLyricsView: View {
                                 }
                             }
                         }) {
-                                HStack() { // 여기서 HStack으로 묶습니다.
+                            HStack(alignment: .top) {
                                     Text(text)
                                         .padding()
                                         .font(.system(size: 34, weight: .medium))
                                         .lineSpacing(10)
                                         .foregroundColor(selectedTexts.contains(text) ? Color.white : Color.white)
                                         .multilineTextAlignment(.leading)
+
                                     
                                 }
+                                .frame(maxWidth: 349, alignment : .leading) /
                                 .background(selectedTexts.contains(text) ? Color.gray.opacity(0.75) : Color.clear)
                                 .cornerRadius(10)
+
                             
                         }
-                        .padding(.leading, 28)
                     }
                 }
+                .padding(.leading, 28)
                 .onAppear {
                     lyricsViewModel.fetchHTMLParsingResult(songData)
                 }
