@@ -1,5 +1,5 @@
 //
-//  NavigationUtil.swift
+//  NavigationUtils.swift
 //  MoRI
 //
 //  Created by Ko Seokjun on 2023/07/25.
