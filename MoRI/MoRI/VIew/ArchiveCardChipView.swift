@@ -74,7 +74,7 @@ struct ArchiveCardChipView: View {
                 }
                 draggedOffset = accumulatedOffset + val.translation
                 
-                let tempCurrentCard = -Int(round(Double(currentAngle + delta) / min(standardAngle, 45))) % items.count
+                let tempCurrentCard = -Int(round(Double(currentAngle + delta) / (standardAngle))) % items.count
 
                 
                 if tempCurrentCard != lastTempCurrentCard {
