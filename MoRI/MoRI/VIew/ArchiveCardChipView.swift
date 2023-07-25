@@ -247,22 +247,6 @@ struct ArchiveCardChipView: View {
                         // 공유버튼
                     }
                 }
-                
-                // 테스트용 -> 코어데이터 추가 버튼 (단, 수정 시 Persistence의 stringToBinary 형태의 것을 uiImageToBinary로 수정 필요)
-                Button(
-                    action: {
-                        PersistenceController().addItem(viewContext, UIImage(named: "test") ?? UIImage(), "제목", "가수", "2023.00.01", "가사가사가사", Color.blue)
-                        
-                    }, label: {
-                        ZStack{
-                            Circle()
-                                .frame(width: 100, height: 100)
-                            Text("\(items.count)\n\(items.count)")
-                                .foregroundColor(.white)
-                        }
-                    }
-                )
-                .offset(x: -120, y: -300)
             }
             .ignoresSafeArea()
             .onTapGesture {
