@@ -48,8 +48,8 @@ class SearchMusicViewModel: ObservableObject {
                         self.songs = result.songs.compactMap({
                             return .init(name: $0.title,
                                          artist: $0.artistName,
-                                         imageUrl: $0.artwork?.url(width: 56,
-                                                                   height: 56))
+                                         imageUrl: $0.artwork?.url(width: 1000,
+                                                                   height: 1000))
                         })
                     }
                 } catch {
