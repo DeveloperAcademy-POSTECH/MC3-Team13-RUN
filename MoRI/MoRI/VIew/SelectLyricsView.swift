@@ -29,6 +29,10 @@ struct SelectLyricsView: View {
                         .frame(width: 56, height: 56)
                         .padding(.leading, 35)
                 } placeholder: {
+                    Image(systemName: "music.note")
+                        .resizable()
+                        .frame(width: 56, height: 56)
+                        .cornerRadius(4.8)
                 }
 
                 VStack(alignment: .leading){
@@ -116,7 +120,6 @@ struct SelectLyricsView: View {
                     .frame(width: 56, height: 56)
                     .cornerRadius(4.8)
             }
-
         )
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationBarBackButtonHidden(true)
