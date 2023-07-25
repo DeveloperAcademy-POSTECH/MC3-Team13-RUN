@@ -17,8 +17,8 @@ struct SearchMusicView: View {
     var body: some View {
         List(musicViewModel.songs) { song in
             Button(action: {
-                songData = SelectedSong(name: musicViewModel.replaceSpacesWithDash(in: song.name),
-                                        artist: musicViewModel.replaceSpacesWithDash(in: song.artist),
+                songData = SelectedSong(name: musicViewModel.replaceMusicTitle(in: song.name),
+                                        artist: musicViewModel.replaceArtistName(in: song.artist),
                                         imageUrl: song.imageUrl)
             }) {
                 HStack {

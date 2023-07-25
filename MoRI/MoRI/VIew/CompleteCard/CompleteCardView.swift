@@ -19,13 +19,10 @@ struct CompleteCardView: View {
     @State private var isNavigateToMain = false
     
     @State var songData: SelectedSong = SelectedSong(name: "", artist: "", imageUrl: nil)
-    
-    
+        
     var body: some View {
         
-        
         VStack(spacing: 0){
-            
             
             CompleteCardTop(viewModel: viewModel)
             
@@ -46,7 +43,6 @@ struct CompleteCardView: View {
                     .lineSpacing(15)
             }
             .compositingGroup()
-            
             
             NavigationStack {
                 VStack {
@@ -81,44 +77,9 @@ struct CompleteCardView: View {
                             }
                         }
                         .padding(.top, 33)
-//                        .background(
-//                            NavigationLink(destination: ArchiveCardChipView(), isActive: $isNavigateToMain) {
-//                                EmptyView()
-//                            }
-//                        )
                     }
                 }
             }
-            
-            //            Button(action: {
-            //                PersistenceController().addItem(viewContext, viewModel.card.albumArtUIImage, viewModel.card.title, viewModel.card.singer, viewModel.card.date, viewModel.card.lyrics, viewModel.card.cardColor)
-            //                isButtonPressed = true
-            //
-            //
-            ////                if isNavigateToMain{
-            ////                    presentationMode.wrappedValue.dismiss() // 해당 버튼 클릭 시 뷰 닫기 (루트 뷰로 돌아가기)
-            ////                }
-            //
-            //
-            //                if isNavigateToMain{
-            //                    NavigationLink(destination: MainView()) {
-            //                                    EmptyView()
-            //                                }
-            //
-            //                }
-            //                isNavigateToMain = true
-            //
-            //            } ){
-            //                ZStack{ Rectangle()
-            //                        .frame(width: 350, height: 60)
-            //                        .cornerRadius(30)
-            //                        .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
-            //                    Text(isButtonPressed ? "메인으로 돌아가기" : "저장하기")
-            //                        .foregroundColor(.yellow)
-            //                        .font(.system(size: 20, weight: .medium))
-            //                }
-            //            }
-            //            .padding(.top, 33)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Image(uiImage:viewModel.card.albumArtUIImage).resizable().ignoresSafeArea().scaledToFill().blur(radius: 20))
@@ -149,8 +110,6 @@ struct CompleteCardView: View {
             ActivityViewController(activityItems: [viewModel.card.albumArtUIImage])
         }
     }
-    
-    
 }
 
 struct ActivityViewController: UIViewControllerRepresentable {
@@ -164,12 +123,3 @@ struct ActivityViewController: UIViewControllerRepresentable {
         // No need for update in this case
     }
 }
-
-
-
-struct CompleteCardView_Previews: PreviewProvider {
-    static var previews: some View {
-        CompleteCardView(viewModel: CompleteCardViewModel(card: Card(albumArtUIImage: UIImage(named: "test") ?? UIImage(), title: "커다란", singer: "민수", lyrics: "사랑은 보이지 않는 곳에 흔적을 남기지\n사람은 고스란히 느낄 수가 있지\n서로를 향하는 마음이 진심인지\n참 신기하게도 알 수가 있어", cardColor: .clear)))
-    }
-}
-
