@@ -51,7 +51,7 @@ class SelectLyricsViewModel: ObservableObject {
                     let linesArray = lyricsText.components(separatedBy: "\n")
                     DispatchQueue.main.async {
                         self.lyrics = linesArray
-                        print(self.lyrics)
+//                        print(self.lyrics)
                     }
                 }
                 catch {
