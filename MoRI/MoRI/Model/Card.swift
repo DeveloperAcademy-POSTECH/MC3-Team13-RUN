@@ -22,7 +22,7 @@ struct Card {
         self.singer = singer
         self.lyrics = lyrics
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy.MM.dd"
+        dateFormatter.dateFormat = "yyyy.MM.dd HH:mm:ss"
         let convertDate = dateFormatter.string(from: Date())
         self.date = convertDate
         self.cardColor = cardColor

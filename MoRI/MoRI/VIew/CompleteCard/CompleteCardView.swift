@@ -12,12 +12,16 @@ struct CompleteCardView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) private var viewContext
     
+    @Environment(\.presentationMode) private var presentationMode
+
     @State private var isShareSheetShowing = false
     @State private var isButtonPressed = false
-
+    @State private var isNavigateToMain = false
+    
+    @State var songData: SelectedSong = SelectedSong(name: "", artist: "", imageUrl: nil)
+    
     
     var body: some View {
-        
         
         
         VStack(spacing: 0){
@@ -46,7 +50,19 @@ struct CompleteCardView: View {
             Button(action: {
                 PersistenceController().addItem(viewContext, viewModel.card.albumArtUIImage, viewModel.card.title, viewModel.card.singer, viewModel.card.date, viewModel.card.lyrics, viewModel.card.cardColor)
                 isButtonPressed = true
-                print("Save")
+                
+//                if isNavigateToMain{
+//                    presentationMode.wrappedValue.dismiss() // 해당 버튼 클릭 시 뷰 닫기 (루트 뷰로 돌아가기)
+//                }
+//                if isNavigateToMain{
+//                    NavigationLink(destination: MainView(), isActive: $isButtonPressed) {
+//                                    EmptyView()
+//                                }
+//
+//                }
+                isNavigateToMain = true
+
+
                 
             } ){
                 ZStack{ Rectangle()
@@ -95,11 +111,11 @@ struct CompleteCardView: View {
 
 struct ActivityViewController: UIViewControllerRepresentable {
     let activityItems: [Any]
-
+    
     func makeUIViewController(context: Context) -> UIActivityViewController {
         UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
     }
-
+    
     func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {
         // No need for update in this case
     }
