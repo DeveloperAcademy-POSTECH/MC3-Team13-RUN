@@ -7,20 +7,30 @@
 
 import SwiftUI
 
+
 struct SelectLyricsView: View {
     @ObservedObject var musicViewModel: SearchMusicViewModel
     @ObservedObject var lyricsViewModel: SelectLyricsViewModel
     @Binding var songData: SelectedSong
-
     @State private var selectedTexts: [String] = Array(repeating: "", count: 4)
+
     @State private var startSelectionIndex: Int?
     
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        VStack{
+        VStack(alignment: .leading){
             HStack(spacing: 11){
-                AsyncImageView(url: songData.imageUrl!)
+                
+                AsyncImage(url: songData.imageUrl) { image in
+                    image
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 56, height: 56)
+                        .padding(.leading, 35)
+                } placeholder: {
+                }
+
                 VStack(alignment: .leading){
                     Text(songData.name)
                         .foregroundColor(Color(hex: 0x111111))
@@ -33,9 +43,11 @@ struct SelectLyricsView: View {
             }
             
             ScrollView {
-                VStack(){
+                VStack(alignment: .leading){
                     ForEach(lyricsViewModel.lyrics.indices, id: \.self) { index in
+                        
                         let text = lyricsViewModel.removeCharactersInsideBrackets(from: lyricsViewModel.lyrics[index])
+                        
                         Button(action: {
                             if let start = startSelectionIndex {
                                 let startIndex = min(start, index)
@@ -54,17 +66,25 @@ struct SelectLyricsView: View {
                                 }
                             }
                         }) {
-                            Text(text)
-                                .padding()
-                                .font(.system(size: 34, weight : .medium))
-                                .lineSpacing(30)
+                            HStack(alignment: .top) {
+                                    Text(text)
+                                        .padding()
+                                        .font(.system(size: 34, weight: .medium))
+                                        .lineSpacing(10)
+                                        .foregroundColor(selectedTexts.contains(text) ? Color.white : Color.white)
+                                        .multilineTextAlignment(.leading)
+
+                                    
+                                }
+                                .frame(maxWidth: 349, alignment : .leading) /
                                 .background(selectedTexts.contains(text) ? Color.gray.opacity(0.75) : Color.clear)
-                                .foregroundColor(selectedTexts.contains(text) ? Color.white : Color.white)
                                 .cornerRadius(10)
+
                             
                         }
                     }
                 }
+                .padding(.leading, 28)
                 .onAppear {
                     lyricsViewModel.fetchHTMLParsingResult(songData)
                 }
@@ -96,16 +116,19 @@ struct SelectLyricsView: View {
                     .frame(width: 56, height: 56)
                     .cornerRadius(4.8)
             }
+
         )
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: backButton)
     }
     
+    
+    
     var selectedLyrics: String {
-            let selectedTextsFiltered = selectedTexts.prefix(4).filter { !$0.isEmpty }
-            return selectedTextsFiltered.joined(separator: "\n")
-        }
+        let selectedTextsFiltered = selectedTexts.prefix(4).filter { !$0.isEmpty }
+        return selectedTextsFiltered.joined(separator: "\n")
+    }
     
     var backButton: some View {
         Button(action: {

@@ -9,6 +9,17 @@ import SwiftUI
 
 struct EditCardView: View {
     @StateObject var viewModel: EditCardViewModel
+    @Environment(\.dismiss) private var dismiss
+    var backButton: some View {
+        Button(action: {
+            dismiss()
+        }) {
+            Image(systemName: "chevron.left")
+                .imageScale(.large)
+                .foregroundColor(Color(hex: 0x767676))
+        }
+    }
+    
     var body: some View {
         VStack(spacing: 0){
             CardTop(viewModel: viewModel)
@@ -49,6 +60,8 @@ struct EditCardView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Image(uiImage:viewModel.card.albumArtUIImage).resizable().ignoresSafeArea().scaledToFill().blur(radius: 20))
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: backButton)
     }
 }
 struct EditCardView_Previews: PreviewProvider {
