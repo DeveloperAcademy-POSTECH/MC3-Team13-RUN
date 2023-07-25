@@ -76,7 +76,7 @@ struct SelectLyricsView: View {
 
                                     
                                 }
-                                .frame(maxWidth: 349, alignment : .leading) /
+                                .frame(maxWidth: 349, alignment : .leading)
                                 .background(selectedTexts.contains(text) ? Color.gray.opacity(0.75) : Color.clear)
                                 .cornerRadius(10)
 
