@@ -6,10 +6,10 @@
 //
 
 import SwiftUI
-//112 224
+
 struct CardTop: View {
     @StateObject var viewModel: EditCardViewModel
-    @State private var dragPointerIsHidden = false
+    @State private var dragPointerIsHidden = true
     var body: some View {
         VStack(spacing: 0){
             ZStack{
@@ -33,31 +33,41 @@ struct CardTop: View {
                 }
                 .padding(.top, 280)
                 .padding(.leading, 300)
-                if dragPointerIsHidden {
+                if !dragPointerIsHidden {
                     VStack{
                         Circle()
                             .frame(width: 30,height: 30)
                             .offset(viewModel.draggedOffset)
                             .foregroundColor(viewModel.card.cardColor)
-                        Circle()
-                            .frame(width: 15, height: 15)
-                            .offset(viewModel.draggedOffset)
-                            .opacity(0.4)
-                            .gesture(
-                                DragGesture()
-                                    .onChanged{ gesture in
-                                        viewModel.draggedOffset = viewModel.accumulatedOffset + gesture.translation
-                                        viewModel.repositionDrag()
-                                        viewModel.getColorFromImagePixel()
-                                    }
-                                    .onEnded { gesture in
-                                        viewModel.accumulatedOffset = viewModel.accumulatedOffset + gesture.translation
-                                    }
-                            )
+                        ZStack{
+                            Circle()
+                                .frame(width: 20, height: 20)
+                                .foregroundColor(.black)
+                            Circle()
+                                .frame(width: 15, height: 15)
+                                .foregroundColor(.white)
+
+                        }
+                        .offset(viewModel.draggedOffset)
                     }
                 }
             }
             .compositingGroup()
+            .gesture(
+                DragGesture()
+                    .onChanged{ gesture in
+                        if(!dragPointerIsHidden){
+                            viewModel.draggedOffset = viewModel.accumulatedOffset + gesture.translation
+                            viewModel.repositionDrag()
+                            viewModel.getColorFromImagePixel()
+                        }
+                    }
+                    .onEnded { gesture in
+                        if(!dragPointerIsHidden){
+                            viewModel.accumulatedOffset = viewModel.accumulatedOffset + gesture.translation
+                        }
+                    }
+            )
             ZStack(alignment: .top){
                 Rectangle()
                     .frame(width: 350, height: 74)
