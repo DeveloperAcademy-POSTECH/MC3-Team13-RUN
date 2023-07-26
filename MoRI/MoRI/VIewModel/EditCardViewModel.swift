@@ -48,6 +48,11 @@ final class EditCardViewModel: ObservableObject {
         
         let x = Int(Int(draggedOffset.width+175)*width/350)
         let y = Int(Int(draggedOffset.height+175)*height/350)+40
+        if(y >= 980 || y <= 10){
+            draggedOffset = .zero
+            accumulatedOffset = .zero
+            return
+        }
         let pixelData = context.data?.assumingMemoryBound(to: UInt8.self)
         let offset = bytesPerRow * y + bytesPerPixel * x
         let r = Double((pixelData?[offset])!)/225
