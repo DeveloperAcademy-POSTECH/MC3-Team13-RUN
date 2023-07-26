@@ -31,6 +31,8 @@ struct CardDetailView: View {
             }
             .compositingGroup()
         }
+        .compositingGroup()
+        .shadow(radius: 5, x: 8, y: -4)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Image(uiImage:viewModel.card.albumArtUIImage).resizable().ignoresSafeArea().scaledToFill().blur(radius: 20))
     }
