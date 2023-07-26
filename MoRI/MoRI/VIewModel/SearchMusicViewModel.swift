@@ -53,7 +53,7 @@ class SearchMusicViewModel: ObservableObject {
                         })
                     }
                 } catch {
-//                    print(String(describing: error))
+                    print(String(describing: error))
                 }
             default:
                 break
@@ -61,38 +61,23 @@ class SearchMusicViewModel: ObservableObject {
         }
     }
     
-//    //MARK: 제목과 아티스트 이름 띄워쓰기 처리
-//    func replaceSpacesWithDash(in text: String) -> String {
-//        let regex = try! NSRegularExpression(pattern: "\\([^\\)]*\\)", options: [])
-//        let range = NSRange(location: 0, length: text.utf16.count)
-//        let result = regex.stringByReplacingMatches(in: text, options: [], range: range, withTemplate: "")
-//
-//        let dashResult = result.replacingOccurrences(of: " ", with: "-")
-//
-//        if dashResult.last == "-" {
-//            return String(dashResult.dropLast())
-//        } else {
-//            return dashResult
-//        }
-//    }
-    
     //MARK: 가수 이름 처리
     func replaceArtistName(in text: String) -> String {
         let regex = try! NSRegularExpression(pattern: "\\([^\\)]*\\)", options: [])
         let range = NSRange(location: 0, length: text.utf16.count)
         let result = regex.stringByReplacingMatches(in: text, options: [], range: range, withTemplate: "")
         
-        // Step 4: Replace "and" with "&"
         var finalResult = ""
         if countOccurrences(of: ",", in: result) >= 2 {
-                finalResult = result.replacingOccurrences(of: "&", with: "-")
+            finalResult = result.replacingOccurrences(of: "&", with: "-")
         } else {
             finalResult = result.replacingOccurrences(of: "&", with: "and")
         }
         let dashResult = finalResult.replacingOccurrences(of: " ", with: "-")
         let removeResult = dashResult.replacingOccurrences(of: "---", with: "-")
-        let Result = removeResult.replacingOccurrences(of: ",", with: "")
-
+        let removeDot = removeResult.replacingOccurrences(of: ".", with: "")
+        let Result = removeDot.replacingOccurrences(of: ",", with: "")
+        
         return Result
     }
     
@@ -109,9 +94,16 @@ class SearchMusicViewModel: ObservableObject {
     
     //MARK: 노래 제목 처리
     func replaceMusicTitle(in text: String) -> String {
-        let regexPattern = "[+*?]"
+        // Square처럼 feat없는 경우 regexPatternFirst
+        let regexPatternFirst = "[+*?]"
+        let regexPattern = "\\([^()]*\\)"
+        
+        let regexFirst = try! NSRegularExpression(pattern: regexPatternFirst, options: [])
         let regex = try! NSRegularExpression(pattern: regexPattern, options: [])
+        
         let range = NSRange(location: 0, length: text.utf16.count)
+        
+        let asteriskResultFirst = regexFirst.stringByReplacingMatches(in: text, options: [], range: range, withTemplate: "")
         let asteriskResult = regex.stringByReplacingMatches(in: text, options: [], range: range, withTemplate: "")
         
         //MARK: 노래 안에 소괄호 처리함수
@@ -128,14 +120,45 @@ class SearchMusicViewModel: ObservableObject {
         let containsDot = extractedText.contains(".")
         var result = ""
         if containsDot {
-            let removeParenthesesPattern = "\\([^().]*\\)"
-            result = asteriskResult.replacingOccurrences(of: removeParenthesesPattern, with: "", options: .regularExpression)
+            result = removeSuffixAfterKeywords(in: asteriskResult)
+            result = result.replacingOccurrences(of: "\\s+$", with: "", options: .regularExpression)
+            
         } else {
-            result = asteriskResult.replacingOccurrences(of: "[()]", with: "", options: .regularExpression)
+            result = asteriskResultFirst.replacingOccurrences(of: "[()]", with: "", options: .regularExpression)
         }
         
-        result = result.replacingOccurrences(of: " ", with: "-")
+        let andResult = result.replacingOccurrences(of: "&", with: "and")
+        result = andResult.replacingOccurrences(of: " ", with: "-")
         
+        
+        return result
+    }
+    
+    //MARK: 소괄호안에 피처링 정보, 프로듀스 정보 처리
+    func removeSuffixAfterKeywords(in text: String) -> String {
+        var result = ""
+        let keywords = ["(prod.", "(feat.", "\\[feat.", "(ft.", "\\[ft."]
+        var removeNext = false
+        var keywordFound = false
+
+        for character in text {
+            if removeNext {
+                if character == " " {
+                    removeNext = false
+                }
+                continue
+            }
+            result.append(character)
+            if !keywordFound {
+                for keyword in keywords {
+                    if result.hasSuffix(keyword) {
+                        removeNext = true
+                        keywordFound = true
+                        break
+                    }
+                }
+            }
+        }
         return result
     }
 }
