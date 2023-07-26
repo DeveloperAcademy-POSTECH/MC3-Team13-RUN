@@ -19,7 +19,7 @@ struct SelectLyricsView: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        VStack(alignment: .leading){
+        VStack(){
             HStack(spacing: 11){
                 
                 AsyncImage(url: songData.imageUrl) { image in
@@ -88,7 +88,7 @@ struct SelectLyricsView: View {
                         }
                     }
                 }
-                .padding(.leading, 28)
+                .padding(.leading, 3)
                 .onAppear {
                     lyricsViewModel.fetchHTMLParsingResult(songData)
                 }
