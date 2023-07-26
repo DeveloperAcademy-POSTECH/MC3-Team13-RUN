@@ -57,7 +57,7 @@ struct CompleteCardView: View {
                                     .cornerRadius(30)
                                     .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
                                 Text("저장하기")
-                                    .foregroundColor(.yellow)
+                                    .foregroundColor(Color(red: 0.81, green : 0.92, blue: 0))
                                     .font(.system(size: 20, weight: .medium))
                             }
                         }
@@ -72,7 +72,7 @@ struct CompleteCardView: View {
                                     .cornerRadius(30)
                                     .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
                                 Text("메인으로 돌아가기")
-                                    .foregroundColor(.yellow)
+                                    .foregroundColor(Color(red: 0.81, green : 0.92, blue: 0))
                                     .font(.system(size: 20, weight: .medium))
                             }
                         }

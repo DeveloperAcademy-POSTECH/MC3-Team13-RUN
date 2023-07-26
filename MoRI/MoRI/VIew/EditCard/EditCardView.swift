@@ -50,7 +50,7 @@ struct EditCardView: View {
                             .cornerRadius(30)
                             .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
                         Text("색상 선택 완료")
-                            .foregroundColor(.yellow)
+                            .foregroundColor(Color(red: 0.81, green : 0.92, blue: 0))
                             .font(.system(size: 20, weight: .medium))
                     
                 }
