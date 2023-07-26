@@ -53,18 +53,35 @@ struct SelectLyricsView: View {
                         let text = lyricsViewModel.removeCharactersInsideBrackets(from: lyricsViewModel.lyrics[index])
                         
                         Button(action: {
+                            
                             if let start = startSelectionIndex {
-                                let startIndex = min(start, index)
-                                let endIndex = max(start, index)
+                                var startIndex = min(start, index)
+                                var endIndex = max(start, index)
+                                
+                                if endIndex > startIndex + 3{
+                                    endIndex = startIndex + 3
+                                }
+                                
                                 let range = startIndex...endIndex
                                 
                                 
                                 selectedTexts = lyricsViewModel.lyrics[range].map { $0 }
                                 startSelectionIndex = nil
+                                
                             } else {
                                 if selectedTexts.contains(text) {
                                     selectedTexts.removeAll { $0 == text }
-                                } else {
+                                }
+                                else if selectedTexts.count >= 4 {
+                                    if selectedTexts.contains(text) {
+                                        selectedTexts.removeAll { $0 == text }
+                                    } else {
+                                        // Clear the previous selection and make a new selection.
+                                        selectedTexts.removeAll()
+                                        selectedTexts.append(text)
+                                    }
+                                }
+                                else {
                                     selectedTexts.append(text)
                                     startSelectionIndex = index
                                 }
