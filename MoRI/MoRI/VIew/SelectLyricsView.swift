@@ -12,13 +12,7 @@ struct SelectLyricsView: View {
     @ObservedObject var musicViewModel: SearchMusicViewModel
     @ObservedObject var lyricsViewModel: SelectLyricsViewModel
     @Binding var songData: SelectedSong
-//    @State private var selectedTexts: [String] = Array(repeating: "", count: 4)
     @State private var selectedTextIndices: [Int] = []
-
-//    @State private var selectedTexts: [Int] = [] // selectedTexts 배열의 타입을 Int로 변경
-//    @State private var selectedTexts: [String] = [] // selectedTexts 배열의 타입을 String으로 변경
-//    @State private var selectedTexts: Set<String> = [] // Use Set to prevent duplicate selected texts
-
 
     @State private var startSelectionIndex: Int?
     
@@ -67,7 +61,7 @@ struct SelectLyricsView: View {
                                 let endIndex = max(start, index)
 
                                 if endIndex > startIndex + 3 {
-                                    selectedTextIndices = Array(startIndex...startIndex + 2)
+                                    selectedTextIndices = Array(startIndex...startIndex + 3)
                                     startSelectionIndex = nil
                                 } else {
                                     selectedTextIndices = Array(startIndex...endIndex)
@@ -90,7 +84,7 @@ struct SelectLyricsView: View {
                                         .padding()
                                         .font(.system(size: 34, weight: .medium))
                                         .lineSpacing(10)
-                                        .foregroundColor(selectedTextIndices.contains(index) ? Color.white : Color.black) // Use the index to check for selection
+                                        .foregroundColor(selectedTextIndices.contains(index) ? Color.white : Color.white)
                                         .multilineTextAlignment(.leading)
 
 
@@ -161,13 +155,7 @@ struct SelectLyricsView: View {
         }
     }
     
-//    func getBrightness(_ color: Color) -> CGFloat {
-//            let uiColor = UIColor(color)
-//            var brightness: CGFloat = 0.0
-//            uiColor.getHue(nil, saturation: nil, brightness: &brightness, alpha: nil)
-//            return brightness
-//        }
-    
+
     
 }
 
