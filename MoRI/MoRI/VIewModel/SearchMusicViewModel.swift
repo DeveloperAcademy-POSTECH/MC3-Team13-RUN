@@ -127,7 +127,9 @@ class SearchMusicViewModel: ObservableObject {
             result = asteriskResultFirst.replacingOccurrences(of: "[()]", with: "", options: .regularExpression)
         }
         
-        result = result.replacingOccurrences(of: " ", with: "-")
+        let andResult = result.replacingOccurrences(of: "&", with: "and")
+        result = andResult.replacingOccurrences(of: " ", with: "-")
+        
         
         return result
     }
@@ -135,7 +137,7 @@ class SearchMusicViewModel: ObservableObject {
     //MARK: 소괄호안에 피처링 정보, 프로듀스 정보 처리
     func removeSuffixAfterKeywords(in text: String) -> String {
         var result = ""
-        let keywords = ["(prod.", "(feat."]
+        let keywords = ["(prod.", "(feat.", "\\[feat.", "(ft.", "\\[ft."]
         var removeNext = false
         var keywordFound = false
 
