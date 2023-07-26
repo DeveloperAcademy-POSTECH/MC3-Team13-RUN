@@ -44,42 +44,47 @@ struct CompleteCardView: View {
             }
             .compositingGroup()
             
-            NavigationStack {
-                VStack {
-                    if !isButtonPressed {
-                        Button(action: {
-                            PersistenceController().addItem(viewContext, viewModel.card.albumArtUIImage, viewModel.card.title, viewModel.card.singer, viewModel.card.date, viewModel.card.lyrics, viewModel.card.cardColor)
-                            isButtonPressed.toggle()
-                        }) {
-                            ZStack {
-                                Rectangle()
-                                    .frame(width: 350, height: 60)
-                                    .cornerRadius(30)
-                                    .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
-                                Text("저장하기")
-                                    .foregroundColor(.yellow)
-                                    .font(.system(size: 20, weight: .medium))
-                            }
+            
+            HStack(spacing : 16){
+                
+                VStack{
+                    Button(action: {
+                        PersistenceController().addItem(viewContext, viewModel.card.albumArtUIImage, viewModel.card.title, viewModel.card.singer, viewModel.card.date, viewModel.card.lyrics, viewModel.card.cardColor)
+                        isButtonPressed.toggle()
+                    }) {
+                        ZStack {
+                            Rectangle()
+                                .frame(width: 167, height: 60)
+                                .cornerRadius(30)
+                                .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
+                            Text("저장하기")
+                                .foregroundColor(Color(red: 0.81, green : 0.92, blue: 0))
+                                .font(.system(size: 20, weight: .medium))
                         }
-                        .padding(.top, 33)
-                    } else {
-                        Button(action: {
-                            NavigationUtil.popToRootView()
-                        }) {
-                            ZStack {
-                                Rectangle()
-                                    .frame(width: 350, height: 60)
-                                    .cornerRadius(30)
-                                    .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
-                                Text("메인으로 돌아가기")
-                                    .foregroundColor(.yellow)
-                                    .font(.system(size: 20, weight: .medium))
-                            }
-                        }
-                        .padding(.top, 33)
                     }
+                    .padding(.top, 33)
                 }
+                
+                VStack{
+                    Button(action: {
+                        NavigationUtil.popToRootView()
+                    }) {
+                        ZStack {
+                            Rectangle()
+                                .frame(width: 167, height: 60)
+                                .cornerRadius(30)
+                                .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
+                            Text("메인으로")
+                                .foregroundColor(Color(red: 0.81, green : 0.92, blue: 0))
+                                .font(.system(size: 20, weight: .medium))
+                        }
+                    }
+                    .padding(.top, 33)
+                }
+                
             }
+            
+            
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Image(uiImage:viewModel.card.albumArtUIImage).resizable().ignoresSafeArea().scaledToFill().blur(radius: 20))
