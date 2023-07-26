@@ -57,13 +57,21 @@ struct CompleteCardView: View {
                                 .frame(width: 167, height: 60)
                                 .cornerRadius(30)
                                 .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
-                            Text("저장하기")
-                                .foregroundColor(Color(red: 0.81, green : 0.92, blue: 0))
-                                .font(.system(size: 20, weight: .medium))
+                            if (!isButtonPressed) {
+                                Text("저장하기")
+                                    .foregroundColor(Color(red: 0.81, green : 0.92, blue: 0))
+                                    .font(.system(size: 20, weight: .medium))
+                            }
+                            else {
+                                Image(systemName: "checkmark")
+                                    .frame(width: 20, height: 20)
+                                    .foregroundColor(Color(red: 0.81, green : 0.92, blue: 0))
+                            }
                         }
                     }
                     .padding(.top, 33)
                 }
+                .disabled(isButtonPressed)
                 
                 VStack{
                     Button(action: {
