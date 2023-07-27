@@ -65,8 +65,8 @@ struct EditCardView: View {
     }
 }
 
-struct EditCardView_Previews: PreviewProvider {
-    static var previews: some View {
-        EditCardView(viewModel: EditCardViewModel(card: Card(albumArtUIImage: UIImage(named: "test") ?? UIImage(), title: "커다란", singer: "민수", lyrics: "사랑은 보이지 않는 곳에 흔적을 남기지\n사람은 고스란히 느낄 수가 있지\n서로를 향하는 마음이 진심인지\n참 신기하게도 알 수가 있어\nasdasdsad", cardColor: .clear)))
-    }
-}
+//struct EditCardView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        EditCardView(viewModel: EditCardViewModel(card: Card(albumArtUIImage: UIImage(named: "test") ?? UIImage(), title: "커다란", singer: "민수", lyrics: "사랑은 보이지 않는 곳에 흔적을 남기지\n사람은 고스란히 느낄 수가 있지\n서로를 향하는 마음이 진심인지\n참 신기하게도 알 수가 있어\nasdasdsad", cardColor: .clear)))
+//    }
+//}
