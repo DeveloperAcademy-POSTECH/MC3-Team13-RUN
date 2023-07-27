@@ -75,12 +75,12 @@ struct CardTop: View {
                     .foregroundColor(viewModel.card.cardColor)
                 VStack(spacing: 0){
                     Text(viewModel.card.title)
-                        .font(.system(size: 34, weight: .medium))
+                        .font(.custom(FontsManager.Pretendard.medium, size: 34))
                         .foregroundColor(viewModel.lyricsColor)
                         .frame(height: 34)
                     Text(viewModel.card.singer + "-" + viewModel.card.date)
                         .frame(width: 314, height: 22, alignment: .leading)
-                        .font(.system(size: 14, weight: .regular))
+                        .font(.custom(FontsManager.Pretendard.regular, size: 14))
                         .foregroundColor(viewModel.lyricsColor)
                         .blendMode(.softLight)
                 }
