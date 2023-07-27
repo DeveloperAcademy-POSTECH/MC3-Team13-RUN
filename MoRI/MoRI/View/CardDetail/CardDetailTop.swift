@@ -35,7 +35,7 @@ struct CardDetailTop: View {
                         .font(.system(size: 34, weight: .medium))
                         .foregroundColor(viewModel.lyricsColor)
                         .frame(height: 34)
-                    Text(viewModel.card.singer + "-" + viewModel.card.date)
+                    Text(viewModel.card.singer)
                         .frame(width: 314, height: 22, alignment: .leading)
                         .font(.system(size: 14, weight: .regular))
                         .foregroundColor(viewModel.lyricsColor)
