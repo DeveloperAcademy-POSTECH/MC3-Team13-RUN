@@ -38,7 +38,7 @@ extension Color {
         
         return (Double(r), Double(g), Double(b), Double(a))
     }
-    static let primaryColor =  Color("Primary")
+    static let primaryColor =  Color("primary")
     static let whiteColor =  Color("White")
     static let blackColor =  Color("black")
     static let gray01Color =  Color("gray01")

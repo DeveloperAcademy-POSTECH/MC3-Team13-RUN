@@ -10,8 +10,8 @@ import Combine
 
 final class EditCardViewModel: ObservableObject {
     @Published public var card:Card
-    @Published public var lyricsContainerColor: Color = .clear
-    @Published public var lyricsColor: Color = .clear
+    @Published public var lyricsContainerColor: Color = .gray01Color
+    @Published public var lyricsColor: Color = .whiteColor
     @Published public var draggedOffset: CGSize
     @Published public var accumulatedOffset = CGSize.zero
 
@@ -30,7 +30,7 @@ final class EditCardViewModel: ObservableObject {
     public func getColorFromImagePixel(){
         let image = card.albumArtUIImage
         guard let cgImage = image.cgImage else {
-            card.cardColor = .black
+            card.cardColor = .blackColor
             return
         }
         let width = cgImage.width
@@ -40,7 +40,7 @@ final class EditCardViewModel: ObservableObject {
         let bytesPerRow = bytesPerPixel * width
         let bitmapInfo = cgImage.bitmapInfo.rawValue
         guard let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: 8, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo) else {
-            card.cardColor = .black
+            card.cardColor = .blackColor
             return
         }
         let rect = CGRect(x: 0, y: 0, width: width, height: height)

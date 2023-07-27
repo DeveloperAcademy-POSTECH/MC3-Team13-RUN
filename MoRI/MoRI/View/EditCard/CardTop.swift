@@ -82,7 +82,7 @@ struct CardTop: View {
                         .foregroundColor(viewModel.lyricsColor)
                     Text(pureData.artist)
                         .frame(width: 314, height: 22, alignment: .leading)
-                        .font(.system(size: 14, weight: .regular))
+                        .font(.custom(FontsManager.Pretendard.regular, size: 14))
                         .foregroundColor(viewModel.lyricsColor)
                         .blendMode(.softLight)
                 }
