@@ -31,6 +31,9 @@ struct ArchiveCardChipView: View {
     
     @State private var cardSelected = false // 카드 선택 여부
     @State var selectedIndex: Int?   // 선택된 카드 index
+    @State private var redrawTrigger = false    // 카드 휠 다시 그리기
+    @State private var showingAlert = false
+    @State private var isShareSheetShowing = false
     @State private var lastTempCurrentCard = 0
     
     var body: some View {
@@ -121,6 +124,16 @@ struct ArchiveCardChipView: View {
                             // MARK: - Card 생성 => 앨범아트카드(CardDetailArt)
                             CardDetailArt(viewModel: CardDetailViewModel(
                                 card: Card(
+                                    /* index
+                                    albumArtUIImage: UIImage(data: items[index].albumArt!)!,
+                                    title: items[index].title!,
+                                    singer: items[index].singer!,
+                                    lyrics: items[index].lyrics ?? "No Lyrics",
+                                    cardColor: Color(red: items[index].cardColorR,
+                                                     green: items[index].cardColorG,
+                                                     blue: items[index].cardColorB,
+                                                     opacity: items[index].cardColorA)
+                                    */
                                     albumArtUIImage: UIImage(data: item.albumArt!)!,
                                     title: item.title!,
                                     singer: item.singer!,
@@ -130,6 +143,10 @@ struct ArchiveCardChipView: View {
                                                      blue: item.cardColorB,
                                                      opacity: item.cardColorA)
                                 )))
+//                            // 테스트용 -> 인덱스 확인
+//                            Text("\(index)")
+//                                .font(Font.custom("HelveticaNeue-Bold", size: 90))
+//                                .foregroundColor(.white)
                         }
                         // MARK: - Card 생성 => 앨범아트카드(CardDetailArt) 효과
                         .scaleEffect(0.59)
@@ -158,6 +175,10 @@ struct ArchiveCardChipView: View {
                 .background(backgroundArchive)
                 .cornerRadius(20)
                 .padding(.bottom, 23)
+                .onChange(of: selectedIndex) { newIndex in
+                    redrawTrigger.toggle()
+                }
+                .id(redrawTrigger)
                 
                 // MARK: - Card 디테일 화면 생성 => 앨범디테일카드(CardDetailView)
                 ZStack {
@@ -181,35 +202,6 @@ struct ArchiveCardChipView: View {
                                 }
                         }
                     }
-                    
-                    // MARK: - 디테일 화면 삭제/공유 버튼
-                    HStack (spacing: 37) {
-                        // 삭제버튼
-                        Button(action: {
-                            PersistenceController().deleteItems(viewContext, items[selectedIndex!])
-                            self.cardSelected = false
-                            selectedIndex = nil
-                        }){
-                            Circle()
-                                .foregroundColor(Color.white.opacity(0.15))
-                                .frame(width: 39, height: 39)
-                                .overlay {
-                                    Image(systemName: "trash.fill")
-                                        .frame(width: 39, height: 39)
-                                        .foregroundColor(.white)
-                                }
-                        }
-                        // 공유버튼
-                        Circle()
-                            .foregroundColor(Color.white.opacity(0.15))
-                            .frame(width: 39, height: 39)
-                            .overlay {
-                                Image(systemName: "square.and.arrow.up")
-                                    .frame(width: 39, height: 39)
-                                    .foregroundColor(.white)
-                            }
-                    }
-                    .offset(x: 117.5, y: -346.5)
                 }
                 // MARK: - Card 디테일 화면 생성 => 앨범디테일카드(CardDetailView) 효과
                 .opacity(cardSelected ? 1.0 : 0.0)
@@ -222,6 +214,81 @@ struct ArchiveCardChipView: View {
                 .animation(Animation.easeInOut(duration: 0.25))
             }
             .ignoresSafeArea()
+            .navigationBarItems(
+                trailing: HStack (spacing: 0) {
+                    if (selectedIndex != nil) {
+                        // MARK: - 디테일 화면 삭제 버튼
+                        // 삭제버튼
+                        Button(action: {
+                            showingAlert = true
+                        }){
+                            Circle()
+                                .foregroundColor(Color.white.opacity(0.15))
+                                .frame(width: 39, height: 39)
+                                .overlay {
+                                    Image(systemName: "trash.fill")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 23, height: 23)
+                                        .foregroundColor(.white)
+                                }
+                        }
+                        .alert("정말 카드를 삭제하시겠습니까?", isPresented: $showingAlert) {
+                            Button("취소", role: .cancel) {
+                                showingAlert = false
+                            }
+                            Button("삭제", role: .destructive) {
+                                PersistenceController().deleteItems(viewContext, items[selectedIndex!])
+                                self.cardSelected = false
+                                selectedIndex = nil
+                                showingAlert = false
+                            }
+                        }
+                        .padding(.trailing, 37-16)
+                        // MARK: - 디테일 화면 공유 버튼
+                        // 공유버튼
+                        Button(action: {
+                            isShareSheetShowing.toggle()
+                            print("share button onTapped")
+                        }) {
+                            Circle()
+                                .foregroundColor(Color.white.opacity(0.15))
+                                .frame(width: 39, height: 39)
+                                .overlay {
+                                    Image(systemName: "square.and.arrow.up")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 23, height: 23)
+                                        .foregroundColor(.white)
+                                }
+                        }
+                        .padding(.trailing, 20-16)
+                        .sheet(isPresented: $isShareSheetShowing) {
+                            ActivityViewController(activityItems: [
+//                                CardDetailView(viewModel: CardDetailViewModel(
+//                                    card: Card(
+//                                        albumArtUIImage: UIImage(data: items[selectedIndex!].albumArt!)!,
+//                                        title: items[selectedIndex!].title!,
+//                                        singer: items[selectedIndex!].singer!,
+//                                        lyrics: items[selectedIndex!].lyrics ?? "No Lyrics",
+//                                        cardColor: Color(red: items[selectedIndex!].cardColorR,
+//                                                         green: items[selectedIndex!].cardColorG,
+//                                                         blue: items[selectedIndex!].cardColorB,
+//                                                         opacity: items[selectedIndex!].cardColorA)
+//                                    )))
+                            ])
+                        }
+                    }
+                }
+                    .opacity(cardSelected ? 1.0 : 0.0)
+                    .scaleEffect(cardSelected ? 1 : 0)
+                    .rotation3DEffect(
+                        Angle.degrees(cardSelected ? 0: 180),
+                        axis: (-5,1,0),
+                        perspective: 0.3
+                    )
+                    .animation(Animation.easeInOut(duration: 0.25))
+            )
         }
     }
     
