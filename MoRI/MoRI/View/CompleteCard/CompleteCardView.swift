@@ -17,14 +17,15 @@ struct CompleteCardView: View {
     @State private var isShareSheetShowing = false
     @State private var isButtonPressed = false
     @State private var isNavigateToMain = false
-    
     @State var songData: SelectedSong = SelectedSong(name: "", artist: "", imageUrl: nil)
         
+    @Binding var pureData: PureSong
+    
     var body: some View {
         
         VStack(spacing: 0){
             
-            CompleteCardTop(viewModel: viewModel)
+            CompleteCardTop(viewModel: viewModel, pureData: $pureData)
             
             ZStack{
                 Rectangle()
