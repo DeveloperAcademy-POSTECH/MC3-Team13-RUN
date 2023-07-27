@@ -11,12 +11,13 @@ import UIKit
 struct SelectLyricsView: View {
     @ObservedObject var musicViewModel: SearchMusicViewModel
     @ObservedObject var lyricsViewModel: SelectLyricsViewModel
+    
     @Binding var songData: SelectedSong
+    @Binding var pureData: PureSong
+    
     @State private var selectedTextIndices: [Int] = []
-
     @State private var startSelectionIndex: Int?
     
-
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -37,17 +38,15 @@ struct SelectLyricsView: View {
                 }
 
                 VStack(alignment: .leading){
-                    Text(songData.name)
+                    Text(pureData.name)
                         .foregroundColor(Color(hex: 0x111111))
                         .font(.system(size: 14.48276))
-                    Text("노래 · " + songData.artist)
+                    Text("노래 · " + pureData.artist)
                         .foregroundColor(Color(hex: 0x767676))
                         .font(.system(size: 14.48276))
                 }
                 Spacer()
             }
-            
-
             
             ScrollView {
                 VStack(alignment: .leading){
@@ -86,14 +85,10 @@ struct SelectLyricsView: View {
                                         .lineSpacing(10)
                                         .foregroundColor(selectedTextIndices.contains(index) ? Color.white : Color.white)
                                         .multilineTextAlignment(.leading)
-
-
                                 }
                                 .frame(maxWidth: 349, alignment : .leading)
                                 .background(selectedTextIndices.contains(index) ? Color.gray.opacity(0.75) : Color.clear)
                                 .cornerRadius(10)
-
-
                         }
                     }
                 }
@@ -102,11 +97,8 @@ struct SelectLyricsView: View {
                     lyricsViewModel.fetchHTMLParsingResult(songData)
                 }
             }
-
-
-
             
-            NavigationLink(destination: EditCardView(viewModel: EditCardViewModel(card: Card(albumArtUIImage:  UIImage(data: try! Data(contentsOf: songData.imageUrl!))!, title: songData.name, singer: songData.artist, lyrics: selectedLyrics, cardColor: .gray)))){
+            NavigationLink(destination: EditCardView(viewModel: EditCardViewModel(card: Card(albumArtUIImage:  UIImage(data: try! Data(contentsOf: songData.imageUrl!))!, title: songData.name, singer: songData.artist, lyrics: selectedLyrics, cardColor: .gray)), pureData: $pureData)){
                 ZStack{
                     Rectangle()
                         .frame(width: 350, height: 60)

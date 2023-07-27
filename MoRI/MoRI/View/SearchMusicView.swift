@@ -11,6 +11,7 @@ struct SearchMusicView: View {
     @ObservedObject var musicViewModel = SearchMusicViewModel()
     @ObservedObject var lyricsViewModel = SelectLyricsViewModel()
     @State var songData = SelectedSong(name: "", artist: "")
+    @State var pureData = PureSong(name: "", artist: "")
     
     @Environment(\.dismiss) private var dismiss
     
@@ -20,6 +21,8 @@ struct SearchMusicView: View {
                 songData = SelectedSong(name: musicViewModel.replaceMusicTitle(in: song.name),
                                         artist: musicViewModel.replaceArtistName(in: song.artist),
                                         imageUrl: song.imageUrl)
+                pureData = PureSong(name: song.name,
+                                    artist: song.artist)
             }) {
                 HStack {
                     AsyncImage(url: song.imageUrl) { phase in
@@ -60,7 +63,7 @@ struct SearchMusicView: View {
             }
             .background(
                 NavigationLink(
-                    destination: SelectLyricsView(musicViewModel: musicViewModel, lyricsViewModel: lyricsViewModel, songData: $songData),
+                    destination: SelectLyricsView(musicViewModel: musicViewModel, lyricsViewModel: lyricsViewModel, songData: $songData, pureData: $pureData),
                     isActive: Binding<Bool>(get: { songData != nil }, set: { _ in })
                 ) {
                     EmptyView()

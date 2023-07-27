@@ -130,8 +130,8 @@
 				C1749B022A68FFD900C089DB /* Info.plist */,
 				C182946A2A66B8630027577F /* Extension */,
 				C182945F2A66268E0027577F /* Model */,
-				C182945E2A6626890027577F /* VIewModel */,
-				C182945D2A6626830027577F /* VIew */,
+				C182945E2A6626890027577F /* ViewModel */,
+				C182945D2A6626830027577F /* View */,
 				6CC611BD2A6570B300B171FD /* MoRIApp.swift */,
 				6CC611BF2A6570B300B171FD /* ContentView.swift */,
 				6CC611C62A6570B500B171FD /* Persistence.swift */,
@@ -189,7 +189,7 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
-		C182945D2A6626830027577F /* VIew */ = {
+		C182945D2A6626830027577F /* View */ = {
 			isa = PBXGroup;
 			children = (
 				D1A8D1702A6E7BD70086BF9B /* CompleteCard */,
@@ -201,10 +201,10 @@
 				8E9CB8B72A68D7DB0088D736 /* ArchiveCardChipView.swift */,
 				C1982A902A6FA64000DD9E02 /* AsyncImageView.swift */,
 			);
-			path = VIew;
+			path = View;
 			sourceTree = "<group>";
 		};
-		C182945E2A6626890027577F /* VIewModel */ = {
+		C182945E2A6626890027577F /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
 				C18294642A6627840027577F /* SearchMusicViewModel.swift */,
@@ -213,7 +213,7 @@
 				6CDE92C22A6CA4CF00A569BD /* CardDetailViewModel.swift */,
 				D1A8D1752A6E7C130086BF9B /* CompleteCardViewModel.swift */,
 			);
-			path = VIewModel;
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		C182945F2A66268E0027577F /* Model */ = {
