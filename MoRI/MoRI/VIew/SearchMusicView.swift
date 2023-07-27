@@ -30,12 +30,12 @@ struct SearchMusicView: View {
                                 .frame(width: 56, height: 56, alignment: .center)
                                 .cornerRadius(4.8)
                         case .failure(_):
-                            Image(systemName: "music.note")
+                            Image("placeholder")
                                 .resizable()
                                 .frame(width: 56, height: 56)
                                 .cornerRadius(4.8)
                         case .empty:
-                            Image(systemName: "music.note")
+                            Image("placeholder")
                                 .resizable()
                                 .frame(width: 56, height: 56)
                                 .cornerRadius(4.8)

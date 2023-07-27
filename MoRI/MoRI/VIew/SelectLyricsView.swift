@@ -30,7 +30,7 @@ struct SelectLyricsView: View {
                         .frame(width: 56, height: 56)
                         .padding(.leading, 35)
                 } placeholder: {
-                    Image(systemName: "music.note")
+                    Image("placeholder")
                         .resizable()
                         .frame(width: 56, height: 56)
                         .cornerRadius(4.8)
