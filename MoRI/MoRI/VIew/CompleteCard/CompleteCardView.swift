@@ -113,6 +113,7 @@ struct CompleteCardView: View {
     
     var shareButton: some View {
         Button(action : {
+            shareToInstagram()
             isShareSheetShowing.toggle()
         }) {
             Image(systemName: "square.and.arrow.up")
@@ -121,6 +122,34 @@ struct CompleteCardView: View {
         }
         .sheet(isPresented: $isShareSheetShowing) {
             ActivityViewController(activityItems: [viewModel.card.albumArtUIImage])
+        }
+    }
+    
+    func shareToInstagram() {
+        
+        if let stickerImageData = viewModel.card.albumArtUIImage.pngData() {
+            
+            let urlScheme = URL(string: "instagram-stories://share?source_application=\(Bundle.main.bundleIdentifier ?? "")")
+            
+            if let urlScheme = urlScheme {
+                if UIApplication.shared.canOpenURL(urlScheme) {
+                                        
+                    let pasteboardItems = [["com.instagram.backgroundImage": stickerImageData]]
+
+                    
+                    let pasteboardOptions:[UIPasteboard.OptionsKey: Any]  = [
+                        UIPasteboard.OptionsKey.expirationDate: Date().addingTimeInterval(60 * 5)
+                    ]
+                    
+                    UIPasteboard.general.setItems(pasteboardItems, options: pasteboardOptions)
+                    
+                    UIApplication.shared.open(urlScheme, options: [:])
+                } else {
+                    print("Error")
+                }
+            }
+        } else {
+            print("No image data available.")
         }
     }
 }
@@ -136,3 +165,5 @@ struct ActivityViewController: UIViewControllerRepresentable {
         // No need for update in this case
     }
 }
+
+
