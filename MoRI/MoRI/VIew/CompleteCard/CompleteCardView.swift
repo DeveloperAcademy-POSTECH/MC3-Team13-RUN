@@ -127,14 +127,21 @@ struct CompleteCardView: View {
     
     func shareToInstagram() {
         
-        if let stickerImageData = viewModel.card.albumArtUIImage.pngData() {
+        
+        if let stickerImageData = viewModel.card.albumArtUIImage.pngData(),
+            let blurredImage = blurImage(viewModel.card.albumArtUIImage){
             
             let urlScheme = URL(string: "instagram-stories://share?source_application=\(Bundle.main.bundleIdentifier ?? "")")
             
             if let urlScheme = urlScheme {
                 if UIApplication.shared.canOpenURL(urlScheme) {
                                         
-                    let pasteboardItems = [["com.instagram.backgroundImage": stickerImageData]]
+                    let pasteboardItems = [
+                        [
+                            "com.instagram.sharedSticker.stickerImage": stickerImageData,
+                            "com.instagram.sharedSticker.backgroundImage": blurredImage
+                        ] as [String : Any]
+                    ]
 
                     
                     let pasteboardOptions:[UIPasteboard.OptionsKey: Any]  = [
@@ -143,7 +150,7 @@ struct CompleteCardView: View {
                     
                     UIPasteboard.general.setItems(pasteboardItems, options: pasteboardOptions)
                     
-                    UIApplication.shared.open(urlScheme, options: [:])
+                    UIApplication.shared.open(urlScheme, options: [:], completionHandler: nil)
                 } else {
                     print("Error")
                 }
@@ -152,6 +159,24 @@ struct CompleteCardView: View {
             print("No image data available.")
         }
     }
+    
+    func blurImage(_ image: UIImage) -> UIImage? {
+        if let ciImage = CIImage(image: image) {
+            let blurFilter = CIFilter(name: "CIGaussianBlur")
+            blurFilter?.setValue(ciImage, forKey: kCIInputImageKey)
+            blurFilter?.setValue(20, forKey: kCIInputRadiusKey) // Adjust the blur radius as needed
+
+            if let outputCIImage = blurFilter?.outputImage {
+                let context = CIContext()
+                if let outputCGImage = context.createCGImage(outputCIImage, from: outputCIImage.extent) {
+                    let blurredImage = UIImage(cgImage: outputCGImage)
+                    return blurredImage
+                }
+            }
+        }
+        return nil
+    }
+    
 }
 
 struct ActivityViewController: UIViewControllerRepresentable {
