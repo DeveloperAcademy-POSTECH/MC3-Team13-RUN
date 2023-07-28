@@ -122,7 +122,8 @@ struct ArchiveCardChipView: View {
                         let rotationAngle = (standardAngle) * Double(items.firstIndex(of: item)!) + (isDragging ? currentAngle + delta : currentAngle)
                         ZStack (alignment: .top) {
                             // MARK: - Card 생성 => 앨범아트카드(CardDetailArt)
-                            CardDetailArt(viewModel: Card
+                            CardDetailArt(viewModel: CardDetailViewModel(
+                                card: Card(
                                     albumArtUIImage: UIImage(data: item.albumArt!)!,
                                     title: item.title!,
                                     singer: item.singer!,
