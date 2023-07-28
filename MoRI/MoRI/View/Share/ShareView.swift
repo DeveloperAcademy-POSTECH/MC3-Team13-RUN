@@ -40,7 +40,6 @@ struct ShareView: View {
         .compositingGroup()
         .shadow(radius: 5, x: 8, y: -4)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Image(uiImage: albumArt).resizable().ignoresSafeArea().scaledToFill().blur(radius: 20))
     }
 }
 
