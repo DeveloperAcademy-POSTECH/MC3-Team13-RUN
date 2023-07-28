@@ -122,18 +122,7 @@ struct ArchiveCardChipView: View {
                         let rotationAngle = (standardAngle) * Double(items.firstIndex(of: item)!) + (isDragging ? currentAngle + delta : currentAngle)
                         ZStack (alignment: .top) {
                             // MARK: - Card 생성 => 앨범아트카드(CardDetailArt)
-                            CardDetailArt(viewModel: CardDetailViewModel(
-                                card: Card(
-                                    /* index
-                                    albumArtUIImage: UIImage(data: items[index].albumArt!)!,
-                                    title: items[index].title!,
-                                    singer: items[index].singer!,
-                                    lyrics: items[index].lyrics ?? "No Lyrics",
-                                    cardColor: Color(red: items[index].cardColorR,
-                                                     green: items[index].cardColorG,
-                                                     blue: items[index].cardColorB,
-                                                     opacity: items[index].cardColorA)
-                                    */
+                            CardDetailArt(viewModel: Card
                                     albumArtUIImage: UIImage(data: item.albumArt!)!,
                                     title: item.title!,
                                     singer: item.singer!,
@@ -200,6 +189,13 @@ struct ArchiveCardChipView: View {
                                     self.cardSelected = false
                                     selectedIndex = nil
                                 }
+                            // 아래 10 이상 드래그할 경우 모달처럼 숨기기
+                                .gesture(DragGesture().onEnded({ value in
+                                    if value.translation.height > 10 {
+                                        self.cardSelected = false
+                                        selectedIndex = nil
+                                    }
+                                }))
                         }
                     }
                 }
@@ -265,17 +261,7 @@ struct ArchiveCardChipView: View {
                         .padding(.trailing, 20-16)
                         .sheet(isPresented: $isShareSheetShowing) {
                             ActivityViewController(activityItems: [
-//                                CardDetailView(viewModel: CardDetailViewModel(
-//                                    card: Card(
-//                                        albumArtUIImage: UIImage(data: items[selectedIndex!].albumArt!)!,
-//                                        title: items[selectedIndex!].title!,
-//                                        singer: items[selectedIndex!].singer!,
-//                                        lyrics: items[selectedIndex!].lyrics ?? "No Lyrics",
-//                                        cardColor: Color(red: items[selectedIndex!].cardColorR,
-//                                                         green: items[selectedIndex!].cardColorG,
-//                                                         blue: items[selectedIndex!].cardColorB,
-//                                                         opacity: items[selectedIndex!].cardColorA)
-//                                    )))
+                                UIImage(data: items[selectedIndex!].albumArt!)  // 임시용
                             ])
                         }
                     }
