@@ -20,7 +20,6 @@ struct ArchiveCardChipView: View {
     @State private var draggedOffset = CGSize.zero
     @State private var accumulatedOffset = CGSize.zero
     
-    let background = Color(hue: 0, saturation: 0, brightness: 91/100)
     let backgroundArchive = Color(hue: 0, saturation: 0, brightness: 1)
     
     // MARK: - 각도, 드래그 여부, 카드 선택 관련 변수
@@ -80,7 +79,7 @@ struct ArchiveCardChipView: View {
         // MARK: - Navigation
         NavigationStack {
             ZStack {
-                background.frame(width:UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                Color.gray02Color.ignoresSafeArea()
                 
                 Image("moriLogo")
                     .padding(.top, 63)
@@ -97,7 +96,7 @@ struct ArchiveCardChipView: View {
                         .cornerRadius(30)
                         .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
                     Text("만들러 가기")
-                        .foregroundColor(Color(red: 0.81, green : 0.92, blue: 0))
+                        .foregroundColor(Color.primaryColor)
                         .font(.system(size: 20, weight: .medium))
                 }
                 .padding(.top, 739)
@@ -124,16 +123,6 @@ struct ArchiveCardChipView: View {
                             // MARK: - Card 생성 => 앨범아트카드(CardDetailArt)
                             CardDetailArt(viewModel: CardDetailViewModel(
                                 card: Card(
-                                    /* index
-                                    albumArtUIImage: UIImage(data: items[index].albumArt!)!,
-                                    title: items[index].title!,
-                                    singer: items[index].singer!,
-                                    lyrics: items[index].lyrics ?? "No Lyrics",
-                                    cardColor: Color(red: items[index].cardColorR,
-                                                     green: items[index].cardColorG,
-                                                     blue: items[index].cardColorB,
-                                                     opacity: items[index].cardColorA)
-                                    */
                                     albumArtUIImage: UIImage(data: item.albumArt!)!,
                                     title: item.title!,
                                     singer: item.singer!,
@@ -190,7 +179,7 @@ struct ArchiveCardChipView: View {
                                     albumArtUIImage: UIImage(data: items[index].albumArt!)!,
                                     title: items[index].title!,
                                     singer: items[index].singer!,
-                                    lyrics: items[index].lyrics ?? "No Lyrics",
+                                    lyrics: items[index].lyrics! == "" ? "No Lyrics" : items[index].lyrics!,
                                     cardColor: Color(red: items[index].cardColorR,
                                                      green: items[index].cardColorG,
                                                      blue: items[index].cardColorB,
@@ -226,12 +215,13 @@ struct ArchiveCardChipView: View {
                             Circle()
                                 .foregroundColor(Color.white.opacity(0.15))
                                 .frame(width: 39, height: 39)
+                                .shadow(color: Color(hex: 0x242424, alpha: 0.1), radius: 8, x: 0, y: 8)
                                 .overlay {
                                     Image(systemName: "trash.fill")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
                                         .frame(width: 23, height: 23)
-                                        .foregroundColor(.white)
+                                        .foregroundColor(Color.primaryColor)
                                 }
                         }
                         .alert("정말 카드를 삭제하시겠습니까?", isPresented: $showingAlert) {
@@ -255,28 +245,19 @@ struct ArchiveCardChipView: View {
                             Circle()
                                 .foregroundColor(Color.white.opacity(0.15))
                                 .frame(width: 39, height: 39)
+                                .shadow(color: Color(hex: 0x242424, alpha: 0.1), radius: 8, x: 0, y: 8)
                                 .overlay {
                                     Image(systemName: "square.and.arrow.up")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
                                         .frame(width: 23, height: 23)
-                                        .foregroundColor(.white)
+                                        .foregroundColor(Color.primaryColor)
                                 }
                         }
                         .padding(.trailing, 20-16)
                         .sheet(isPresented: $isShareSheetShowing) {
                             ActivityViewController(activityItems: [
-//                                CardDetailView(viewModel: CardDetailViewModel(
-//                                    card: Card(
-//                                        albumArtUIImage: UIImage(data: items[selectedIndex!].albumArt!)!,
-//                                        title: items[selectedIndex!].title!,
-//                                        singer: items[selectedIndex!].singer!,
-//                                        lyrics: items[selectedIndex!].lyrics ?? "No Lyrics",
-//                                        cardColor: Color(red: items[selectedIndex!].cardColorR,
-//                                                         green: items[selectedIndex!].cardColorG,
-//                                                         blue: items[selectedIndex!].cardColorB,
-//                                                         opacity: items[selectedIndex!].cardColorA)
-//                                    )))
+                                // 공유할 콘텐츠
                             ])
                         }
                     }
