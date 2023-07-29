@@ -174,6 +174,7 @@ struct ArchiveCardChipView: View {
                 .frame(width: 350, height: 585, alignment: .center)
                 .background(backgroundArchive)
                 .cornerRadius(20)
+                .contentShape(Rectangle())  // 콘텐츠 표현 가능 영역 제한
                 .padding(.bottom, 23)
                 .onChange(of: selectedIndex) { newIndex in
                     redrawTrigger.toggle()
