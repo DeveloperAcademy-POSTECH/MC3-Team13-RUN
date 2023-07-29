@@ -77,11 +77,8 @@ class SearchMusicViewModel: ObservableObject {
         }
         let dashResult = finalResult.replacingOccurrences(of: " ", with: "-")
         let removeResult = dashResult.replacingOccurrences(of: "---", with: "-")
-        let removeDot = removeResult.replacingOccurrences(of: ".", with: "")
-        let removeApostrophe = removeDot.replacingOccurrences(of: "'", with: "")
-        let Result = removeApostrophe.replacingOccurrences(of: ",", with: "")
         
-        return Result
+        return removeResult
     }
     
     //MARK: 문자열에서 특정 문자의 개수 파악
