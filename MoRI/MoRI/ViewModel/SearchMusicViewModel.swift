@@ -96,7 +96,7 @@ class SearchMusicViewModel: ObservableObject {
     func replaceMusicTitle(in text: String) -> String {
         // Square처럼 feat없는 경우 regexPatternFirst
         let regexPatternFirst = "[+*?.]"
-        let regexPattern = "\\([^().]*\\)"
+        let regexPattern = "\\([^()]*\\)"
         
         let regexFirst = try! NSRegularExpression(pattern: regexPatternFirst, options: [])
         let regex = try! NSRegularExpression(pattern: regexPattern, options: [])
