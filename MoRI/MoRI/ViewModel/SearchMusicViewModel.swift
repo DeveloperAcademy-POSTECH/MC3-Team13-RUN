@@ -63,7 +63,9 @@ class SearchMusicViewModel: ObservableObject {
     
     //MARK: 가수 이름 처리
     func replaceArtistName(in text: String) -> String {
-        let regex = try! NSRegularExpression(pattern: "\\([^\\)]*\\)", options: [])
+        
+        let regexPattern = "[.,']|\\([^\\)]*\\)"
+        let regex = try! NSRegularExpression(pattern: regexPattern, options: [])
         let range = NSRange(location: 0, length: text.utf16.count)
         let result = regex.stringByReplacingMatches(in: text, options: [], range: range, withTemplate: "")
         
@@ -75,10 +77,8 @@ class SearchMusicViewModel: ObservableObject {
         }
         let dashResult = finalResult.replacingOccurrences(of: " ", with: "-")
         let removeResult = dashResult.replacingOccurrences(of: "---", with: "-")
-        let removeDot = removeResult.replacingOccurrences(of: ".", with: "")
-        let Result = removeDot.replacingOccurrences(of: ",", with: "")
         
-        return Result
+        return removeResult
     }
     
     //MARK: 문자열에서 특정 문자의 개수 파악
@@ -95,7 +95,7 @@ class SearchMusicViewModel: ObservableObject {
     //MARK: 노래 제목 처리
     func replaceMusicTitle(in text: String) -> String {
         // Square처럼 feat없는 경우 regexPatternFirst
-        let regexPatternFirst = "[+*?]"
+        let regexPatternFirst = "[+*?.]"
         let regexPattern = "\\([^()]*\\)"
         
         let regexFirst = try! NSRegularExpression(pattern: regexPatternFirst, options: [])
