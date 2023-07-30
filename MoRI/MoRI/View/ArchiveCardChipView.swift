@@ -81,9 +81,26 @@ struct ArchiveCardChipView: View {
             ZStack {
                 Color.gray02Color.ignoresSafeArea()
                 
-                Image("moriLogo")
-                    .padding(.top, 63)
-                    .padding(.bottom, 758.21)
+                HStack (spacing: 110.78) {
+                    Image("moriLogo")
+                        .padding(.top, 6)
+                        .padding(.bottom, 7.21)
+                    
+                    Button (action: {
+                        
+                    }, label: {
+                        Circle()
+                            .frame(width: 36, height: 36)
+                            .foregroundColor(.gray03Color)
+                            .overlay {
+                                Image(systemName: "ellipsis")
+                                    .resizable()
+                                    .frame(width: 21.18, height: 4.5)
+                                    .foregroundColor(.primaryColor)
+                            }
+                    })
+                }
+                .padding(EdgeInsets(top: 65, leading: 171, bottom: 743, trailing: 25))
                 
                 NavigationLink(destination: SearchMusicView(), isActive: $isSearchMusicViewActive) {
                     EmptyView()
@@ -96,7 +113,7 @@ struct ArchiveCardChipView: View {
                         .cornerRadius(30)
                         .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
                     Text("만들러 가기")
-                        .foregroundColor(Color.primaryColor)
+                        .foregroundColor(.primaryColor)
                         .font(.system(size: 20, weight: .medium))
                 }
                 .padding(.top, 739)
@@ -221,7 +238,7 @@ struct ArchiveCardChipView: View {
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
                                         .frame(width: 23, height: 23)
-                                        .foregroundColor(Color.primaryColor)
+                                        .foregroundColor(.primaryColor)
                                 }
                         }
                         .alert("정말 카드를 삭제하시겠습니까?", isPresented: $showingAlert) {
@@ -251,7 +268,7 @@ struct ArchiveCardChipView: View {
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
                                         .frame(width: 23, height: 23)
-                                        .foregroundColor(Color.primaryColor)
+                                        .foregroundColor(.primaryColor)
                                 }
                         }
                         .padding(.trailing, 20-16)
