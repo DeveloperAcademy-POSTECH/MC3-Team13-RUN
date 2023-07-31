@@ -20,7 +20,6 @@ struct ArchiveCardChipView: View {
     @State private var draggedOffset = CGSize.zero
     @State private var accumulatedOffset = CGSize.zero
     
-    let background = Color(hue: 0, saturation: 0, brightness: 91/100)
     let backgroundArchive = Color(hue: 0, saturation: 0, brightness: 1)
     
     // MARK: - 각도, 드래그 여부, 카드 선택 관련 변수
@@ -80,16 +79,32 @@ struct ArchiveCardChipView: View {
         // MARK: - Navigation
         NavigationStack {
             ZStack {
-                background.frame(width:UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                Color.gray02Color.ignoresSafeArea()
                 
-                Image("moriLogo")
-                    .padding(.top, 63)
-                    .padding(.bottom, 758.21)
+                HStack (spacing: 110.78) {
+                    Image("moriLogo")
+                        .padding(.top, 6)
+                        .padding(.bottom, 7.21)
+                    
+                    Button (action: {
+                        
+                    }, label: {
+                        Circle()
+                            .frame(width: 36, height: 36)
+                            .foregroundColor(.gray03Color)
+                            .overlay {
+                                Image(systemName: "ellipsis")
+                                    .resizable()
+                                    .frame(width: 21.18, height: 4.5)
+                                    .foregroundColor(.primaryColor)
+                            }
+                    })
+                }
+                .padding(EdgeInsets(top: 65, leading: 171, bottom: 743, trailing: 25))
                 
                 NavigationLink(destination: SearchMusicView(), isActive: $isSearchMusicViewActive) {
                     EmptyView()
                 }
-                .hidden()
                 
                 ZStack{
                     Rectangle()
@@ -97,7 +112,7 @@ struct ArchiveCardChipView: View {
                         .cornerRadius(30)
                         .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
                     Text("만들러 가기")
-                        .foregroundColor(Color(red: 0.81, green : 0.92, blue: 0))
+                        .foregroundColor(.primaryColor)
                         .font(.system(size: 20, weight: .medium))
                 }
                 .padding(.top, 739)
@@ -127,16 +142,12 @@ struct ArchiveCardChipView: View {
                                     albumArtUIImage: UIImage(data: item.albumArt!)!,
                                     title: item.title!,
                                     singer: item.singer!,
-                                    lyrics: item.lyrics ?? "No Lyrics",
+                                    lyrics: item.lyrics!,
                                     cardColor: Color(red: item.cardColorR,
                                                      green: item.cardColorG,
                                                      blue: item.cardColorB,
                                                      opacity: item.cardColorA)
                                 )))
-//                            // 테스트용 -> 인덱스 확인
-//                            Text("\(index)")
-//                                .font(Font.custom("HelveticaNeue-Bold", size: 90))
-//                                .foregroundColor(.white)
                         }
                         // MARK: - Card 생성 => 앨범아트카드(CardDetailArt) 효과
                         .scaleEffect(0.59)
@@ -164,6 +175,7 @@ struct ArchiveCardChipView: View {
                 .frame(width: 350, height: 585, alignment: .center)
                 .background(backgroundArchive)
                 .cornerRadius(20)
+                .contentShape(Rectangle())  // 콘텐츠 표현 가능 영역 제한
                 .padding(.bottom, 23)
                 .onChange(of: selectedIndex) { newIndex in
                     redrawTrigger.toggle()
@@ -179,7 +191,7 @@ struct ArchiveCardChipView: View {
                                     albumArtUIImage: UIImage(data: items[index].albumArt!)!,
                                     title: items[index].title!,
                                     singer: items[index].singer!,
-                                    lyrics: items[index].lyrics ?? "No Lyrics",
+                                    lyrics: items[index].lyrics!,
                                     cardColor: Color(red: items[index].cardColorR,
                                                      green: items[index].cardColorG,
                                                      blue: items[index].cardColorB,
@@ -190,13 +202,6 @@ struct ArchiveCardChipView: View {
                                     self.cardSelected = false
                                     selectedIndex = nil
                                 }
-                            // 아래 10 이상 드래그할 경우 모달처럼 숨기기
-                                .gesture(DragGesture().onEnded({ value in
-                                    if value.translation.height > 10 {
-                                        self.cardSelected = false
-                                        selectedIndex = nil
-                                    }
-                                }))
                         }
                     }
                 }
@@ -222,12 +227,13 @@ struct ArchiveCardChipView: View {
                             Circle()
                                 .foregroundColor(Color.white.opacity(0.15))
                                 .frame(width: 39, height: 39)
+                                .shadow(color: Color(hex: 0x242424, alpha: 0.1), radius: 8, x: 0, y: 8)
                                 .overlay {
-                                    Image(systemName: "trash.fill")
+                                    Image(systemName: "trash")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
-                                        .frame(width: 23, height: 23)
-                                        .foregroundColor(.white)
+                                        .frame(width: 21, height: 21)
+                                        .foregroundColor(.primaryColor)
                                 }
                         }
                         .alert("정말 카드를 삭제하시겠습니까?", isPresented: $showingAlert) {
@@ -251,18 +257,19 @@ struct ArchiveCardChipView: View {
                             Circle()
                                 .foregroundColor(Color.white.opacity(0.15))
                                 .frame(width: 39, height: 39)
+                                .shadow(color: Color(hex: 0x242424, alpha: 0.1), radius: 8, x: 0, y: 8)
                                 .overlay {
                                     Image(systemName: "square.and.arrow.up")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
-                                        .frame(width: 23, height: 23)
-                                        .foregroundColor(.white)
+                                        .frame(width: 21, height: 21)
+                                        .foregroundColor(.primaryColor)
                                 }
                         }
                         .padding(.trailing, 20-16)
                         .sheet(isPresented: $isShareSheetShowing) {
                             ActivityViewController(activityItems: [
-                                UIImage(data: items[selectedIndex!].albumArt!)  // 임시용
+                                // 공유할 콘텐츠
                             ])
                         }
                     }
