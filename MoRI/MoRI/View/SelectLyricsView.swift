@@ -49,36 +49,43 @@ struct SelectLyricsView: View {
             }
             
             ScrollView {
-                VStack(alignment: .leading){
-                    ForEach(lyricsViewModel.lyrics.indices, id: \.self) { index in
-
-                        let text = lyricsViewModel.removeCharactersInsideBrackets(from: lyricsViewModel.lyrics[index])
-
-                        Button(action: {
-                            if let start = startSelectionIndex {
-                                let startIndex = min(start, index)
-                                let endIndex = max(start, index)
-
-                                if endIndex > startIndex + 3 {
-                                    selectedTextIndices = Array(startIndex...startIndex + 3)
-                                    startSelectionIndex = nil
+                
+                if lyricsViewModel.lyrics.count == 0 {
+                    Text("가사 준비 중입니다.")
+                        
+                }
+                
+                else {
+                    VStack(alignment: .leading){
+                        ForEach(lyricsViewModel.lyrics.indices, id: \.self) { index in
+                            
+                            let text = lyricsViewModel.removeCharactersInsideBrackets(from: lyricsViewModel.lyrics[index])
+                            
+                            Button(action: {
+                                if let start = startSelectionIndex {
+                                    let startIndex = min(start, index)
+                                    let endIndex = max(start, index)
+                                    
+                                    if endIndex > startIndex + 3 {
+                                        selectedTextIndices = Array(startIndex...startIndex + 3)
+                                        startSelectionIndex = nil
+                                    } else {
+                                        selectedTextIndices = Array(startIndex...endIndex)
+                                        startSelectionIndex = nil
+                                    }
                                 } else {
-                                    selectedTextIndices = Array(startIndex...endIndex)
-                                    startSelectionIndex = nil
+                                    if selectedTextIndices.contains(index) {
+                                        selectedTextIndices.removeAll { $0 == index }
+                                    } else if selectedTextIndices.count >= 4 {
+                                        selectedTextIndices.removeAll()
+                                        selectedTextIndices.append(index)
+                                    } else {
+                                        selectedTextIndices.append(index)
+                                        startSelectionIndex = index
+                                    }
                                 }
-                            } else {
-                                if selectedTextIndices.contains(index) {
-                                    selectedTextIndices.removeAll { $0 == index }
-                                } else if selectedTextIndices.count >= 4 {
-                                    selectedTextIndices.removeAll()
-                                    selectedTextIndices.append(index)
-                                } else {
-                                    selectedTextIndices.append(index)
-                                    startSelectionIndex = index
-                                }
-                            }
-                        }) {
-                            HStack(alignment: .top) {
+                            }) {
+                                HStack(alignment: .top) {
                                     Text(text)
                                         .padding()
                                         .font(.system(size: 34, weight: .medium))
@@ -89,12 +96,14 @@ struct SelectLyricsView: View {
                                 .frame(maxWidth: 349, alignment : .leading)
                                 .background(selectedTextIndices.contains(index) ? Color.gray.opacity(0.75) : Color.clear)
                                 .cornerRadius(10)
+                            }
                         }
                     }
-                }
-                .padding(.leading, 3)
-                .onAppear {
-                    lyricsViewModel.fetchHTMLParsingResult(songData)
+                    
+                    .padding(.leading, 3)
+                    .onAppear {
+                        lyricsViewModel.fetchHTMLParsingResult(songData)
+                    }
                 }
             }
             
