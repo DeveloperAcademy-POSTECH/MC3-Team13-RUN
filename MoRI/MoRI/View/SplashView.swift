@@ -9,7 +9,6 @@ import SwiftUI
 
 struct SplashView: View {
     @State private var isActive = false
-    @State private var yOffset: CGFloat = -40
     
     let persistenceController = PersistenceController.shared
     
@@ -22,14 +21,9 @@ struct SplashView: View {
                 Color.gray04Color.ignoresSafeArea()
                 
                 VStack {
-                    
-                    Image("searchPlaceholder")
-                        .offset(x: 0, y: yOffset)
-                        .onAppear {
-                            withAnimation(.easeIn(duration: 1.2)) {
-                                self.yOffset = -45
-                            }
-                        }
+                    Image("searchPlaceholder").renderingMode(.template)
+                        .foregroundColor(.primaryColor)
+                        .offset(x: 0, y: -50)
                 }
                 
             }
@@ -39,11 +33,5 @@ struct SplashView: View {
                 }
             }
         }
-    }
-}
-
-struct SplashView_Previews: PreviewProvider {
-    static var previews: some View {
-        SplashView()
     }
 }
