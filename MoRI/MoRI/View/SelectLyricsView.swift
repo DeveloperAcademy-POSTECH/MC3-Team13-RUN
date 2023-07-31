@@ -17,6 +17,7 @@ struct SelectLyricsView: View {
 
     
     @State private var startSelectionIndex: Int?
+    @State private var lyricsColor: Color = .whiteColor
     
     
     @Environment(\.dismiss) private var dismiss
@@ -85,26 +86,23 @@ struct SelectLyricsView: View {
                             
                         }) {
                             HStack(alignment: .top) {
-                                Text(text)
-                                    .padding()
-                                    .font(.system(size: 34, weight: .medium))
-                                    .lineSpacing(10)
-                                    .foregroundColor(selectedTextIndices.contains(index) ? Color.white : Color.white)
-                                    .multilineTextAlignment(.leading)
-                                
-                                
-                            }
-                            .frame(maxWidth: 349, alignment : .leading)
-                            .background(selectedTextIndices.contains(index) ? Color.gray.opacity(0.75) : Color.clear)
-                            .cornerRadius(10)
-                            
-                            
+                                    Text(text)
+                                        .padding()
+                                        .font(.system(size: 34, weight: .medium))
+                                        .lineSpacing(10)
+                                        .foregroundColor(lyricsColor)
+                                        .multilineTextAlignment(.leading)
+                                }
+                                .frame(maxWidth: 349, alignment : .leading)
+                                .background(selectedTextIndices.contains(index) ? Color.gray.opacity(0.75) : Color.clear)
+                                .cornerRadius(10)
                         }
                     }
                 }
                 .padding(.leading, 3)
                 .onAppear {
                     lyricsViewModel.fetchHTMLParsingResult(songData)
+                    lyricsColor = chooseLyricsColor(UIImage(data: try! Data(contentsOf: songData.imageUrl!))!)
                 }
             }
             
@@ -159,8 +157,18 @@ struct SelectLyricsView: View {
                 .foregroundColor(Color(hex: 0x767676))
         }
     }
-    
-    
-    
 }
 
+extension SelectLyricsView {
+    func chooseLyricsColor(_ albumArt: UIImage ) -> Color {
+        let averageColor = Color(uiColor: albumArt.averageColor!)
+        let r = averageColor.components.r
+        let g = averageColor.components.g
+        let b = averageColor.components.b
+        let cmax = max(r, g, b)
+        let cmin = min(r, g, b)
+        let lightness = ((cmax+cmin)/2.0)*100
+        let lyricsColor = lightness >= 60 ? Color.gray03Color : .white
+        return lyricsColor
+    }
+}
