@@ -13,6 +13,7 @@ struct SearchMusicView: View {
     @State var songData = SelectedSong(name: "", artist: "")
     @State var pureData = PureSong(name: "", artist: "")
     
+    
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {

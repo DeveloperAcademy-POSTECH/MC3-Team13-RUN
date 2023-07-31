@@ -11,12 +11,13 @@ import UIKit
 struct SelectLyricsView: View {
     @ObservedObject var musicViewModel: SearchMusicViewModel
     @ObservedObject var lyricsViewModel: SelectLyricsViewModel
-    
     @Binding var songData: SelectedSong
     @Binding var pureData: PureSong
-    
     @State private var selectedTextIndices: [Int] = []
+
+    
     @State private var startSelectionIndex: Int?
+    
     
     @Environment(\.dismiss) private var dismiss
     
@@ -36,29 +37,31 @@ struct SelectLyricsView: View {
                         .frame(width: 56, height: 56)
                         .cornerRadius(4.8)
                 }
-
+                
                 VStack(alignment: .leading){
-                    Text(pureData.name)
+                    Text(songData.name)
                         .foregroundColor(Color(hex: 0x111111))
                         .font(.system(size: 14.48276))
-                    Text("노래 · " + pureData.artist)
+                    Text("노래 · " + songData.artist)
                         .foregroundColor(Color(hex: 0x767676))
                         .font(.system(size: 14.48276))
                 }
                 Spacer()
             }
             
+            
+            
             ScrollView {
                 VStack(alignment: .leading){
                     ForEach(lyricsViewModel.lyrics.indices, id: \.self) { index in
-
+                        
                         let text = lyricsViewModel.removeCharactersInsideBrackets(from: lyricsViewModel.lyrics[index])
-
+                        
                         Button(action: {
                             if let start = startSelectionIndex {
                                 let startIndex = min(start, index)
                                 let endIndex = max(start, index)
-
+                                
                                 if endIndex > startIndex + 3 {
                                     selectedTextIndices = Array(startIndex...startIndex + 3)
                                     startSelectionIndex = nil
@@ -66,29 +69,36 @@ struct SelectLyricsView: View {
                                     selectedTextIndices = Array(startIndex...endIndex)
                                     startSelectionIndex = nil
                                 }
-                            } else {
+                            }
+                            else {
                                 if selectedTextIndices.contains(index) {
                                     selectedTextIndices.removeAll { $0 == index }
                                 } else if selectedTextIndices.count >= 4 {
-                                    selectedTextIndices.removeAll()
-                                    selectedTextIndices.append(index)
+                                    selectedTextIndices.removeLast()
+                                    selectedTextIndices.insert(index, at: 0) // Insert at the beginning
                                 } else {
-                                    selectedTextIndices.append(index)
+                                    selectedTextIndices.insert(index, at: selectedTextIndices.endIndex) // Insert at the end
                                     startSelectionIndex = index
                                 }
+                                selectedTextIndices.sort() // Sort the array to maintain the ascending order
                             }
+                            
                         }) {
                             HStack(alignment: .top) {
-                                    Text(text)
-                                        .padding()
-                                        .font(.system(size: 34, weight: .medium))
-                                        .lineSpacing(10)
-                                        .foregroundColor(selectedTextIndices.contains(index) ? Color.white : Color.white)
-                                        .multilineTextAlignment(.leading)
-                                }
-                                .frame(maxWidth: 349, alignment : .leading)
-                                .background(selectedTextIndices.contains(index) ? Color.gray.opacity(0.75) : Color.clear)
-                                .cornerRadius(10)
+                                Text(text)
+                                    .padding()
+                                    .font(.system(size: 34, weight: .medium))
+                                    .lineSpacing(10)
+                                    .foregroundColor(selectedTextIndices.contains(index) ? Color.white : Color.white)
+                                    .multilineTextAlignment(.leading)
+                                
+                                
+                            }
+                            .frame(maxWidth: 349, alignment : .leading)
+                            .background(selectedTextIndices.contains(index) ? Color.gray.opacity(0.75) : Color.clear)
+                            .cornerRadius(10)
+                            
+                            
                         }
                     }
                 }
@@ -97,6 +107,9 @@ struct SelectLyricsView: View {
                     lyricsViewModel.fetchHTMLParsingResult(songData)
                 }
             }
+            
+            
+            
             
             NavigationLink(destination: EditCardView(viewModel: EditCardViewModel(card: Card(albumArtUIImage:  UIImage(data: try! Data(contentsOf: songData.imageUrl!))!, title: songData.name, singer: songData.artist, lyrics: selectedLyrics, cardColor: .gray)), pureData: $pureData)){
                 ZStack{
@@ -130,7 +143,7 @@ struct SelectLyricsView: View {
         .navigationBarItems(leading: backButton)
     }
     
-
+    
     
     var selectedLyrics: String {
         let selectedTextsFiltered = selectedTextIndices.prefix(4).map { lyricsViewModel.lyrics[$0] }
@@ -147,7 +160,7 @@ struct SelectLyricsView: View {
         }
     }
     
-
+    
     
 }
 

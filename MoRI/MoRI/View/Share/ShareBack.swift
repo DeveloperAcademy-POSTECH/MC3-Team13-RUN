@@ -10,9 +10,7 @@ import SwiftUI
 struct ShareBack: View {
     let albumArt: UIImage
     var body: some View {
-        Rectangle()
-            .foregroundColor(.clear)
-            .background(Image(uiImage: albumArt).resizable().ignoresSafeArea().scaledToFill().blur(radius: 20))
+        Image(uiImage: albumArt).resizable().frame(width: 900, height: 1600).blur(radius: 20)
     }
 }
 
