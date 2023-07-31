@@ -204,66 +204,6 @@ struct ArchiveCardChipView: View {
                                 }
                         }
                     }
-                    
-                    HStack (spacing: 37) {
-                        if (selectedIndex != nil) {
-                            // MARK: - 디테일 화면 삭제 버튼
-                            // 삭제버튼
-                            Button(action: {
-                                showingAlert = true
-                            }){
-                                Circle()
-                                    .foregroundColor(Color.white.opacity(0.15))
-                                    .frame(width: 39, height: 39)
-                                    .shadow(color: Color(hex: 0x242424, alpha: 0.1), radius: 8, x: 0, y: 8)
-                                    .overlay {
-                                        Image(systemName: "trash.fill")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 21, height: 21)
-                                            .foregroundColor(.primaryColor)
-                                    }
-                            }
-                            .alert("정말 카드를 삭제하시겠습니까?", isPresented: $showingAlert) {
-                                Button("취소", role: .cancel) {
-                                    showingAlert = false
-                                }
-                                Button("삭제", role: .destructive) {
-                                    PersistenceController().deleteItems(viewContext, items[selectedIndex!])
-                                    self.cardSelected = false
-                                    selectedIndex = nil
-                                    showingAlert = false
-                                }
-                            }
-                            
-                            // MARK: - 디테일 화면 공유 버튼
-                            // 공유버튼
-                            Button(action: {
-                                isShareSheetShowing.toggle()
-                                print("share button onTapped")
-                            }) {
-                                Circle()
-                                    .foregroundColor(Color.white.opacity(0.15))
-                                    .frame(width: 39, height: 39)
-                                    .shadow(color: Color(hex: 0x242424, alpha: 0.1), radius: 8, x: 0, y: 8)
-                                    .overlay {
-                                        Image(systemName: "square.and.arrow.up")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 21, height: 21)
-                                            .foregroundColor(.primaryColor)
-                                    }
-                            }
-                            .padding(.trailing, 20-16)
-                            .sheet(isPresented: $isShareSheetShowing) {
-                                ActivityViewController(activityItems: [
-                                    // 공유할 콘텐츠
-                                ])
-                            }
-                        }
-                    }
-                    .padding(.top, -366)
-                    .padding(.leading, 240)
                 }
                 // MARK: - Card 디테일 화면 생성 => 앨범디테일카드(CardDetailView) 효과
                 .opacity(cardSelected ? 1.0 : 0.0)
@@ -276,7 +216,73 @@ struct ArchiveCardChipView: View {
                 .animation(Animation.easeInOut(duration: 0.25))
             }
             .ignoresSafeArea()
-            .navigationBarHidden(true)
+            .navigationBarItems(
+                trailing: HStack (spacing: 0) {
+                    if (selectedIndex != nil) {
+                        // MARK: - 디테일 화면 삭제 버튼
+                        // 삭제버튼
+                        Button(action: {
+                            showingAlert = true
+                        }){
+                            Circle()
+                                .foregroundColor(Color.white.opacity(0.15))
+                                .frame(width: 39, height: 39)
+                                .shadow(color: Color(hex: 0x242424, alpha: 0.1), radius: 8, x: 0, y: 8)
+                                .overlay {
+                                    Image(systemName: "trash")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 21, height: 21)
+                                        .foregroundColor(.primaryColor)
+                                }
+                        }
+                        .alert("정말 카드를 삭제하시겠습니까?", isPresented: $showingAlert) {
+                            Button("취소", role: .cancel) {
+                                showingAlert = false
+                            }
+                            Button("삭제", role: .destructive) {
+                                PersistenceController().deleteItems(viewContext, items[selectedIndex!])
+                                self.cardSelected = false
+                                selectedIndex = nil
+                                showingAlert = false
+                            }
+                        }
+                        .padding(.trailing, 37-16)
+                        // MARK: - 디테일 화면 공유 버튼
+                        // 공유버튼
+                        Button(action: {
+                            isShareSheetShowing.toggle()
+                            print("share button onTapped")
+                        }) {
+                            Circle()
+                                .foregroundColor(Color.white.opacity(0.15))
+                                .frame(width: 39, height: 39)
+                                .shadow(color: Color(hex: 0x242424, alpha: 0.1), radius: 8, x: 0, y: 8)
+                                .overlay {
+                                    Image(systemName: "square.and.arrow.up")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 21, height: 21)
+                                        .foregroundColor(.primaryColor)
+                                }
+                        }
+                        .padding(.trailing, 20-16)
+                        .sheet(isPresented: $isShareSheetShowing) {
+                            ActivityViewController(activityItems: [
+                                // 공유할 콘텐츠
+                            ])
+                        }
+                    }
+                }
+                    .opacity(cardSelected ? 1.0 : 0.0)
+                    .scaleEffect(cardSelected ? 1 : 0)
+                    .rotation3DEffect(
+                        Angle.degrees(cardSelected ? 0: 180),
+                        axis: (-5,1,0),
+                        perspective: 0.3
+                    )
+                    .animation(Animation.easeInOut(duration: 0.25))
+            )
         }
     }
     
