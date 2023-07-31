@@ -38,7 +38,6 @@ struct ShareView: View {
             .compositingGroup()
         }
         .compositingGroup()
-        .shadow(radius: 5, x: 8, y: -4)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
