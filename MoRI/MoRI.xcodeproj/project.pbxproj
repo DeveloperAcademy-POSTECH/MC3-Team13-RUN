@@ -46,6 +46,7 @@
 		D1A8D1722A6E7BEC0086BF9B /* CompleteCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A8D1712A6E7BEC0086BF9B /* CompleteCardView.swift */; };
 		D1A8D1742A6E7BFF0086BF9B /* CompleteCardTop.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A8D1732A6E7BFF0086BF9B /* CompleteCardTop.swift */; };
 		D1A8D1762A6E7C130086BF9B /* CompleteCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A8D1752A6E7C130086BF9B /* CompleteCardViewModel.swift */; };
+		D1A8D1782A77A0E00086BF9B /* ShareInstagram.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A8D1772A77A0E00086BF9B /* ShareInstagram.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -91,6 +92,7 @@
 		D1A8D1712A6E7BEC0086BF9B /* CompleteCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteCardView.swift; sourceTree = "<group>"; };
 		D1A8D1732A6E7BFF0086BF9B /* CompleteCardTop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteCardTop.swift; sourceTree = "<group>"; };
 		D1A8D1752A6E7C130086BF9B /* CompleteCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteCardViewModel.swift; sourceTree = "<group>"; };
+		D1A8D1772A77A0E00086BF9B /* ShareInstagram.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareInstagram.swift; sourceTree = "<group>"; };
 		DC20D5CE2BA6D6711AED29AF /* Pods-MoRI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoRI.debug.xcconfig"; path = "Target Support Files/Pods-MoRI/Pods-MoRI.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -111,6 +113,7 @@
 			children = (
 				6C8916A22A6FEE5E001350E0 /* NavigationUtils.swift */,
 				6C8916AB2A736605001350E0 /* ExtractImage.swift */,
+				D1A8D1772A77A0E00086BF9B /* ShareInstagram.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -395,6 +398,7 @@
 				6CDE92C12A6CA23500A569BD /* CardDetailView.swift in Sources */,
 				C18294632A6627640027577F /* Song.swift in Sources */,
 				8E0F94FC2A6D680E0053FCAA /* CardDetailArt.swift in Sources */,
+				D1A8D1782A77A0E00086BF9B /* ShareInstagram.swift in Sources */,
 				6CDE92B92A6BF25D00A569BD /* CardTop.swift in Sources */,
 				C18294692A6630090027577F /* MainView.swift in Sources */,
 				6C8916A72A735E1A001350E0 /* ShareTop.swift in Sources */,
@@ -554,7 +558,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MoRI/Preview Content\"";
-				DEVELOPMENT_TEAM = XF4GNZL7MP;
+				DEVELOPMENT_TEAM = SHJRTZNP7N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MoRI/Info.plist;
@@ -585,7 +589,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MoRI/Preview Content\"";
-				DEVELOPMENT_TEAM = XF4GNZL7MP;
+				DEVELOPMENT_TEAM = SHJRTZNP7N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MoRI/Info.plist;
