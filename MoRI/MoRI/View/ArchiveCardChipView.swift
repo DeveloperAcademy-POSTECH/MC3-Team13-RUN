@@ -9,7 +9,7 @@ import SwiftUI
 import CoreHaptics
 
 struct ArchiveCardChipView: View {
-
+    
     @State private var isSearchMusicViewActive = false
     
     @Environment(\.managedObjectContext) private var viewContext
@@ -35,6 +35,8 @@ struct ArchiveCardChipView: View {
     @State private var isShareSheetShowing = false
     @State private var lastTempCurrentCard = 0
     
+    @Environment(\.displayScale) var displayScale
+
     var body: some View {
         var standardAngle: Double = items.count > 0 ? Double(360 / items.count) : 0  // 단위각도
         let zIndexPreset = items.count > 0 ? (1...items.count).map { value in Double(value) / Double(1) }.reversed() : []   // 중첩 레벨
@@ -52,7 +54,7 @@ struct ArchiveCardChipView: View {
                 draggedOffset = accumulatedOffset + val.translation
                 
                 let tempCurrentCard = -Int(round(Double(currentAngle + delta) / (standardAngle))) % items.count
-
+                
                 
                 if tempCurrentCard != lastTempCurrentCard {
                     playHapticFeedback()
@@ -197,11 +199,11 @@ struct ArchiveCardChipView: View {
                                                      blue: items[index].cardColorB,
                                                      opacity: items[index].cardColorA)
                                 )))
-                                .padding(.bottom, 23)
-                                .onTapGesture() {
-                                    self.cardSelected = false
-                                    selectedIndex = nil
-                                }
+                            .padding(.bottom, 23)
+                            .onTapGesture() {
+                                self.cardSelected = false
+                                selectedIndex = nil
+                            }
                         }
                     }
                 }
@@ -251,8 +253,9 @@ struct ArchiveCardChipView: View {
                         // MARK: - 디테일 화면 공유 버튼
                         // 공유버튼
                         Button(action: {
-                            isShareSheetShowing.toggle()
-                            print("share button onTapped")
+                            shareToInstagramStories()
+//                            isShareSheetShowing.toggle()
+//                            print("share button onTapped")
                         }) {
                             Circle()
                                 .foregroundColor(Color.white.opacity(0.15))
@@ -267,11 +270,12 @@ struct ArchiveCardChipView: View {
                                 }
                         }
                         .padding(.trailing, 20-16)
-                        .sheet(isPresented: $isShareSheetShowing) {
-                            ActivityViewController(activityItems: [
-                                // 공유할 콘텐츠
-                            ])
-                        }
+//                        .sheet(isPresented: $isShareSheetShowing) {
+//                            ActivityViewController(activityItems: [
+//                                // 공유할 콘텐츠
+//                                shareToInstagramStories()
+//                            ])
+//                        }
                     }
                 }
                     .opacity(cardSelected ? 1.0 : 0.0)
@@ -286,13 +290,62 @@ struct ArchiveCardChipView: View {
         }
     }
     
+    // MARK: - Share Instagram Stories
+    func shareToInstagramStories() {
+        
+        let returnC = pickColorsFromCardColor(Color(red: items[selectedIndex!].cardColorR, green: items[selectedIndex!].cardColorG, blue: items[selectedIndex!].cardColorB, opacity: items[selectedIndex!].cardColorA))
+        
+        let stickerImageData = ExtractImage().renderSticker(view: ShareView(
+                albumArt: UIImage(data: items[selectedIndex!].albumArt!)!,
+                singer: items[selectedIndex!].singer!,
+                title: items[selectedIndex!].title!,
+                cardColor: Color(red: items[selectedIndex!].cardColorR, green: items[selectedIndex!].cardColorG, blue: items[selectedIndex!].cardColorB, opacity: items[selectedIndex!].cardColorA),
+                lyrics: items[selectedIndex!].lyrics!,
+                lyricsContainerColor: returnC[1],
+                lyricsColor: returnC[0]),
+                scale: displayScale)?.pngData()
+        let blurredImage = ExtractImage().renderBackground(view: ShareBack(albumArt: UIImage(data: items[selectedIndex!].albumArt!)!), scale: displayScale)?.pngData()
+        
+        
+        
+        let urlScheme = URL(string: "instagram-stories://share?source_application=\(Bundle.main.bundleIdentifier ?? "")")
+        if let urlScheme = urlScheme {
+            if UIApplication.shared.canOpenURL(urlScheme) {
+                
+                var pasteboardItems: [[String : Any]]? = nil
+                if let stickerImageData = stickerImageData {
+                    pasteboardItems = [
+                        [
+                            "com.instagram.sharedSticker.stickerImage": stickerImageData,
+                            "com.instagram.sharedSticker.backgroundImage": blurredImage as Any
+                            
+                        ]
+                    ]
+                }
+                
+                let pasteboardOptions = [
+                    UIPasteboard.OptionsKey.expirationDate: Date().addingTimeInterval(60 * 5)
+                ]
+                
+                if let pasteboardItems = pasteboardItems {
+                    UIPasteboard.general.setItems(pasteboardItems, options: pasteboardOptions)
+                }
+                
+                UIApplication.shared.open(urlScheme, options: [:], completionHandler: nil)
+            } else {
+                print("Something went wrong. Maybe Instagram is not installed on this device?")
+            }
+        }
+    }
+    
+    
     // MARK: - Haptic 함수
     func prepareHaptics() {
         do {
             engine = try CHHapticEngine()
             try engine?.start()
         } catch {
-//            print("Creating engine error: \(error.localizedDescription)")
+            //            print("Creating engine error: \(error.localizedDescription)")
         }
     }
     
@@ -314,7 +367,7 @@ struct ArchiveCardChipView: View {
             let player = try engine.makeAdvancedPlayer(with: pattern)
             try player.start(atTime: 0)
         } catch {
-//            print("Failed to play pattern \(error.localizedDescription)")
+            //            print("Failed to play pattern \(error.localizedDescription)")
         }
     }
     
@@ -322,8 +375,41 @@ struct ArchiveCardChipView: View {
         guard let engine = engine else { return }
         engine.stop(completionHandler: { (error) in
             if let error = error {
-//                print("Stopping haptic engine error: \(error.localizedDescription)")
+                //                print("Stopping haptic engine error: \(error.localizedDescription)")
             }
         })
+    }
+}
+
+extension ArchiveCardChipView {
+    func pickColorsFromCardColor(_ cardColor: Color) -> [Color]{
+        let cardColor = cardColor
+        let r = cardColor.components.r
+        let g = cardColor.components.g
+        let b = cardColor.components.b
+        let cmax = max(r, g, b)
+        let cmin = min(r, g, b)
+        let lightness = ((cmax+cmin)/2.0)*100
+        var hue: CGFloat = 0.0
+        var saturation: CGFloat = 0.0
+        var brightness: CGFloat = 0.0
+        var alpha: CGFloat = 0.0
+        UIColor(cardColor).getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
+        var returnColors = [Color]()
+        let lyricsColor = lightness >= 60 ? Color.blackColor : Color.whiteColor
+        returnColors.append(lyricsColor)
+        if( 0.0 <= brightness && brightness < 0.70){
+            let lyricsContainerColor = Color(UIColor(hue: hue, saturation: saturation, brightness: brightness+0.1, alpha: 1.0))
+            returnColors.append(lyricsContainerColor)
+        }
+        else if( 0.70 <= brightness && brightness <= 0.85 ){
+            let lyricsContainerColor = Color(UIColor(hue: hue, saturation: saturation, brightness: brightness+0.15, alpha: 1.0))
+            returnColors.append(lyricsContainerColor)
+        }
+        else{
+            let lyricsContainerColor = Color(UIColor(hue: hue, saturation: saturation, brightness: brightness-0.15, alpha: 1.0))
+            returnColors.append(lyricsContainerColor)
+        }
+        return returnColors
     }
 }
