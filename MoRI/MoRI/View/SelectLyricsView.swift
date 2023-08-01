@@ -40,10 +40,10 @@ struct SelectLyricsView: View {
                 }
                 
                 VStack(alignment: .leading){
-                    Text(songData.name)
+                    Text(pureData.name)
                         .foregroundColor(Color(hex: 0x111111))
                         .font(.system(size: 14.48276))
-                    Text("노래 · " + songData.artist)
+                    Text("노래 · " + pureData.artist)
                         .foregroundColor(Color(hex: 0x767676))
                         .font(.system(size: 14.48276))
                 }
