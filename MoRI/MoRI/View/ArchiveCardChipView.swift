@@ -216,6 +216,13 @@ struct ArchiveCardChipView: View {
                     perspective: 0.3
                 )
                 .animation(Animation.easeInOut(duration: 0.25))
+                // 아래 10 이상 드래그할 경우 모달처럼 숨기기
+                .gesture(DragGesture().onEnded({ value in
+                    if value.translation.height > 10 {
+                        self.cardSelected = false
+                        selectedIndex = nil
+                    }
+                }))
             }
             .ignoresSafeArea()
             .navigationBarItems(
