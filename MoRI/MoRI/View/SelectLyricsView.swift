@@ -51,7 +51,17 @@ struct SelectLyricsView: View {
             ScrollView {
                 
                 if lyricsViewModel.lyrics.count == 0 {
-                    Text("가사 준비 중입니다.")
+                    
+                    VStack{
+                        Spacer()
+                        
+                        Text("가사 준비 중입니다.")
+                            .foregroundColor(.white)
+                            .font(.system(size: 34, weight: .semibold))
+                            .frame(width: 320, height: 78, alignment: .center)
+                        
+                        Spacer(minLength: 250)
+                    }
                         
                 }
                 
