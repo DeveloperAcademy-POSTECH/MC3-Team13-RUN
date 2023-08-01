@@ -7,26 +7,34 @@
 
 import SwiftUI
 
+
+
 struct ExtractImage{
-    @MainActor func renderSticker(view: ShareView, scale: CGFloat) ->Image {
+    @MainActor func renderSticker(view: ShareView, scale: CGFloat) -> UIImage? {
         let renderer = ImageRenderer(content: view)
 
         renderer.scale = scale
 
         if let uiImage = renderer.uiImage {
-            return Image(uiImage: uiImage)
+            return uiImage
         }
-        return Image(uiImage: UIImage())
+        return nil
     }
     
-    @MainActor func renderBackground(view: ShareBack, scale: CGFloat) ->Image {
+    @MainActor func renderBackground(view: ShareBack, scale: CGFloat) -> UIImage? {
         let renderer = ImageRenderer(content: view)
-
+        
         renderer.scale = scale
-
+        
         if let uiImage = renderer.uiImage {
-            return Image(uiImage: uiImage)
+            return uiImage
         }
-        return Image(uiImage: UIImage())
+        return nil
     }
+    
+
+    
+
+    
+    
 }

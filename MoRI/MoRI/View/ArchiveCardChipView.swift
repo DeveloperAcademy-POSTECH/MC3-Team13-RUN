@@ -9,7 +9,7 @@ import SwiftUI
 import CoreHaptics
 
 struct ArchiveCardChipView: View {
-
+    
     @State private var isSearchMusicViewActive = false
     
     @Environment(\.managedObjectContext) private var viewContext
@@ -20,7 +20,6 @@ struct ArchiveCardChipView: View {
     @State private var draggedOffset = CGSize.zero
     @State private var accumulatedOffset = CGSize.zero
     
-    let background = Color(hue: 0, saturation: 0, brightness: 91/100)
     let backgroundArchive = Color(hue: 0, saturation: 0, brightness: 1)
     
     // MARK: - 각도, 드래그 여부, 카드 선택 관련 변수
@@ -36,6 +35,8 @@ struct ArchiveCardChipView: View {
     @State private var isShareSheetShowing = false
     @State private var lastTempCurrentCard = 0
     
+    @Environment(\.displayScale) var displayScale
+
     var body: some View {
         var standardAngle: Double = items.count > 0 ? Double(360 / items.count) : 0  // 단위각도
         let zIndexPreset = items.count > 0 ? (1...items.count).map { value in Double(value) / Double(1) }.reversed() : []   // 중첩 레벨
@@ -53,7 +54,7 @@ struct ArchiveCardChipView: View {
                 draggedOffset = accumulatedOffset + val.translation
                 
                 let tempCurrentCard = -Int(round(Double(currentAngle + delta) / (standardAngle))) % items.count
-
+                
                 
                 if tempCurrentCard != lastTempCurrentCard {
                     playHapticFeedback()
@@ -80,16 +81,32 @@ struct ArchiveCardChipView: View {
         // MARK: - Navigation
         NavigationStack {
             ZStack {
-                background.frame(width:UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                Color.gray02Color.ignoresSafeArea()
                 
-                Image("moriLogo")
-                    .padding(.top, 63)
-                    .padding(.bottom, 758.21)
+                HStack (spacing: 110.78) {
+                    Image("moriLogo")
+                        .padding(.top, 6)
+                        .padding(.bottom, 7.21)
+                    
+                    Button (action: {
+                        
+                    }, label: {
+                        Circle()
+                            .frame(width: 36, height: 36)
+                            .foregroundColor(.gray03Color)
+                            .overlay {
+                                Image(systemName: "ellipsis")
+                                    .resizable()
+                                    .frame(width: 21.18, height: 4.5)
+                                    .foregroundColor(.primaryColor)
+                            }
+                    })
+                }
+                .padding(EdgeInsets(top: 65, leading: 171, bottom: 743, trailing: 25))
                 
                 NavigationLink(destination: SearchMusicView(), isActive: $isSearchMusicViewActive) {
                     EmptyView()
                 }
-                .hidden()
                 
                 ZStack{
                     Rectangle()
@@ -97,7 +114,7 @@ struct ArchiveCardChipView: View {
                         .cornerRadius(30)
                         .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
                     Text("만들러 가기")
-                        .foregroundColor(Color(red: 0.81, green : 0.92, blue: 0))
+                        .foregroundColor(.primaryColor)
                         .font(.system(size: 20, weight: .medium))
                 }
                 .padding(.top, 739)
@@ -127,16 +144,12 @@ struct ArchiveCardChipView: View {
                                     albumArtUIImage: UIImage(data: item.albumArt!)!,
                                     title: item.title!,
                                     singer: item.singer!,
-                                    lyrics: item.lyrics ?? "No Lyrics",
+                                    lyrics: item.lyrics!,
                                     cardColor: Color(red: item.cardColorR,
                                                      green: item.cardColorG,
                                                      blue: item.cardColorB,
                                                      opacity: item.cardColorA)
                                 )))
-//                            // 테스트용 -> 인덱스 확인
-//                            Text("\(index)")
-//                                .font(Font.custom("HelveticaNeue-Bold", size: 90))
-//                                .foregroundColor(.white)
                         }
                         // MARK: - Card 생성 => 앨범아트카드(CardDetailArt) 효과
                         .scaleEffect(0.59)
@@ -164,6 +177,7 @@ struct ArchiveCardChipView: View {
                 .frame(width: 350, height: 585, alignment: .center)
                 .background(backgroundArchive)
                 .cornerRadius(20)
+                .contentShape(Rectangle())  // 콘텐츠 표현 가능 영역 제한
                 .padding(.bottom, 23)
                 .onChange(of: selectedIndex) { newIndex in
                     redrawTrigger.toggle()
@@ -179,24 +193,17 @@ struct ArchiveCardChipView: View {
                                     albumArtUIImage: UIImage(data: items[index].albumArt!)!,
                                     title: items[index].title!,
                                     singer: items[index].singer!,
-                                    lyrics: items[index].lyrics ?? "No Lyrics",
+                                    lyrics: items[index].lyrics!,
                                     cardColor: Color(red: items[index].cardColorR,
                                                      green: items[index].cardColorG,
                                                      blue: items[index].cardColorB,
                                                      opacity: items[index].cardColorA)
                                 )))
-                                .padding(.bottom, 23)
-                                .onTapGesture() {
-                                    self.cardSelected = false
-                                    selectedIndex = nil
-                                }
-                            // 아래 10 이상 드래그할 경우 모달처럼 숨기기
-                                .gesture(DragGesture().onEnded({ value in
-                                    if value.translation.height > 10 {
-                                        self.cardSelected = false
-                                        selectedIndex = nil
-                                    }
-                                }))
+                            .padding(.bottom, 23)
+                            .onTapGesture() {
+                                self.cardSelected = false
+                                selectedIndex = nil
+                            }
                         }
                     }
                 }
@@ -209,6 +216,13 @@ struct ArchiveCardChipView: View {
                     perspective: 0.3
                 )
                 .animation(Animation.easeInOut(duration: 0.25))
+                // 아래 10 이상 드래그할 경우 모달처럼 숨기기
+                .gesture(DragGesture().onEnded({ value in
+                    if value.translation.height > 10 {
+                        self.cardSelected = false
+                        selectedIndex = nil
+                    }
+                }))
             }
             .ignoresSafeArea()
             .navigationBarItems(
@@ -222,12 +236,13 @@ struct ArchiveCardChipView: View {
                             Circle()
                                 .foregroundColor(Color.white.opacity(0.15))
                                 .frame(width: 39, height: 39)
+                                .shadow(color: Color(hex: 0x242424, alpha: 0.1), radius: 8, x: 0, y: 8)
                                 .overlay {
-                                    Image(systemName: "trash.fill")
+                                    Image(systemName: "trash")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
-                                        .frame(width: 23, height: 23)
-                                        .foregroundColor(.white)
+                                        .frame(width: 21, height: 21)
+                                        .foregroundColor(.primaryColor)
                                 }
                         }
                         .alert("정말 카드를 삭제하시겠습니까?", isPresented: $showingAlert) {
@@ -245,26 +260,29 @@ struct ArchiveCardChipView: View {
                         // MARK: - 디테일 화면 공유 버튼
                         // 공유버튼
                         Button(action: {
-                            isShareSheetShowing.toggle()
-                            print("share button onTapped")
+                            shareToInstagramStories()
+//                            isShareSheetShowing.toggle()
+//                            print("share button onTapped")
                         }) {
                             Circle()
                                 .foregroundColor(Color.white.opacity(0.15))
                                 .frame(width: 39, height: 39)
+                                .shadow(color: Color(hex: 0x242424, alpha: 0.1), radius: 8, x: 0, y: 8)
                                 .overlay {
                                     Image(systemName: "square.and.arrow.up")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
-                                        .frame(width: 23, height: 23)
-                                        .foregroundColor(.white)
+                                        .frame(width: 21, height: 21)
+                                        .foregroundColor(.primaryColor)
                                 }
                         }
                         .padding(.trailing, 20-16)
-                        .sheet(isPresented: $isShareSheetShowing) {
-                            ActivityViewController(activityItems: [
-                                UIImage(data: items[selectedIndex!].albumArt!)  // 임시용
-                            ])
-                        }
+//                        .sheet(isPresented: $isShareSheetShowing) {
+//                            ActivityViewController(activityItems: [
+//                                // 공유할 콘텐츠
+//                                shareToInstagramStories()
+//                            ])
+//                        }
                     }
                 }
                     .opacity(cardSelected ? 1.0 : 0.0)
@@ -279,13 +297,62 @@ struct ArchiveCardChipView: View {
         }
     }
     
+    // MARK: - Share Instagram Stories
+    func shareToInstagramStories() {
+        
+        let returnC = pickColorsFromCardColor(Color(red: items[selectedIndex!].cardColorR, green: items[selectedIndex!].cardColorG, blue: items[selectedIndex!].cardColorB, opacity: items[selectedIndex!].cardColorA))
+        
+        let stickerImageData = ExtractImage().renderSticker(view: ShareView(
+                albumArt: UIImage(data: items[selectedIndex!].albumArt!)!,
+                singer: items[selectedIndex!].singer!,
+                title: items[selectedIndex!].title!,
+                cardColor: Color(red: items[selectedIndex!].cardColorR, green: items[selectedIndex!].cardColorG, blue: items[selectedIndex!].cardColorB, opacity: items[selectedIndex!].cardColorA),
+                lyrics: items[selectedIndex!].lyrics!,
+                lyricsContainerColor: returnC[1],
+                lyricsColor: returnC[0]),
+                scale: displayScale)?.pngData()
+        let blurredImage = ExtractImage().renderBackground(view: ShareBack(albumArt: UIImage(data: items[selectedIndex!].albumArt!)!), scale: displayScale)?.pngData()
+        
+        
+        
+        let urlScheme = URL(string: "instagram-stories://share?source_application=\(Bundle.main.bundleIdentifier ?? "")")
+        if let urlScheme = urlScheme {
+            if UIApplication.shared.canOpenURL(urlScheme) {
+                
+                var pasteboardItems: [[String : Any]]? = nil
+                if let stickerImageData = stickerImageData {
+                    pasteboardItems = [
+                        [
+                            "com.instagram.sharedSticker.stickerImage": stickerImageData,
+                            "com.instagram.sharedSticker.backgroundImage": blurredImage as Any
+                            
+                        ]
+                    ]
+                }
+                
+                let pasteboardOptions = [
+                    UIPasteboard.OptionsKey.expirationDate: Date().addingTimeInterval(60 * 5)
+                ]
+                
+                if let pasteboardItems = pasteboardItems {
+                    UIPasteboard.general.setItems(pasteboardItems, options: pasteboardOptions)
+                }
+                
+                UIApplication.shared.open(urlScheme, options: [:], completionHandler: nil)
+            } else {
+                print("Something went wrong. Maybe Instagram is not installed on this device?")
+            }
+        }
+    }
+    
+    
     // MARK: - Haptic 함수
     func prepareHaptics() {
         do {
             engine = try CHHapticEngine()
             try engine?.start()
         } catch {
-//            print("Creating engine error: \(error.localizedDescription)")
+            //            print("Creating engine error: \(error.localizedDescription)")
         }
     }
     
@@ -307,7 +374,7 @@ struct ArchiveCardChipView: View {
             let player = try engine.makeAdvancedPlayer(with: pattern)
             try player.start(atTime: 0)
         } catch {
-//            print("Failed to play pattern \(error.localizedDescription)")
+            //            print("Failed to play pattern \(error.localizedDescription)")
         }
     }
     
@@ -315,8 +382,41 @@ struct ArchiveCardChipView: View {
         guard let engine = engine else { return }
         engine.stop(completionHandler: { (error) in
             if let error = error {
-//                print("Stopping haptic engine error: \(error.localizedDescription)")
+                //                print("Stopping haptic engine error: \(error.localizedDescription)")
             }
         })
+    }
+}
+
+extension ArchiveCardChipView {
+    func pickColorsFromCardColor(_ cardColor: Color) -> [Color]{
+        let cardColor = cardColor
+        let r = cardColor.components.r
+        let g = cardColor.components.g
+        let b = cardColor.components.b
+        let cmax = max(r, g, b)
+        let cmin = min(r, g, b)
+        let lightness = ((cmax+cmin)/2.0)*100
+        var hue: CGFloat = 0.0
+        var saturation: CGFloat = 0.0
+        var brightness: CGFloat = 0.0
+        var alpha: CGFloat = 0.0
+        UIColor(cardColor).getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
+        var returnColors = [Color]()
+        let lyricsColor = lightness >= 60 ? Color.blackColor : Color.whiteColor
+        returnColors.append(lyricsColor)
+        if( 0.0 <= brightness && brightness < 0.70){
+            let lyricsContainerColor = Color(UIColor(hue: hue, saturation: saturation, brightness: brightness+0.1, alpha: 1.0))
+            returnColors.append(lyricsContainerColor)
+        }
+        else if( 0.70 <= brightness && brightness <= 0.85 ){
+            let lyricsContainerColor = Color(UIColor(hue: hue, saturation: saturation, brightness: brightness+0.15, alpha: 1.0))
+            returnColors.append(lyricsContainerColor)
+        }
+        else{
+            let lyricsContainerColor = Color(UIColor(hue: hue, saturation: saturation, brightness: brightness-0.15, alpha: 1.0))
+            returnColors.append(lyricsContainerColor)
+        }
+        return returnColors
     }
 }
