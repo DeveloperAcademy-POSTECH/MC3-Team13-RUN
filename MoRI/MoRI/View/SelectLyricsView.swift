@@ -14,7 +14,7 @@ struct SelectLyricsView: View {
     @Binding var songData: SelectedSong
     @Binding var pureData: PureSong
     @State private var selectedTextIndices: [Int] = []
-
+    
     
     @State private var startSelectionIndex: Int?
     @State private var lyricsColor: Color = .whiteColor
@@ -41,16 +41,16 @@ struct SelectLyricsView: View {
                 
                 VStack(alignment: .leading){
                     Text(pureData.name)
-                        .foregroundColor(Color(hex: 0x111111))
-                        .font(.system(size: 14.48276))
+                        .font(.custom(FontsManager.Pretendard.medium, size: 14.48276))
+                        .foregroundColor(lyricsColor)
+                    
                     Text("노래 · " + pureData.artist)
-                        .foregroundColor(Color(hex: 0x767676))
-                        .font(.system(size: 14.48276))
+                        .font(.custom(FontsManager.Pretendard.medium, size: 14.48276))
+                        .foregroundColor(lyricsColor)
+                    
                 }
                 Spacer()
             }
-            
-            
             
             ScrollView {
                 
@@ -66,9 +66,8 @@ struct SelectLyricsView: View {
                         
                         Spacer(minLength: 250)
                     }
-                        
+                 
                 }
-                
                 else {
                     VStack(alignment: .leading){
                         ForEach(lyricsViewModel.lyrics.indices, id: \.self) { index in
@@ -87,23 +86,25 @@ struct SelectLyricsView: View {
                                         selectedTextIndices = Array(startIndex...endIndex)
                                         startSelectionIndex = nil
                                     }
-                                } else {
+                                }
+                                else {
                                     if selectedTextIndices.contains(index) {
                                         selectedTextIndices.removeAll { $0 == index }
                                     } else if selectedTextIndices.count >= 4 {
-                                        selectedTextIndices.removeAll()
-                                        selectedTextIndices.append(index)
+                                        selectedTextIndices.removeLast()
+                                        selectedTextIndices.insert(index, at: 0) // Insert at the beginning
                                     } else {
-                                        selectedTextIndices.append(index)
+                                        selectedTextIndices.insert(index, at: selectedTextIndices.endIndex) // Insert at the end
                                         startSelectionIndex = index
                                     }
+                                    selectedTextIndices.sort() // Sort the array to maintain the ascending order
                                 }
+                                
                             }) {
                                 HStack(alignment: .top) {
-                                  
                                     Text(text)
                                         .padding()
-                                        .font(.system(size: 34, weight: .medium))
+                                        .font(.custom(FontsManager.Pretendard.medium, size: 34))
                                         .lineSpacing(10)
                                         .foregroundColor(lyricsColor)
                                         .multilineTextAlignment(.leading)
@@ -114,30 +115,35 @@ struct SelectLyricsView: View {
                             }
                         }
                     }
+                    .padding(.leading, 3)
+                    .onAppear {
+                        lyricsViewModel.fetchHTMLParsingResult(songData)
+                        lyricsColor = chooseLyricsColor(UIImage(data: try! Data(contentsOf: songData.imageUrl!))!)
+                    }
                 }
-                .padding(.leading, 3)
-                .onAppear {
-                    lyricsViewModel.fetchHTMLParsingResult(songData)
-                    lyricsColor = chooseLyricsColor(UIImage(data: try! Data(contentsOf: songData.imageUrl!))!)
+                .border(.red)
+                
+                
+                
+                
+                NavigationLink(destination: EditCardView(viewModel: EditCardViewModel(card: Card(albumArtUIImage:  UIImage(data: try! Data(contentsOf: songData.imageUrl!))!, title: songData.name, singer: songData.artist, lyrics: selectedLyrics, cardColor: .gray)), pureData: $pureData)){
+                    ZStack{
+                        Rectangle()
+                            .frame(width: 350, height: 60)
+                            .cornerRadius(30)
+                            .foregroundColor(.gray03Color)
+                        Text("가사 선택 완료")
+                            .foregroundColor(.primaryColor)
+                            .font(.custom(FontsManager.Pretendard.medium, size: 20))
+                    }
                 }
+                .padding(.top, 33)
+                .padding(.bottom, 22)
+
             }
         }
             
             
-            
-            
-            NavigationLink(destination: EditCardView(viewModel: EditCardViewModel(card: Card(albumArtUIImage:  UIImage(data: try! Data(contentsOf: songData.imageUrl!))!, title: songData.name, singer: songData.artist, lyrics: selectedLyrics, cardColor: .gray)), pureData: $pureData)){
-                ZStack{
-                    Rectangle()
-                        .frame(width: 350, height: 60)
-                        .cornerRadius(30)
-                        .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
-                    Text("가사 선택 완료")
-                        .foregroundColor(Color(red: 0.81, green : 0.92, blue: 0))
-                        .font(.system(size: 20, weight: .medium))
-                }
-            }
-            .padding(.top, 33)
         }
         .background(
             AsyncImage(url: songData.imageUrl) { image in
@@ -185,7 +191,7 @@ extension SelectLyricsView {
         let cmax = max(r, g, b)
         let cmin = min(r, g, b)
         let lightness = ((cmax+cmin)/2.0)*100
-        let lyricsColor = lightness >= 60 ? Color.gray03Color : .white
+        let lyricsColor = lightness >= 70 ? Color.gray03Color : .white
         return lyricsColor
     }
 }

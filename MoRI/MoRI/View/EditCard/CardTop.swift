@@ -78,7 +78,7 @@ struct CardTop: View {
                 VStack(spacing: 0){
                     Text(pureData.name)
                         .frame(width: 314,height: 34)
-                        .font(.system(size: 34, weight: .medium))
+                        .font(.custom(FontsManager.Pretendard.medium, size: 34))
                         .foregroundColor(viewModel.lyricsColor)
                     Text(pureData.artist)
                         .frame(width: 314, height: 22, alignment: .leading)

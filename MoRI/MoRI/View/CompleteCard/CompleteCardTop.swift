@@ -34,11 +34,11 @@ struct CompleteCardTop: View {
                 VStack(spacing: 0){
                     Text(pureData.name)
                         .frame(width: 314,height: 34)
-                        .font(.system(size: 34, weight: .medium))
+                        .font(.custom(FontsManager.Pretendard.medium, size: 34))
                         .foregroundColor(viewModel.lyricsColor)
                     Text(pureData.artist)
                         .frame(width: 314, height: 22, alignment: .leading)
-                        .font(.system(size: 14, weight: .regular))
+                        .font(.custom(FontsManager.Pretendard.regular, size: 14))
                         .foregroundColor(viewModel.lyricsColor)
                         .blendMode(.softLight)
                 }

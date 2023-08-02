@@ -53,7 +53,7 @@ struct EditCardView: View {
                             .foregroundColor(.gray03Color)
                         Text("색상 선택 완료")
                             .foregroundColor(.primaryColor)
-                            .font(.system(size: 20, weight: .medium))
+                            .font(.custom(FontsManager.Pretendard.medium, size: 20))
                 }
             }
             .padding(.top, 34)

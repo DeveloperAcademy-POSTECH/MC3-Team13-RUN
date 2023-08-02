@@ -52,10 +52,10 @@ struct SearchMusicView: View {
                         VStack(alignment: .leading) {
                             Text(song.name)
                                 .foregroundColor(Color(hex: 0x111111))
-                                .font(.system(size: 14.48276))
+                                .font(.custom(FontsManager.Pretendard.medium, size: 14.48276))
                             Text(song.artist)
                                 .foregroundColor(Color(hex: 0x767676))
-                                .font(.system(size: 14.48276))
+                                .font(.custom(FontsManager.Pretendard.medium, size: 14.48276))
                         }
                         .padding()
                         

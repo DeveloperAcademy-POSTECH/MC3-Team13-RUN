@@ -42,7 +42,7 @@ struct CompleteCardView: View {
                 Text(viewModel.card.lyrics)
                     .frame(width: 314, alignment: .leading)
                     .foregroundColor(viewModel.lyricsColor)
-                    .font(.system(size: 17, weight: .medium))
+                    .font(.custom(FontsManager.Pretendard.medium, size: 17))
                     .lineSpacing(15)
             }
             .compositingGroup()
@@ -59,16 +59,16 @@ struct CompleteCardView: View {
                             Rectangle()
                                 .frame(width: 167, height: 60)
                                 .cornerRadius(30)
-                                .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
+                                .foregroundColor(.gray03Color)
                             if (!isButtonPressed) {
                                 Text("저장하기")
-                                    .foregroundColor(Color(red: 0.81, green : 0.92, blue: 0))
-                                    .font(.system(size: 20, weight: .medium))
+                                    .foregroundColor(.primaryColor)
+                                    .font(.custom(FontsManager.Pretendard.medium, size: 20))
                             }
                             else {
                                 Image(systemName: "checkmark")
                                     .frame(width: 20, height: 20)
-                                    .foregroundColor(Color(red: 0.81, green : 0.92, blue: 0))
+                                    .foregroundColor(.primaryColor)
                             }
                         }
                     }
@@ -84,10 +84,10 @@ struct CompleteCardView: View {
                             Rectangle()
                                 .frame(width: 167, height: 60)
                                 .cornerRadius(30)
-                                .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
+                                .foregroundColor(.primaryColor)
                             Text("메인으로")
-                                .foregroundColor(Color(red: 0.81, green : 0.92, blue: 0))
-                                .font(.system(size: 20, weight: .medium))
+                                .foregroundColor(.gray04Color)
+                                .font(.custom(FontsManager.Pretendard.medium, size: 20))
                         }
                     }
                     .padding(.top, 33)
@@ -125,47 +125,6 @@ struct CompleteCardView: View {
                 .foregroundColor(Color(hex: 0x767676))
         }
     }
-    
-    
-    
-    
-//    func shareToInstagramStories() {
-//
-//
-//        let stickerImageData = ExtractImage().renderSticker(view: ShareView(albumArt: viewModel.card.albumArtUIImage, singer: viewModel.card.singer, title: viewModel.card.title, cardColor: viewModel.card.cardColor, lyrics: viewModel.card.lyrics, lyricsContainerColor: viewModel.lyricsContainerColor, lyricsColor: viewModel.lyricsColor), scale: displayScale)?.pngData()
-//        let blurredImage = ExtractImage().renderBackground(view: ShareBack(albumArt: viewModel.card.albumArtUIImage), scale: displayScale)?.pngData()
-//
-//
-//
-//        let urlScheme = URL(string: "instagram-stories://share?source_application=\(Bundle.main.bundleIdentifier ?? "")")
-//        if let urlScheme = urlScheme {
-//            if UIApplication.shared.canOpenURL(urlScheme) {
-//
-//                var pasteboardItems: [[String : Any]]? = nil
-//                if let stickerImageData = stickerImageData {
-//                    pasteboardItems = [
-//                        [
-//                            "com.instagram.sharedSticker.stickerImage": stickerImageData,
-//                            "com.instagram.sharedSticker.backgroundImage": blurredImage as Any
-//
-//                        ]
-//                    ]
-//                }
-//
-//                let pasteboardOptions = [
-//                    UIPasteboard.OptionsKey.expirationDate: Date().addingTimeInterval(60 * 5)
-//                ]
-//
-//                if let pasteboardItems = pasteboardItems {
-//                    UIPasteboard.general.setItems(pasteboardItems, options: pasteboardOptions)
-//                }
-//
-//                UIApplication.shared.open(urlScheme, options: [:], completionHandler: nil)
-//            } else {
-//                print("Something went wrong. Maybe Instagram is not installed on this device?")
-//            }
-//        }
-//    }
     
     
 }
