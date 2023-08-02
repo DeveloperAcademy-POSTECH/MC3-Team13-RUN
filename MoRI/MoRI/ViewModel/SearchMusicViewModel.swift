@@ -95,8 +95,8 @@ class SearchMusicViewModel: ObservableObject {
     //MARK: 노래 제목 처리
     func replaceMusicTitle(in text: String) -> String {
         // Square처럼 feat없는 경우 regexPatternFirst
-        let regexPatternFirst = "[+*?.]"
-        let regexPattern = "\\([^()]*\\)"
+        let regexPatternFirst = "[+*?'.,~]"
+        let regexPattern = "\\([^()',~+]*\\)"
         
         let regexFirst = try! NSRegularExpression(pattern: regexPatternFirst, options: [])
         let regex = try! NSRegularExpression(pattern: regexPattern, options: [])
@@ -130,11 +130,10 @@ class SearchMusicViewModel: ObservableObject {
         let andResult = result.replacingOccurrences(of: "&", with: "and")
         result = andResult.replacingOccurrences(of: " ", with: "-")
         
-        
         return result
     }
     
-    //MARK: 소괄호안에 피처링 정보, 프로듀스 정보 처리
+    //MARK: 소괄호 안에 피처링 정보, 프로듀스 정보 처리 (.여부로 판단)
     func removeSuffixAfterKeywords(in text: String) -> String {
         var result = ""
         let keywords = ["(prod.", "(feat.", "\\[feat.", "(ft.", "\\[ft."]
@@ -161,4 +160,18 @@ class SearchMusicViewModel: ObservableObject {
         }
         return result
     }
+    
+    //MARK: 괄호 안에 .은 없지만 version 정보를 나타낼 경우 -> 날리기
+//    func removeSubInformation(in text: String) -> String {
+//        var result = text
+//            let keywords = ["ver.", "vers.", "version", "Version"]
+//
+//            for keyword in keywords {
+//                if !result.hasSuffix(keyword) {
+//                    result = result.dropLast(keyword.count).trimmingCharacters(in: .whitespaces)
+//                    break
+//                }
+//            }
+//        return result
+//    }
 }
