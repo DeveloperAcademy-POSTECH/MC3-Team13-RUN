@@ -59,16 +59,18 @@ struct CompleteCardView: View {
                             Rectangle()
                                 .frame(width: 167, height: 60)
                                 .cornerRadius(30)
-                                .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
+                                .foregroundColor(.gray03Color)
                             if (!isButtonPressed) {
                                 Text("저장하기")
-                                    .foregroundColor(Color(red: 0.81, green : 0.92, blue: 0))
+                                    .foregroundColor(.primaryColor)
                                     .font(.custom(FontsManager.Pretendard.medium, size: 20))
+                                // 얘
                             }
                             else {
                                 Image(systemName: "checkmark")
                                     .frame(width: 20, height: 20)
-                                    .foregroundColor(Color(red: 0.81, green : 0.92, blue: 0))
+                                    .foregroundColor(.primaryColor)
+                                // 얘도
                             }
                         }
                     }
@@ -84,10 +86,11 @@ struct CompleteCardView: View {
                             Rectangle()
                                 .frame(width: 167, height: 60)
                                 .cornerRadius(30)
-                                .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
+                                .foregroundColor(.primaryColor)
                             Text("메인으로")
-                                .foregroundColor(Color(red: 0.81, green : 0.92, blue: 0))
+                                .foregroundColor(.gray04Color)
                                 .font(.custom(FontsManager.Pretendard.medium, size: 20))
+                            // 얘
                         }
                     }
                     .padding(.top, 33)

@@ -116,10 +116,11 @@ struct SelectLyricsView: View {
                     Rectangle()
                         .frame(width: 350, height: 60)
                         .cornerRadius(30)
-                        .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
+                        .foregroundColor(.gray03Color)
                     Text("가사 선택 완료")
-                        .foregroundColor(Color(red: 0.81, green : 0.92, blue: 0))
+                        .foregroundColor(.primaryColor)
                         .font(.custom(FontsManager.Pretendard.medium, size: 20))
+                    // 바꾸기
                 }
             }
             .padding(.top, 33)
