@@ -9,13 +9,20 @@ import SwiftUI
 
 struct SplashView: View {
     @State private var isActive = false
+    @State var isViewed = UserDefaults.standard.object(forKey: "MORIFirst") as? Bool ?? false
     
     let persistenceController = PersistenceController.shared
     
     var body: some View {
         if isActive {
-            ArchiveCardChipView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            if isViewed {
+                ArchiveCardChipView()
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            }
+            else{
+                OnBoardingView(isViewed: $isViewed)
+            }
+            
         } else {
             ZStack {
                 Color.gray04Color.ignoresSafeArea()

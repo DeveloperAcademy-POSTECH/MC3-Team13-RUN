@@ -36,7 +36,7 @@ struct ArchiveCardChipView: View {
     @State private var lastTempCurrentCard = 0
     
     @Environment(\.displayScale) var displayScale
-
+    
     var body: some View {
         var standardAngle: Double = items.count > 0 ? Double(360 / items.count) : 0  // 단위각도
         let zIndexPreset = items.count > 0 ? (1...items.count).map { value in Double(value) / Double(1) }.reversed() : []   // 중첩 레벨
@@ -87,20 +87,6 @@ struct ArchiveCardChipView: View {
                     Image("moriLogo")
                         .padding(.top, 6)
                         .padding(.bottom, 7.21)
-                    
-//                    Button (action: {
-//
-//                    }, label: {
-//                        Circle()
-//                            .frame(width: 36, height: 36)
-//                            .foregroundColor(.gray03Color)
-//                            .overlay {
-//                                Image(systemName: "ellipsis")
-//                                    .resizable()
-//                                    .frame(width: 21.18, height: 4.5)
-//                                    .foregroundColor(.primaryColor)
-//                            }
-//                    })
                 }
                 .padding(EdgeInsets(top: 65, leading: 0, bottom: 743, trailing: 0))
                 
@@ -125,6 +111,12 @@ struct ArchiveCardChipView: View {
                 
                 // MARK: - Wheel 형태의 로테이션 애니메이션 효과
                 ZStack {
+                    if items.count < 1 {
+                        Text("저장된 카드가 없습니다")
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.gray03Color)
+                            .font(.custom(FontsManager.Pretendard.medium, size: 20))
+                    }
                     ForEach(Array(items.enumerated()), id: \.offset) { index, item in
                         // 0도를 기준으로 절대적인 인덱스 계산
                         
@@ -261,8 +253,8 @@ struct ArchiveCardChipView: View {
                         // 공유버튼
                         Button(action: {
                             shareToInstagramStories()
-//                            isShareSheetShowing.toggle()
-//                            print("share button onTapped")
+                            //                            isShareSheetShowing.toggle()
+                            //                            print("share button onTapped")
                         }) {
                             Circle()
                                 .foregroundColor(Color.white.opacity(0.15))
@@ -277,12 +269,6 @@ struct ArchiveCardChipView: View {
                                 }
                         }
                         .padding(.trailing, 20-16)
-//                        .sheet(isPresented: $isShareSheetShowing) {
-//                            ActivityViewController(activityItems: [
-//                                // 공유할 콘텐츠
-//                                shareToInstagramStories()
-//                            ])
-//                        }
                     }
                 }
                     .opacity(cardSelected ? 1.0 : 0.0)
@@ -303,14 +289,14 @@ struct ArchiveCardChipView: View {
         let returnC = pickColorsFromCardColor(Color(red: items[selectedIndex!].cardColorR, green: items[selectedIndex!].cardColorG, blue: items[selectedIndex!].cardColorB, opacity: items[selectedIndex!].cardColorA))
         
         let stickerImageData = ExtractImage().renderSticker(view: ShareView(
-                albumArt: UIImage(data: items[selectedIndex!].albumArt!)!,
-                singer: items[selectedIndex!].singer!,
-                title: items[selectedIndex!].title!,
-                cardColor: Color(red: items[selectedIndex!].cardColorR, green: items[selectedIndex!].cardColorG, blue: items[selectedIndex!].cardColorB, opacity: items[selectedIndex!].cardColorA),
-                lyrics: items[selectedIndex!].lyrics!,
-                lyricsContainerColor: returnC[1],
-                lyricsColor: returnC[0]),
-                scale: displayScale)?.pngData()
+            albumArt: UIImage(data: items[selectedIndex!].albumArt!)!,
+            singer: items[selectedIndex!].singer!,
+            title: items[selectedIndex!].title!,
+            cardColor: Color(red: items[selectedIndex!].cardColorR, green: items[selectedIndex!].cardColorG, blue: items[selectedIndex!].cardColorB, opacity: items[selectedIndex!].cardColorA),
+            lyrics: items[selectedIndex!].lyrics!,
+            lyricsContainerColor: returnC[1],
+            lyricsColor: returnC[0]),
+                                                            scale: displayScale)?.pngData()
         let blurredImage = ExtractImage().renderBackground(view: ShareBack(albumArt: UIImage(data: items[selectedIndex!].albumArt!)!), scale: displayScale)?.pngData()
         
         

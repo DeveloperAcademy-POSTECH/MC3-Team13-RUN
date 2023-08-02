@@ -82,6 +82,7 @@ struct SearchMusicView: View {
                     Image("searchPlaceholder")
                         .frame(width: 199.36, height: 69.93)
                         .padding(.bottom, 24.07)
+                        .foregroundColor(.gray02Color)
                     Text("좋아하는 가사를 기록하고 공유할\n나만의 카드를 만들어보세요")
                         .multilineTextAlignment(.center)
                         .foregroundColor(.gray02Color)
