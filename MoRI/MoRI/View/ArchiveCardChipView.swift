@@ -87,20 +87,6 @@ struct ArchiveCardChipView: View {
                     Image("moriLogo")
                         .padding(.top, 6)
                         .padding(.bottom, 7.21)
-                    
-                    //                    Button (action: {
-                    //
-                    //                    }, label: {
-                    //                        Circle()
-                    //                            .frame(width: 36, height: 36)
-                    //                            .foregroundColor(.gray03Color)
-                    //                            .overlay {
-                    //                                Image(systemName: "ellipsis")
-                    //                                    .resizable()
-                    //                                    .frame(width: 21.18, height: 4.5)
-                    //                                    .foregroundColor(.primaryColor)
-                    //                            }
-                    //                    })
                 }
                 .padding(EdgeInsets(top: 65, leading: 0, bottom: 743, trailing: 0))
                 
@@ -125,6 +111,12 @@ struct ArchiveCardChipView: View {
                 
                 // MARK: - Wheel 형태의 로테이션 애니메이션 효과
                 ZStack {
+                    if items.count < 1 {
+                        Text("의미있는 노래와 가사를\n카드로 만들어 보세요")
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.gray03Color)
+                            .font(.custom(FontsManager.Pretendard.medium, size: 20))
+                    }
                     ForEach(Array(items.enumerated()), id: \.offset) { index, item in
                         // 0도를 기준으로 절대적인 인덱스 계산
                         
@@ -277,12 +269,6 @@ struct ArchiveCardChipView: View {
                                 }
                         }
                         .padding(.trailing, 20-16)
-                        //                        .sheet(isPresented: $isShareSheetShowing) {
-                        //                            ActivityViewController(activityItems: [
-                        //                                // 공유할 콘텐츠
-                        //                                shareToInstagramStories()
-                        //                            ])
-                        //                        }
                     }
                 }
                     .opacity(cardSelected ? 1.0 : 0.0)
