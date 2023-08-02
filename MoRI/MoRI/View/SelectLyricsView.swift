@@ -53,39 +53,54 @@ struct SelectLyricsView: View {
             
             
             ScrollView {
-                VStack(alignment: .leading){
-                    ForEach(lyricsViewModel.lyrics.indices, id: \.self) { index in
+                
+                if lyricsViewModel.lyrics.count == 0 {
+                    
+                    VStack{
+                        Spacer()
                         
-                        let text = lyricsViewModel.removeCharactersInsideBrackets(from: lyricsViewModel.lyrics[index])
+                        Text("가사 준비 중입니다.")
+                            .foregroundColor(.white)
+                            .font(.system(size: 34, weight: .semibold))
+                            .frame(width: 320, height: 78, alignment: .center)
                         
-                        Button(action: {
-                            if let start = startSelectionIndex {
-                                let startIndex = min(start, index)
-                                let endIndex = max(start, index)
-                                
-                                if endIndex > startIndex + 3 {
-                                    selectedTextIndices = Array(startIndex...startIndex + 3)
-                                    startSelectionIndex = nil
-                                } else {
-                                    selectedTextIndices = Array(startIndex...endIndex)
-                                    startSelectionIndex = nil
-                                }
-                            }
-                            else {
-                                if selectedTextIndices.contains(index) {
-                                    selectedTextIndices.removeAll { $0 == index }
-                                } else if selectedTextIndices.count >= 4 {
-                                    selectedTextIndices.removeLast()
-                                    selectedTextIndices.insert(index, at: 0) // Insert at the beginning
-                                } else {
-                                    selectedTextIndices.insert(index, at: selectedTextIndices.endIndex) // Insert at the end
-                                    startSelectionIndex = index
-                                }
-                                selectedTextIndices.sort() // Sort the array to maintain the ascending order
-                            }
+                        Spacer(minLength: 250)
+                    }
+                        
+                }
+                
+                else {
+                    VStack(alignment: .leading){
+                        ForEach(lyricsViewModel.lyrics.indices, id: \.self) { index in
                             
-                        }) {
-                            HStack(alignment: .top) {
+                            let text = lyricsViewModel.removeCharactersInsideBrackets(from: lyricsViewModel.lyrics[index])
+                            
+                            Button(action: {
+                                if let start = startSelectionIndex {
+                                    let startIndex = min(start, index)
+                                    let endIndex = max(start, index)
+                                    
+                                    if endIndex > startIndex + 3 {
+                                        selectedTextIndices = Array(startIndex...startIndex + 3)
+                                        startSelectionIndex = nil
+                                    } else {
+                                        selectedTextIndices = Array(startIndex...endIndex)
+                                        startSelectionIndex = nil
+                                    }
+                                } else {
+                                    if selectedTextIndices.contains(index) {
+                                        selectedTextIndices.removeAll { $0 == index }
+                                    } else if selectedTextIndices.count >= 4 {
+                                        selectedTextIndices.removeAll()
+                                        selectedTextIndices.append(index)
+                                    } else {
+                                        selectedTextIndices.append(index)
+                                        startSelectionIndex = index
+                                    }
+                                }
+                            }) {
+                                HStack(alignment: .top) {
+                                  
                                     Text(text)
                                         .padding()
                                         .font(.system(size: 34, weight: .medium))
@@ -96,6 +111,7 @@ struct SelectLyricsView: View {
                                 .frame(maxWidth: 349, alignment : .leading)
                                 .background(selectedTextIndices.contains(index) ? Color.gray.opacity(0.75) : Color.clear)
                                 .cornerRadius(10)
+                            }
                         }
                     }
                 }
@@ -105,6 +121,7 @@ struct SelectLyricsView: View {
                     lyricsColor = chooseLyricsColor(UIImage(data: try! Data(contentsOf: songData.imageUrl!))!)
                 }
             }
+        }
             
             
             
