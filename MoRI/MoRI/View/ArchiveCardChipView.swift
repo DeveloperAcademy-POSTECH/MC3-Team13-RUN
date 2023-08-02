@@ -112,7 +112,7 @@ struct ArchiveCardChipView: View {
                 // MARK: - Wheel 형태의 로테이션 애니메이션 효과
                 ZStack {
                     if items.count < 1 {
-                        Text("의미있는 노래와 가사를\n카드로 만들어 보세요")
+                        Text("저장된 카드가 없습니다")
                             .multilineTextAlignment(.center)
                             .foregroundColor(.gray03Color)
                             .font(.custom(FontsManager.Pretendard.medium, size: 20))
