@@ -17,12 +17,9 @@ struct MoRIApp: App {
     
     var body: some Scene {
         WindowGroup {
-//                        ContentView()
-            //            SearchMusicView(selectedSong: selectedSong)
-//             MainView()
-//            MainView(songData: songData)
-            ArchiveCardChipView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+//            ArchiveCardChipView()
+//                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            SplashView()
         }
     }
 }
