@@ -19,11 +19,12 @@ struct SelectLyricsView: View {
     @State private var startSelectionIndex: Int?
     @State private var lyricsColor: Color = .whiteColor
     
+//    @State private var isEmpty: String = "로딩중 ..."
     
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        VStack(){
+        VStack {
             HStack(spacing: 11){
                 
                 AsyncImage(url: songData.imageUrl) { image in
@@ -51,80 +52,73 @@ struct SelectLyricsView: View {
                 }
                 Spacer()
             }
-            
-            ScrollView {
+            if lyricsViewModel.lyrics.count == 0 {
                 
-                if lyricsViewModel.lyrics.count == 0 {
+                VStack{
+                    Spacer()
                     
-                    VStack{
-                        Spacer()
-                        
-                        Text("가사 준비 중입니다.")
-                            .foregroundColor(.white)
-                            .font(.system(size: 34, weight: .semibold))
-                            .frame(width: 320, height: 78, alignment: .center)
-                        
-                        Spacer(minLength: 250)
-                    }
-                 
+                    Text(lyricsViewModel.isEmpty)
+                        .foregroundColor(.white)
+                        .font(.system(size: 34, weight: .semibold))
+                        .frame(width: 320, height: 78, alignment: .center)
+                    
+                    Spacer(minLength: 250)
                 }
+                
+            }
                 else {
-                    VStack(alignment: .leading){
-                        ForEach(lyricsViewModel.lyrics.indices, id: \.self) { index in
-                            
-                            let text = lyricsViewModel.removeCharactersInsideBrackets(from: lyricsViewModel.lyrics[index])
-                            
-                            Button(action: {
-                                if let start = startSelectionIndex {
-                                    let startIndex = min(start, index)
-                                    let endIndex = max(start, index)
-                                    
-                                    if endIndex > startIndex + 3 {
-                                        selectedTextIndices = Array(startIndex...startIndex + 3)
-                                        startSelectionIndex = nil
-                                    } else {
-                                        selectedTextIndices = Array(startIndex...endIndex)
-                                        startSelectionIndex = nil
-                                    }
-                                }
-                                else {
-                                    if selectedTextIndices.contains(index) {
-                                        selectedTextIndices.removeAll { $0 == index }
-                                    } else if selectedTextIndices.count >= 4 {
-                                        selectedTextIndices.removeLast()
-                                        selectedTextIndices.insert(index, at: 0) // Insert at the beginning
-                                    } else {
-                                        selectedTextIndices.insert(index, at: selectedTextIndices.endIndex) // Insert at the end
-                                        startSelectionIndex = index
-                                    }
-                                    selectedTextIndices.sort() // Sort the array to maintain the ascending order
-                                }
+                    ScrollView {
+                        VStack(alignment: .leading){
+                            ForEach(lyricsViewModel.lyrics.indices, id: \.self) { index in
                                 
-                            }) {
-                                HStack(alignment: .top) {
-                                    Text(text)
-                                        .padding()
-                                        .font(.custom(FontsManager.Pretendard.medium, size: 34))
-                                        .lineSpacing(10)
-                                        .foregroundColor(lyricsColor)
-                                        .multilineTextAlignment(.leading)
+                                let text = lyricsViewModel.removeCharactersInsideBrackets(from: lyricsViewModel.lyrics[index])
+                                
+                                Button(action: {
+                                    if let start = startSelectionIndex {
+                                        let startIndex = min(start, index)
+                                        let endIndex = max(start, index)
+                                        
+                                        if endIndex > startIndex + 3 {
+                                            selectedTextIndices = Array(startIndex...startIndex + 3)
+                                            startSelectionIndex = nil
+                                        } else {
+                                            selectedTextIndices = Array(startIndex...endIndex)
+                                            startSelectionIndex = nil
+                                        }
+                                    }
+                                    else {
+                                        if selectedTextIndices.contains(index) {
+                                            selectedTextIndices.removeAll { $0 == index }
+                                        } else if selectedTextIndices.count >= 4 {
+                                            selectedTextIndices.removeLast()
+                                            selectedTextIndices.insert(index, at: 0) // Insert at the beginning
+                                        } else {
+                                            selectedTextIndices.insert(index, at: selectedTextIndices.endIndex) // Insert at the end
+                                            startSelectionIndex = index
+                                        }
+                                        selectedTextIndices.sort() // Sort the array to maintain the ascending order
+                                    }
+                                    
+                                }) {
+                                    HStack(alignment: .top) {
+                                        Text(text)
+                                            .padding()
+                                            .font(.custom(FontsManager.Pretendard.medium, size: 34))
+                                            .lineSpacing(10)
+                                            .foregroundColor(lyricsColor)
+                                            .multilineTextAlignment(.leading)
+                                    }
+                                    .frame(maxWidth: 349, alignment : .leading)
+                                    .background(selectedTextIndices.contains(index) ? Color.gray.opacity(0.75) : Color.clear)
+                                    .cornerRadius(10)
                                 }
-                                .frame(maxWidth: 349, alignment : .leading)
-                                .background(selectedTextIndices.contains(index) ? Color.gray.opacity(0.75) : Color.clear)
-                                .cornerRadius(10)
                             }
                         }
+                        .padding(.leading, 3)
+                        
                     }
-                    .padding(.leading, 3)
-                    .onAppear {
-                        lyricsViewModel.fetchHTMLParsingResult(songData)
-                        lyricsColor = chooseLyricsColor(UIImage(data: try! Data(contentsOf: songData.imageUrl!))!)
-                    }
+                    
                 }
-                .border(.red)
-                
-                
-                
                 
                 NavigationLink(destination: EditCardView(viewModel: EditCardViewModel(card: Card(albumArtUIImage:  UIImage(data: try! Data(contentsOf: songData.imageUrl!))!, title: songData.name, singer: songData.artist, lyrics: selectedLyrics, cardColor: .gray)), pureData: $pureData)){
                     ZStack{
@@ -139,11 +133,11 @@ struct SelectLyricsView: View {
                 }
                 .padding(.top, 33)
                 .padding(.bottom, 22)
-
-            }
+            
         }
-            
-            
+        .onAppear {
+            lyricsViewModel.fetchHTMLParsingResult(songData)
+            lyricsColor = chooseLyricsColor(UIImage(data: try! Data(contentsOf: songData.imageUrl!))!)
         }
         .background(
             AsyncImage(url: songData.imageUrl) { image in
@@ -174,6 +168,8 @@ struct SelectLyricsView: View {
     var backButton: some View {
         Button(action: {
             dismiss()
+            lyricsViewModel.isEmpty = "로딩 중 ..."
+            lyricsViewModel.lyrics = []
         }) {
             Image(systemName: "chevron.left")
                 .imageScale(.large)
@@ -181,6 +177,7 @@ struct SelectLyricsView: View {
         }
     }
 }
+
 
 extension SelectLyricsView {
     func chooseLyricsColor(_ albumArt: UIImage ) -> Color {
@@ -191,7 +188,7 @@ extension SelectLyricsView {
         let cmax = max(r, g, b)
         let cmin = min(r, g, b)
         let lightness = ((cmax+cmin)/2.0)*100
-        let lyricsColor = lightness >= 70 ? Color.gray03Color : .white
+        let lyricsColor = lightness >= 60 ? Color.gray03Color : .white
         return lyricsColor
     }
 }

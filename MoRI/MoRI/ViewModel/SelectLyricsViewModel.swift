@@ -10,6 +10,9 @@ import SwiftSoup
 
 class SelectLyricsViewModel: ObservableObject {
     @Published var lyrics: [String] = []
+    @Published var isLoaded: Bool = false
+    
+    @Published var isEmpty: String = "로딩중 ..."
     
     init() {
         fetchHTMLParsingResult(SelectedSong(name: "", artist: ""))
@@ -20,11 +23,13 @@ class SelectLyricsViewModel: ObservableObject {
         let urlAddress = "https://genius.com/\(selectedSong.artist)-\(selectedSong.name)-lyrics"
         
         guard let url = URL(string: urlAddress) else {
+            isEmpty = "가사 준비 중입니다 !"
             return
         }
         
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             if let error = error {
+                self?.isEmpty = "가사 준비 중입니다 !"
                 print("Error loading URL: \(error)")
                 return
             }
@@ -45,9 +50,9 @@ class SelectLyricsViewModel: ObservableObject {
                             .replacingOccurrences(of: "</i>", with: "\n")
                             .replacingOccurrences(of: "<br>\n<br>", with: "\n")
                         
-                        let cleanLines = self.removeCharactersInsideBrackets(from: lines)
+                        let cleanLines = self?.removeCharactersInsideBrackets(from: lines)
                         
-                        lyricsText += cleanLines
+                        lyricsText += cleanLines!
                     }
                     
                     let linesArray = lyricsText.components(separatedBy: ["\n", "."])
@@ -55,11 +60,14 @@ class SelectLyricsViewModel: ObservableObject {
                         .map { $0.trimmingCharacters(in: .whitespaces) }
                     
                     DispatchQueue.main.async {
-                        self.lyrics = linesArray
+                        self?.isEmpty = "가사 준비 중입니다 !"
+                        self?.lyrics = linesArray
 //                        print(self.lyrics)
                     }
                 } catch {
                     print("Error parsing HTML: \(error)")
+                    self?.isLoaded = true
+                    self?.isEmpty = "가사 준비 중입니다 !"
                 }
 
             }
