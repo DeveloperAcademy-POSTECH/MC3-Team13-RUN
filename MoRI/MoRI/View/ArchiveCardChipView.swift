@@ -83,26 +83,26 @@ struct ArchiveCardChipView: View {
             ZStack {
                 Color.gray02Color.ignoresSafeArea()
                 
-                HStack (spacing: 110.78) {
+                HStack {
                     Image("moriLogo")
                         .padding(.top, 6)
                         .padding(.bottom, 7.21)
                     
-                    Button (action: {
-                        
-                    }, label: {
-                        Circle()
-                            .frame(width: 36, height: 36)
-                            .foregroundColor(.gray03Color)
-                            .overlay {
-                                Image(systemName: "ellipsis")
-                                    .resizable()
-                                    .frame(width: 21.18, height: 4.5)
-                                    .foregroundColor(.primaryColor)
-                            }
-                    })
+//                    Button (action: {
+//
+//                    }, label: {
+//                        Circle()
+//                            .frame(width: 36, height: 36)
+//                            .foregroundColor(.gray03Color)
+//                            .overlay {
+//                                Image(systemName: "ellipsis")
+//                                    .resizable()
+//                                    .frame(width: 21.18, height: 4.5)
+//                                    .foregroundColor(.primaryColor)
+//                            }
+//                    })
                 }
-                .padding(EdgeInsets(top: 65, leading: 171, bottom: 743, trailing: 25))
+                .padding(EdgeInsets(top: 65, leading: 0, bottom: 743, trailing: 0))
                 
                 NavigationLink(destination: SearchMusicView(), isActive: $isSearchMusicViewActive) {
                     EmptyView()
