@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct OnBoardingView: View {
-    @State private var isViewed = UserDefaults.standard.object(forKey: "MORIFirst") as? Bool ?? false
+    @Binding var isViewed: Bool
     
     var body: some View {
         VStack{
@@ -55,12 +55,11 @@ struct OnBoardingView: View {
             }
         }.frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.gray04Color)
-            .opacity( isViewed == true ? 0 : 1)
     }
 }
 
 struct OnBoardingView_Previews: PreviewProvider {
     static var previews: some View {
-        OnBoardingView()
+        OnBoardingView(isViewed: .constant(false))
     }
 }
