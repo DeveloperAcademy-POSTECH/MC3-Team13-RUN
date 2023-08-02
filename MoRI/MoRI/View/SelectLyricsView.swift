@@ -23,7 +23,7 @@ struct SelectLyricsView: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        VStack(){
+        VStack {
             HStack(spacing: 11){
                 
                 AsyncImage(url: songData.imageUrl) { image in
@@ -121,10 +121,6 @@ struct SelectLyricsView: View {
                         lyricsColor = chooseLyricsColor(UIImage(data: try! Data(contentsOf: songData.imageUrl!))!)
                     }
                 }
-                .border(.red)
-                
-                
-                
                 
                 NavigationLink(destination: EditCardView(viewModel: EditCardViewModel(card: Card(albumArtUIImage:  UIImage(data: try! Data(contentsOf: songData.imageUrl!))!, title: songData.name, singer: songData.artist, lyrics: selectedLyrics, cardColor: .gray)), pureData: $pureData)){
                     ZStack{
@@ -141,8 +137,6 @@ struct SelectLyricsView: View {
                 .padding(.bottom, 22)
 
             }
-        }
-            
             
         }
         .background(
