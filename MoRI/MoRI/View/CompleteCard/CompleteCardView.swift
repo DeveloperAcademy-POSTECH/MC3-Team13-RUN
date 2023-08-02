@@ -42,7 +42,7 @@ struct CompleteCardView: View {
                 Text(viewModel.card.lyrics)
                     .frame(width: 314, alignment: .leading)
                     .foregroundColor(viewModel.lyricsColor)
-                    .font(.system(size: 17, weight: .medium))
+                    .font(.custom(FontsManager.Pretendard.medium, size: 17))
                     .lineSpacing(15)
             }
             .compositingGroup()
@@ -63,7 +63,7 @@ struct CompleteCardView: View {
                             if (!isButtonPressed) {
                                 Text("저장하기")
                                     .foregroundColor(Color(red: 0.81, green : 0.92, blue: 0))
-                                    .font(.system(size: 20, weight: .medium))
+                                    .font(.custom(FontsManager.Pretendard.medium, size: 20))
                             }
                             else {
                                 Image(systemName: "checkmark")
@@ -87,7 +87,7 @@ struct CompleteCardView: View {
                                 .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
                             Text("메인으로")
                                 .foregroundColor(Color(red: 0.81, green : 0.92, blue: 0))
-                                .font(.system(size: 20, weight: .medium))
+                                .font(.custom(FontsManager.Pretendard.medium, size: 20))
                         }
                     }
                     .padding(.top, 33)

@@ -26,7 +26,7 @@ struct CardDetailView: View {
                 Text(viewModel.card.lyrics)
                 .frame(width: 314, alignment: .leading)
                 .foregroundColor(viewModel.lyricsColor)
-                .font(.system(size: 17, weight: .medium))
+                .font(.custom(FontsManager.Pretendard.medium, size: 17))
                 .lineSpacing(15)
             }
             .compositingGroup()

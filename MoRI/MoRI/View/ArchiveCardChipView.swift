@@ -115,7 +115,7 @@ struct ArchiveCardChipView: View {
                         .foregroundColor(Color(red: 36/225.0, green: 36/225.0, blue: 36/225.0))
                     Text("만들러 가기")
                         .foregroundColor(.primaryColor)
-                        .font(.system(size: 20, weight: .medium))
+                        .font(.custom(FontsManager.Pretendard.medium, size: 20))
                 }
                 .padding(.top, 739)
                 .padding(.bottom, 45)

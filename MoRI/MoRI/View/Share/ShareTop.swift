@@ -35,12 +35,12 @@ struct ShareTop: View {
                     .foregroundColor(cardColor)
                 VStack(spacing: 0){
                     Text(title)
-                        .font(.system(size: 28.84, weight: .medium))
+                        .font(.custom(FontsManager.Pretendard.medium, size: 28.84))
                         .foregroundColor(lyricsColor)
                         .frame(height: 28.84)
                     Text(singer)
                         .frame(width: 233, height: 11.88, alignment: .trailing)
-                        .font(.system(size: 11.88, weight: .regular))
+                        .font(.custom(FontsManager.Pretendard.regular, size: 28.84))
                         .foregroundColor(lyricsColor)
                         .blendMode(.softLight)
                 }
