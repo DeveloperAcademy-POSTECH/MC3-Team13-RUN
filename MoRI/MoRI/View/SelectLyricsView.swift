@@ -170,7 +170,7 @@ extension SelectLyricsView {
         let cmax = max(r, g, b)
         let cmin = min(r, g, b)
         let lightness = ((cmax+cmin)/2.0)*100
-        let lyricsColor = lightness >= 60 ? Color.gray03Color : .white
+        let lyricsColor = lightness >= 70 ? Color.gray03Color : .white
         return lyricsColor
     }
 }
