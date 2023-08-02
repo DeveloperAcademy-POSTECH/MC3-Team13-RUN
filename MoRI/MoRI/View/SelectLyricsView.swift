@@ -19,6 +19,7 @@ struct SelectLyricsView: View {
     @State private var startSelectionIndex: Int?
     @State private var lyricsColor: Color = .whiteColor
     
+//    @State private var isEmpty: String = "로딩중 ..."
     
     @Environment(\.dismiss) private var dismiss
     
@@ -51,13 +52,12 @@ struct SelectLyricsView: View {
                 }
                 Spacer()
             }
-                
             if lyricsViewModel.lyrics.count == 0 {
                 
                 VStack{
                     Spacer()
                     
-                    Text("가사 준비 중입니다.")
+                    Text(lyricsViewModel.isEmpty)
                         .foregroundColor(.white)
                         .font(.system(size: 34, weight: .semibold))
                         .frame(width: 320, height: 78, alignment: .center)
@@ -114,12 +114,10 @@ struct SelectLyricsView: View {
                                 }
                             }
                         }
+                        .padding(.leading, 3)
+                        
                     }
-                    .padding(.leading, 3)
-                    .onAppear {
-                        lyricsViewModel.fetchHTMLParsingResult(songData)
-                        lyricsColor = chooseLyricsColor(UIImage(data: try! Data(contentsOf: songData.imageUrl!))!)
-                    }
+                    
                 }
                 
                 NavigationLink(destination: EditCardView(viewModel: EditCardViewModel(card: Card(albumArtUIImage:  UIImage(data: try! Data(contentsOf: songData.imageUrl!))!, title: songData.name, singer: songData.artist, lyrics: selectedLyrics, cardColor: .gray)), pureData: $pureData)){
@@ -136,6 +134,10 @@ struct SelectLyricsView: View {
                 .padding(.top, 33)
                 .padding(.bottom, 22)
             
+        }
+        .onAppear {
+            lyricsViewModel.fetchHTMLParsingResult(songData)
+            lyricsColor = chooseLyricsColor(UIImage(data: try! Data(contentsOf: songData.imageUrl!))!)
         }
         .background(
             AsyncImage(url: songData.imageUrl) { image in
@@ -166,6 +168,8 @@ struct SelectLyricsView: View {
     var backButton: some View {
         Button(action: {
             dismiss()
+            lyricsViewModel.isEmpty = "로딩 중 ..."
+            lyricsViewModel.lyrics = []
         }) {
             Image(systemName: "chevron.left")
                 .imageScale(.large)
@@ -184,7 +188,7 @@ extension SelectLyricsView {
         let cmax = max(r, g, b)
         let cmin = min(r, g, b)
         let lightness = ((cmax+cmin)/2.0)*100
-        let lyricsColor = lightness >= 70 ? Color.gray03Color : .white
+        let lyricsColor = lightness >= 60 ? Color.gray03Color : .white
         return lyricsColor
     }
 }
