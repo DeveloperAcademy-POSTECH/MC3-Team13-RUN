@@ -37,10 +37,11 @@ struct ShareTop: View {
                     Text(title)
                         .font(.custom(FontsManager.Pretendard.medium, size: 28.84))
                         .foregroundColor(lyricsColor)
-                        .frame(height: 28.84)
+                        .frame(width: 296, height: 28.84, alignment: .center)
+                        .minimumScaleFactor(0.5)
                     Text(singer)
                         .frame(width: 233, height: 11.88, alignment: .trailing)
-                        .font(.custom(FontsManager.Pretendard.regular, size: 28.84))
+                        .font(.custom(FontsManager.Pretendard.regular, size: 11.88))
                         .foregroundColor(lyricsColor)
                         .blendMode(.softLight)
                 }
@@ -52,7 +53,7 @@ struct ShareTop: View {
 
 struct ShareTop_Previews: PreviewProvider {
     static var previews: some View {
-        ShareTop(albumArt: UIImage(named: "test") ?? UIImage(), singer: "민수", title: "커다란", cardColor: .gray03Color, lyricsColor: .whiteColor)
+        ShareTop(albumArt: UIImage(named: "test") ?? UIImage(), singer: "민수", title: "이름 없는 거리", cardColor: .gray03Color, lyricsColor: .whiteColor)
     }
 }
 
