@@ -77,12 +77,13 @@ struct CardTop: View {
                     .foregroundColor(viewModel.card.cardColor)
                 VStack(spacing: 0){
                     Text(pureData.name)
-                        .frame(width: 314,height: 34)
+                        .frame(width: 314,height: 34, alignment: .center)
                         .font(.custom(FontsManager.Pretendard.medium, size: 34))
                         .foregroundColor(viewModel.lyricsColor)
+                        .minimumScaleFactor(0.5)
                     Text(pureData.artist)
-                        .frame(width: 314, height: 22, alignment: .leading)
-                        .font(.custom(FontsManager.Pretendard.regular, size: 14))
+                        .frame(width: 314, height: 11.88, alignment: .trailing)
+                        .font(.custom(FontsManager.Pretendard.regular, size: 11.88))
                         .foregroundColor(viewModel.lyricsColor)
                         .blendMode(.softLight)
                 }
