@@ -60,9 +60,8 @@ class SelectLyricsViewModel: ObservableObject {
                         .map { $0.trimmingCharacters(in: .whitespaces) }
                     
                     DispatchQueue.main.async {
-                        self?.isEmpty = "가사 준비 중입니다 !"
+                        self?.isEmpty = "로딩중 ..."
                         self?.lyrics = linesArray
-//                        print(self.lyrics)
                     }
                 } catch {
                     print("Error parsing HTML: \(error)")
