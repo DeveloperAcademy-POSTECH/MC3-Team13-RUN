@@ -19,8 +19,6 @@ struct SelectLyricsView: View {
     @State private var startSelectionIndex: Int?
     @State private var lyricsColor: Color = .whiteColor
     
-//    @State private var isEmpty: String = "로딩중 ..."
-    
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
