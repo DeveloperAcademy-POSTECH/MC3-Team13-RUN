@@ -137,7 +137,20 @@ struct SelectLyricsView: View {
         }
         .onAppear {
             lyricsViewModel.fetchHTMLParsingResult(songData)
-            lyricsColor = chooseLyricsColor(UIImage(data: try! Data(contentsOf: songData.imageUrl!))!)
+            
+            DispatchQueue.global().async {
+                if let imageUrl = songData.imageUrl {
+                    do {
+                        let imageData = try Data(contentsOf: imageUrl)
+                        let image = UIImage(data: imageData)
+                        DispatchQueue.main.async {
+                            lyricsColor = chooseLyricsColor(image!)
+                        }
+                    } catch {
+                        print("Error downloading image: \(error)")
+                    }
+                }
+            }
         }
         .background(
             AsyncImage(url: songData.imageUrl) { image in
