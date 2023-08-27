@@ -46,7 +46,6 @@ struct EditCardView: View {
             .compositingGroup()
             NavigationLink(destination: CompleteCardView(viewModel: CompleteCardViewModel(card: Card(albumArtUIImage: viewModel.card.albumArtUIImage, title: viewModel.card.title, singer: viewModel.card.singer, lyrics: viewModel.card.lyrics, cardColor: viewModel.card.cardColor)), pureData: $pureData)) {
                 
-               
                     ZStack{ Rectangle()
                             .frame(width: 350, height: 60)
                             .cornerRadius(30)
@@ -59,7 +58,12 @@ struct EditCardView: View {
             .padding(.top, 34)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Image(uiImage:viewModel.card.albumArtUIImage).resizable().ignoresSafeArea().scaledToFill().blur(radius: 20))
+        .background(Image(uiImage:viewModel.card.albumArtUIImage)
+            .resizable()
+            .ignoresSafeArea()
+            .scaledToFill()
+            .blur(radius: 20)
+        )
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: backButton)
     }
