@@ -43,6 +43,11 @@ struct ArchiveCardChipView: View {
         var standardAngle: Double = items.count > 0 ? Double(360 / items.count) : 0  // 카드 1장 당의 단위각도
         let zIndexPreset = items.count > 0 ? (1...items.count).map { value in Double(value) / Double(1) }.reversed() : []   // 중첩 레벨
         
+        let screenWidth = UIScreen.main.bounds.size.width
+        let screenHeight = UIScreen.main.bounds.size.height
+        let scaleWidth = screenWidth / 390
+        let scaleHeight = screenHeight / 844
+        
         // MARK: - Drag Gesture
         let dragGesture = DragGesture()
             // 드래그 발생 시 현재 선택된 카드 계산 및 햅틱 발생
@@ -78,6 +83,7 @@ struct ArchiveCardChipView: View {
                 stopHapticFeedback()
                 isHapticOn = false
             }
+        
         // MARK: - Navigation
         NavigationStack {
             ZStack {
@@ -86,10 +92,10 @@ struct ArchiveCardChipView: View {
                 // 화면 상단의 로고 영역
                 HStack {
                     Image("moriLogo")
-                        .padding(.top, 6)
-                        .padding(.bottom, 7.21)
+                        .padding(.top, 6 * scaleHeight)
+                        .padding(.bottom, 7.21 * scaleHeight)
                 }
-                .padding(EdgeInsets(top: 65, leading: 0, bottom: 743, trailing: 0))
+                .padding(EdgeInsets(top: 65 * scaleHeight, leading: 0, bottom: 743 * scaleHeight, trailing: 0))
                 
                 NavigationLink(destination: SearchMusicView(), isActive: $isSearchMusicViewActive) {
                     EmptyView()
@@ -105,8 +111,8 @@ struct ArchiveCardChipView: View {
                         .foregroundColor(.primaryColor)
                         .font(.custom(FontsManager.Pretendard.medium, size: 20))
                 }
-                .padding(.top, 739)
-                .padding(.bottom, 45)
+                .padding(.top, 739 * scaleHeight)
+                .padding(.bottom, 45 * scaleHeight)
                 .onTapGesture {
                     isSearchMusicViewActive = true // 버튼을 눌렀을 때 NavigationLink 활성화
                 }
@@ -135,11 +141,11 @@ struct ArchiveCardChipView: View {
                         // 현재 카드(index)의 각도에 드래그 값 반영
                         let tempRotationAngle = Double(Int(round((standardAngle) * Double(index) + (isDragging ? currentAngle + delta : currentAngle))) % 360)  // 순차적으로 배치 후 회전 각도 반영
                         let rotationAngle = (tempRotationAngle + 360).truncatingRemainder(dividingBy: 360)  // 회전 각도 보정(0~360)
-                        
+                          
                         // MARK: - Card 생성 => 앨범아트카드(CardDetailArt)
                         CardDetailArt(viewModel: CardDetailViewModel(card: createCard(for: index)))
                         .scaleEffect(0.59)
-                        .padding(.bottom, 150) // 회전 기준점으로부터의 여백
+                        .padding(.bottom, 150 * ((screenHeight - 82.79) / 761.21)) // 회전 기준점으로부터의 여백
                         .zIndex(zIndexPreset[correctedRelativeIndex])   // 중첩 레벨
                         .opacity(   // 회전된 각도에 따른 투명도 조절
                             items.count <= 3 || (rotationAngle >= 270 && rotationAngle <= 360) ? 1 : 0
@@ -158,11 +164,11 @@ struct ArchiveCardChipView: View {
                     .shadow(radius: 5, x: 8, y: -4)
                     .gesture(dragGesture)
                 }
-                .frame(width: 350, height: 585, alignment: .center)
+                .frame(width: 350, height: ((screenHeight - 82.79) / 761.21) * 570, alignment: .center)
                 .background(backgroundArchive)
                 .cornerRadius(20)
                 .contentShape(Rectangle())  // 콘텐츠 표현 가능 영역 제한
-                .padding(.bottom, 23)
+                .padding(.bottom, 23 * scaleHeight)
                 // 카드 선택이 발생할 경우 다시 그리기
                 .onChange(of: selectedIndex) { newIndex in  // <<help>> newIndex가 불필요함
                     redrawTrigger.toggle()
@@ -324,7 +330,6 @@ struct ArchiveCardChipView: View {
             }
         }
     }
-    
     
     // MARK: - Haptic 함수
     func prepareHaptics() {
