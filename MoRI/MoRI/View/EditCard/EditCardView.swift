@@ -17,6 +17,7 @@ struct EditCardView: View {
     var backButton: some View {
         Button(action: {
             dismiss()
+            print(screenWidth)
         }) {
             Image(systemName: "chevron.left")
                 .imageScale(.large)
@@ -58,7 +59,7 @@ struct EditCardView: View {
             }
             .padding(.top, 34)
         }
-        .scaleEffect(screenWidth/393.0)
+        .scaleEffect(screenWidth < 415 ? 0.96 : screenWidth/393.0)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Image(uiImage:viewModel.card.albumArtUIImage)
             .resizable()

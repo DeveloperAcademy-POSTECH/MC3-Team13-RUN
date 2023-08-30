@@ -99,7 +99,7 @@ struct CompleteCardView: View {
             
             
         }
-        .scaleEffect(screenWidth/393)
+        .scaleEffect(screenWidth < 415 ? 0.96 : screenWidth/393.0)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Image(uiImage:viewModel.card.albumArtUIImage).resizable().ignoresSafeArea().scaledToFill().blur(radius: 20))
         .navigationBarBackButtonHidden(true)
