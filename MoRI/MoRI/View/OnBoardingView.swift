@@ -9,6 +9,7 @@ import SwiftUI
 
 struct OnBoardingView: View {
     @Binding var isViewed: Bool
+    private let screenWidth = UIScreen.main.bounds.size.width
     
     var body: some View {
         VStack{
@@ -54,8 +55,10 @@ struct OnBoardingView: View {
                         .font(.custom(FontsManager.Pretendard.medium, size: 20))
                 }
             }
-        }.frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.gray04Color)
+        }
+        .scaleEffect(screenWidth/393)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.gray04Color)
     }
     
     func chooseSize() {

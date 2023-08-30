@@ -39,6 +39,9 @@ struct ArchiveCardChipView: View {
     @State private var isDeleteCard = false // 카드 삭제버튼 선택 여부
     @State private var isShareSheetShowing = false  // 카드 공유버튼 선택 여부
     
+    private let screenWidth = UIScreen.main.bounds.size.width
+    private let screenHeight = UIScreen.main.bounds.size.height
+    
     var body: some View {
         var standardAngle: Double = items.count > 0 ? Double(360 / items.count) : 0  // 카드 1장 당의 단위각도
         let zIndexPreset = items.count > 0 ? (1...items.count).map { value in Double(value) / Double(1) }.reversed() : []   // 중첩 레벨
@@ -164,6 +167,7 @@ struct ArchiveCardChipView: View {
                     .shadow(radius: 5, x: 8, y: -4)
                     .gesture(dragGesture)
                 }
+                .scaleEffect(screenWidth/393)
                 .frame(width: 350, height: ((screenHeight - 82.79) / 761.21) * 570, alignment: .center)
                 .background(backgroundArchive)
                 .cornerRadius(20)

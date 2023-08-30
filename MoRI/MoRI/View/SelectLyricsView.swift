@@ -21,6 +21,8 @@ struct SelectLyricsView: View {
     
     @Environment(\.dismiss) private var dismiss
     
+    private let screenWidth = UIScreen.main.bounds.size.width
+    
     var body: some View {
         VStack {
             HStack(spacing: 11){
@@ -50,6 +52,8 @@ struct SelectLyricsView: View {
                 }
                 Spacer()
             }
+            .scaleEffect(screenWidth/393)
+            
             if lyricsViewModel.lyrics.count == 0 {
                 
                 VStack{
@@ -62,6 +66,7 @@ struct SelectLyricsView: View {
                     
                     Spacer(minLength: 250)
                 }
+                .scaleEffect(screenWidth/393)
                 
             }
                 else {
@@ -112,6 +117,7 @@ struct SelectLyricsView: View {
                                 }
                             }
                         }
+//                        .scaleEffect(screenWidth/393)
                         .padding(.leading, 3)
                         
                     }
