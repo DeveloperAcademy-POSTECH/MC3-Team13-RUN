@@ -22,6 +22,7 @@ struct OnBoardingView: View {
             .padding(.bottom, 22.04)
             Text("좋아하는 가사를 기록하고 간직할\n나만의 음악 카드를 만들어보세요")
                 .multilineTextAlignment(.center)
+                .minimumScaleFactor(0.5)
                 .foregroundColor(.gray01Color)
                 .font(.custom(FontsManager.Pretendard.medium, size: 18))
                 .padding(.bottom, 47.9)
@@ -55,6 +56,10 @@ struct OnBoardingView: View {
             }
         }.frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.gray04Color)
+    }
+    
+    func chooseSize() {
+        
     }
 }
 
