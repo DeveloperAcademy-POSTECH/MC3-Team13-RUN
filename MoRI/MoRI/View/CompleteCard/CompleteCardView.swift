@@ -22,7 +22,8 @@ struct CompleteCardView: View {
     
     @Binding var pureData: PureSong
     
-    
+    private let screenWidth = UIScreen.main.bounds.size.width
+
     var body: some View {
         
         VStack(spacing: 0){
@@ -43,6 +44,7 @@ struct CompleteCardView: View {
                     .frame(width: 314, alignment: .leading)
                     .foregroundColor(viewModel.lyricsColor)
                     .font(.custom(FontsManager.Pretendard.medium, size: 17))
+                    .lineLimit(4)
                     .lineSpacing(15)
             }
             .compositingGroup()
@@ -97,6 +99,7 @@ struct CompleteCardView: View {
             
             
         }
+        .scaleEffect(screenWidth/393)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Image(uiImage:viewModel.card.albumArtUIImage).resizable().ignoresSafeArea().scaledToFill().blur(radius: 20))
         .navigationBarBackButtonHidden(true)

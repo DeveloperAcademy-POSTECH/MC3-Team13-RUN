@@ -12,6 +12,7 @@ struct EditCardView: View {
     @Environment(\.dismiss) private var dismiss
     @Binding var pureData: PureSong
     
+    let screenWidth = UIScreen.main.bounds.size.width
     
     var backButton: some View {
         Button(action: {
@@ -57,6 +58,7 @@ struct EditCardView: View {
             }
             .padding(.top, 34)
         }
+        .scaleEffect(screenWidth/393.0)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Image(uiImage:viewModel.card.albumArtUIImage)
             .resizable()
