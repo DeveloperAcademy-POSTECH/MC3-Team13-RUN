@@ -116,8 +116,10 @@ struct SelectLyricsView: View {
                                     .cornerRadius(10)
                                 }
                             }
+                            
+                            Text("라이센스 소유 및 가사 제공 : Genius")
+                                .padding(10)
                         }
-//                        .scaleEffect(screenWidth/393)
                         .padding(.leading, 3)
                         
                     }
